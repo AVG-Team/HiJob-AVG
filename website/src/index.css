@@ -2,71 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@layer base {
+    @font-face {
+        font-family: "NotoSans-Regular";
+        src: url(~/assets/font/NotoSans-Regular.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-Bold";
+        src: url(~/assets/font/NotoSans-Bold.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-Italic";
+        src: url(~/assets/font/NotoSans-Italic.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-BoldItalic";
+        src: url(~/assets/font/NotoSans-BoldItalic.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-Light";
+        src: url(~/assets/font/NotoSans-Light.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-LightItalic";
+        src: url(~/assets/font/NotoSans-LightItalic.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-Thin";
+        src: url(~/assets/font/NotoSans-Thin.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-ThinItalic";
+        src: url(~/assets/font/NotoSans-ThinItalic.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-Black";
+        src: url(~/assets/font/NotoSans-Black.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-BlackItalic";
+        src: url(~/assets/font/NotoSans-BlackItalic.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-ExtraBold";
+        src: url(~/assets/font/NotoSans-ExtraBold.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-ExtraBoldItalic";
+        src: url(~/assets/font/NotoSans-ExtraBoldItalic.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-Medium";
+        src: url(~/assets/font/NotoSans-Medium.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-MediumItalic";
+        src: url(~/assets/font/NotoSans-MediumItalic.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-SemiBold";
+        src: url(~/assets/font/NotoSans-SemiBold.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-SemiBoldItalic";
+        src: url(~/assets/font/NotoSans-SemiBoldItalic.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-ExtraLight";
+        src: url(~/assets/font/NotoSans-ExtraLight.ttf) format("truetype");
+    }
+    @font-face {
+        font-family: "NotoSans-ExtraLightItalic";
+        src: url(~/assets/font/NotoSans-ExtraLightItalic.ttf) format("truetype");
+    }
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    * {
+        font-family: "NotoSans-Regular", sans-serif;
+    }
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+html,
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
