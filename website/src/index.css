@@ -5,87 +5,78 @@
 @layer base {
     @font-face {
         font-family: "NotoSans-Regular";
-        src: url(~/assets/font/NotoSans-Regular.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-Regular.ttf);
     }
     @font-face {
         font-family: "NotoSans-Bold";
-        src: url(~/assets/font/NotoSans-Bold.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-Bold.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-Italic";
-        src: url(~/assets/font/NotoSans-Italic.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-Italic.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-BoldItalic";
-        src: url(~/assets/font/NotoSans-BoldItalic.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-BoldItalic.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-Light";
-        src: url(~/assets/font/NotoSans-Light.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-Light.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-LightItalic";
-        src: url(~/assets/font/NotoSans-LightItalic.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-LightItalic.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-Thin";
-        src: url(~/assets/font/NotoSans-Thin.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-Thin.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-ThinItalic";
-        src: url(~/assets/font/NotoSans-ThinItalic.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-ThinItalic.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-Black";
-        src: url(~/assets/font/NotoSans-Black.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-Black.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-BlackItalic";
-        src: url(~/assets/font/NotoSans-BlackItalic.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-BlackItalic.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-ExtraBold";
-        src: url(~/assets/font/NotoSans-ExtraBold.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-ExtraBold.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-ExtraBoldItalic";
-        src: url(~/assets/font/NotoSans-ExtraBoldItalic.ttf) format("truetype");
+        src: url(~../src/assets/font/NotoSans-ExtraBoldItalic.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-Medium";
-        src: url(~/assets/font/NotoSans-Medium.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-Medium.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-MediumItalic";
-        src: url(~/assets/font/NotoSans-MediumItalic.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-MediumItalic.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-SemiBold";
-        src: url(~/assets/font/NotoSans-SemiBold.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-SemiBold.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-SemiBoldItalic";
-        src: url(~/assets/font/NotoSans-SemiBoldItalic.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-SemiBoldItalic.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-ExtraLight";
-        src: url(~/assets/font/NotoSans-ExtraLight.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-ExtraLight.ttf) format("truetype");
     }
     @font-face {
         font-family: "NotoSans-ExtraLightItalic";
-        src: url(~/assets/font/NotoSans-ExtraLightItalic.ttf) format("truetype");
+        src: url(../src/assets/font/NotoSans-ExtraLightItalic.ttf) format("truetype");
     }
 
     * {
         font-family: "NotoSans-Regular", sans-serif;
     }
-}
-
-html,
-body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
 }

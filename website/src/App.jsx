@@ -2,14 +2,13 @@ import { Suspense } from "react";
 import loadable from "@loadable/component";
 import AuthLayout from "./layouts/AuthLayout";
 import BasicLayout from "./layouts/BasicLayout";
-import CustomLayout from "./layouts/CustomLayout";
 import { CircularProgress } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const Home = loadable(() => import("./pages/Home"));
 const Logout = loadable(() => import("./pages/Logout"));
-const Login = loadable(() => import("./pages/Login"));
-const Register = loadable(() => import("./pages/Register"));
+// const Login = loadable(() => import("./pages/Login"));
+// const Register = loadable(() => import("./pages/Register"));
 
 function App() {
     return (
@@ -27,10 +26,6 @@ function App() {
                             </Suspense>
                         }
                     />
-                </Route>
-                <Route element={<CustomLayout />}>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
                 </Route>
             </Routes>
         </BrowserRouter>
