@@ -7,8 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const Home = loadable(() => import("./pages/Home"));
 const Logout = loadable(() => import("./pages/Logout"));
-// const Login = loadable(() => import("./pages/Login"));
-// const Register = loadable(() => import("./pages/Register"));
 
 function App() {
     return (
