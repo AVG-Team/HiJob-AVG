@@ -24,7 +24,7 @@ export default function Navbar() {
     }, []);
     return (
         <nav id="header" className={`w-full bg-white ${isScrolled ? "fixed shadow-md opacity-80" : "shadow-md"}`}>
-            <div className="container flex flex-wrap items-center justify-between w-full py-3 mx-auto mt-0 shadow-lg">
+            <div className="container flex flex-wrap items-center justify-between w-full py-3 mx-auto mt-0">
                 <div className="flex items-center pl-4">
                     <ul className="items-center flex-1 list-reset lg:flex">
                         <li className="flex items-center mr-3">
