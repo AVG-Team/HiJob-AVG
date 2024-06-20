@@ -1,0 +1,64 @@
+package avg.hijob.backend.entities;
+
+import avg.hijob.backend.enums.TokenTypeEnum;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.sql.Timestamp;
+
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+public class Password_Reset_Token {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+
+    @Column(nullable = false)
+    private String token;
+
+    @Column(nullable = false)
+    private String expiryDate;
+
+    @Column(name = "is_activated",nullable = false)
+    private boolean isActivated = false;
+
+    @Column(nullable = false)
+    private int type = TokenTypeEnum.EMAIL_VERIFICATION.value;
+
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "user_id")
+    private User user;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp createdAt;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp updatedAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp deletedAt;
+
+    // Lifecycle methods
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PreRemove
+    protected void onDelete() {
+        deletedAt = new Timestamp(System.currentTimeMillis());
+    }
+}
