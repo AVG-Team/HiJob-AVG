@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  hi-job_mysql-db:
+    image: mysql:latest
+    restart: no
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
