@@ -16,12 +16,16 @@
     "@lottiefiles/dotlottie-react": "^0.6.4",
     "@mui/icons-material": "^5.15.20",
     "@mui/material": "^5.15.20",
+    "aos": "^2.3.4",
     "axios": "^1.7.2",
     "js-cookie": "^3.0.5",
+    "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
-    "react-toastify": "^10.0.5"
+    "react-slick": "^0.30.2",
+    "react-toastify": "^10.0.5",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

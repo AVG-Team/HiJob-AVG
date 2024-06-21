@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Logo from "../../assets/img/HIJOB-Landscape.png";
+import Logo from "../../../assets/img/HIJOB-Landscape.png";
 const links = [
     { id: 1, label: "Việc Làm", href: "/" },
     { id: 2, label: "Công Ty", href: "/" },
@@ -26,8 +26,8 @@ export default function Navbar() {
         setIsScrolled(scrollpos > 10);
     }, [scrollpos]);
     return (
-        <nav id="header" className={`w-full bg-white ${isScrolled ? "fixed shadow-md opacity-80" : "shadow-md"}`}>
-            <div className="container flex flex-wrap items-center justify-between w-full py-3 mx-auto mt-0">
+        <nav id="header" className={`fixed w-full z-30 top-0 ${isScrolled ? "bg-white shadow-md opacity-80" : ""}`}>
+            <div className="container flex flex-wrap items-center justify-between w-full py-2 mx-auto mt-0">
                 <div className="flex items-center pl-4">
                     <ul className="items-center flex-1 list-reset lg:flex">
                         <li className="flex items-center mr-3">

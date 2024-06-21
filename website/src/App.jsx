@@ -1,17 +1,22 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import loadable from "@loadable/component";
 import AuthLayout from "./layouts/AuthLayout";
 import BasicLayout from "./layouts/BasicLayout";
 import LayoutNotSearch from "./layouts/LayoutNotSearch";
 import { CircularProgress } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Home = loadable(() => import("./pages/Home"));
 const Logout = loadable(() => import("./pages/Logout"));
 const Login = loadable(() => import("./pages/Login"));
-// const Register = loadable(() => import("./pages/Register"));
 
 function App() {
+    useEffect(() => {
+        AOS.init();
+        AOS.refresh();
+    }, []);
     return (
         <BrowserRouter>
             <Routes>
