@@ -11,6 +11,7 @@ import "aos/dist/aos.css";
 const Home = loadable(() => import("./pages/Home"));
 const Logout = loadable(() => import("./pages/Logout"));
 const Login = loadable(() => import("./pages/Login"));
+const JobDetail = loadable(() => import("./pages/JobDetail"));
 
 function App() {
     useEffect(() => {
@@ -28,7 +29,7 @@ function App() {
                         index
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <Home title="HomePage" />
+                                <Home title="Trang Chủ" />
                             </Suspense>
                         }
                     />
@@ -39,6 +40,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <Login title="Login" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/viec-lam"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <JobDetail title="Job Detail" />
                             </Suspense>
                         }
                     />
