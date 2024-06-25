@@ -12,6 +12,7 @@ const Home = loadable(() => import("./pages/Home"));
 const Logout = loadable(() => import("./pages/Logout"));
 const Login = loadable(() => import("./pages/Login"));
 const JobDetail = loadable(() => import("./pages/JobDetail"));
+const JobApplied = loadable(() => import("./pages/JobApplied"));
 
 function App() {
     useEffect(() => {
@@ -48,6 +49,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <JobDetail title="Job Detail" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/viec-lam-da-ung-tuyen"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <JobApplied title="Việc Làm Đã Ứng Tuyển" />
                             </Suspense>
                         }
                     />
