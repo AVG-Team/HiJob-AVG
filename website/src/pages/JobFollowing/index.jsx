@@ -14,6 +14,7 @@ const jobItems = [
         salaryInfo: "Đăng nhập để xem mức lương",
         location: "Quận Ba Đình, Hà Nội",
         skills: ["C++", "C#", "CAD"],
+        to: "/viec-lam",
     },
     {
         id: 2,
@@ -23,6 +24,7 @@ const jobItems = [
         salaryInfo: "Đăng nhập để xem mức lương",
         location: "Quận Ba Đình, Hà Nội",
         skills: ["C++", "C#", "CAD"],
+        to: "/viec-lam",
     },
     {
         id: 3,
@@ -32,6 +34,7 @@ const jobItems = [
         salaryInfo: "Đăng nhập để xem mức lương",
         location: "Quận Ba Đình, Hà Nội",
         skills: ["C++", "C#", "CAD"],
+        to: "/viec-lam",
     },
     {
         id: 4,
@@ -41,6 +44,7 @@ const jobItems = [
         salaryInfo: "Đăng nhập để xem mức lương",
         location: "Quận Ba Đình, Hà Nội",
         skills: ["C++", "C#", "CAD"],
+        to: "/viec-lam",
     },
     {
         id: 5,
@@ -50,6 +54,7 @@ const jobItems = [
         salaryInfo: "Đăng nhập để xem mức lương",
         location: "Quận Ba Đình, Hà Nội",
         skills: ["C++", "C#", "CAD"],
+        to: "/viec-lam",
     },
     {
         id: 6,
@@ -59,6 +64,7 @@ const jobItems = [
         salaryInfo: "Đăng nhập để xem mức lương",
         location: "Quận Ba Đình, Hà Nội",
         skills: ["C++", "C#", "CAD"],
+        to: "/viec-lam",
     },
 ];
 

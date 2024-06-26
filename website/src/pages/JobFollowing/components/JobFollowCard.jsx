@@ -15,10 +15,14 @@ export default function JobFollowCard(props) {
             salaryInfo: PropTypes.string.isRequired,
             location: PropTypes.string.isRequired,
             skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+            to: PropTypes.string.isRequired,
         }).isRequired,
     };
     return (
-        <div className="h-64 p-5 bg-white rounded-lg shadow-lg md:h-auto">
+        <a
+            href={job.to}
+            className="h-64 p-5 bg-white rounded-lg shadow-lg md:h-auto hover:bg-slate-100 hover:shadow-xl"
+        >
             <div className="flex items-center justify-between mb-2">
                 <img src={job.companyLogo} alt={`${job.companyName} Logo`} className="w-12 h-12 mr-4" />
                 <button>
@@ -41,6 +45,6 @@ export default function JobFollowCard(props) {
                     </span>
                 ))}
             </div>
-        </div>
+        </a>
     );
 }
