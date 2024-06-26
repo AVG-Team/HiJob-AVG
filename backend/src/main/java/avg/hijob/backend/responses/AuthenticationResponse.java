@@ -18,4 +18,8 @@ public class AuthenticationResponse {
     private String refreshToken;
     @JsonProperty("type")
     private AuthenticationResponseEnum type;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("role")
+    private String role;
 }

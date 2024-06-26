@@ -10,8 +10,9 @@ import java.io.IOException;
 public interface AuthenticationService {
     AuthenticationResponse register(RegisterRequest request);
     AuthenticationResponse authenticate(AuthenticationRequest request);
-    ForgotPasswordResponse forgotPassword(ForgotPasswordRequest request);
+    MessageResponse forgotPassword(ForgotPasswordRequest request);
     boolean verifyResetPasswordToken(ForgotPasswordRequest request);
-    ForgotPasswordResponse setPassword(ForgotPasswordRequest request);
+    MessageResponse setPassword(ForgotPasswordRequest request);
     void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    MessageResponse confirm(String token);
 }

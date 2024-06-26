@@ -15,13 +15,16 @@
     "@loadable/component": "^5.16.4",
     "@lottiefiles/dotlottie-react": "^0.6.4",
     "@mui/icons-material": "^5.15.20",
+    "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.20",
     "axios": "^1.7.2",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "vite": "^5.3.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

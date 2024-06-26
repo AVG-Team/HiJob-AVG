@@ -18,12 +18,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
+
+//    @Value("${JWT_SECRET}")
     private final String JWT_SECRET;
-    private final long JWT_EXPIRATION = 7 * 24 * 60 * 60 * 1000;
+    private final long JWT_EXPIRATION = 24 * 60 * 60 * 1000;
     private final long JWT_REFRESH_EXPIRATION = 30L * 24 * 60 * 60 * 1000;
 
     @Autowired
-    public JwtService(Dotenv dotenv) {
+    public JwtService() {
+        Dotenv dotenv = Dotenv.load();
         this.JWT_SECRET = dotenv.get("JWT_SECRET");
 
         if (JWT_SECRET == null) {
@@ -46,10 +49,24 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
+    public String generateToken(UserDetails userDetails, boolean rememberMe) {
+        return generateToken(new HashMap<>(), userDetails, rememberMe);
+    }
+
     public String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
+        return buildToken(extraClaims, userDetails, JWT_EXPIRATION);
+    }
+
+    public String generateToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails, boolean rememberMe
+    ) {
+        if (rememberMe) {
+            return buildToken(extraClaims, userDetails, JWT_EXPIRATION * 7);
+        }
         return buildToken(extraClaims, userDetails, JWT_EXPIRATION);
     }
 

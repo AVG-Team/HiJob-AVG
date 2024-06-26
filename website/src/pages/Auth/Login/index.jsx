@@ -1,29 +1,93 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {useEffect, useState} from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import Logo from "../../assets/img/favicon.png";
 import {
-    TextField,
     Checkbox,
     FormControlLabel,
-    Button,
-    styled,
-    IconButton,
-    InputAdornment,
+
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import CustomButton from "../../components/Forms/Button/customColor";
-import CustomInput from "../../components/Forms/Inputs/customColor";
-import PasswordField from "../../components/Forms/Inputs/customPasswordColor.jsx";
+import Logo from "~/assets/img/favicon.png";
+import CustomInput from "~/components/Forms/Inputs/customColor";
+import PasswordField from "~/components/Forms/Inputs/customPasswordColor.jsx";
+import {CustomLoadingButton} from "../../../components/Forms/Button/customColor.jsx";
+import {authenticate} from "../../../services/apis/auth.js";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 export default function Login(props) {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [remember, setRemember] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [errorString, setErrorString] = useState("");
+
     const title = props.title;
     useEffect(() => {
         document.title = title ? `${title}` : "Page Does Not Exist";
     }, [title]);
 
+    async function handleSubmit(e) {
+        e.preventDefault();
+        console.log(email, password, remember);
+
+        const validationErrors = {};
+
+        if (email.trim().length === 0) {
+            validationErrors.email = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            validationErrors.email = "Email is invalid";
+        }
+
+        if (!password.trim()) {
+            validationErrors.password = "password is required";
+        } else if (password.length < 8) {
+            validationErrors.password = "Password must be at least 8 characters long";
+        }
+
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length !== 0) {
+            const errorTmp = Object.entries(validationErrors)
+                .map(([key, value]) => `${key} : ${value}`)
+                .join('\n');
+
+            setErrorString(errorTmp);
+        } else {
+            try {
+                setLoading(true);
+                const response = await authenticate({
+                    email: email,
+                    password: password,
+                    rememberMe : remember
+                });
+
+                console.log(response)
+
+                let message = response.message;
+
+                console.log("response: ", message)
+                setLoading(false);
+
+                toast.success(message, {
+                    onClose: () => navigate('/'),
+                    autoClose: 2000,
+                    buttonClose: false
+                });
+
+            } catch (err) {
+                toast.error(err.message);
+                setErrorString(err.message)
+                console.error("Error fetching server: ", err);
+
+                setLoading(false);
+            }
+        }
+    }
+
     return <>
-        <div className="min-h-full grid grid-cols-2 gap-4">
+        <div className="min-h-full grid lg:grid-cols-2 lg:gap-4">
             <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                 <div className="mx-auto w-full max-w-sm lg:w-96">
                     <div className="flex items-center flex-col">
@@ -38,7 +102,7 @@ export default function Login(props) {
                         <p className="mt-2 text-sm leading-6 text-gray-500">
                             {/* eslint-disable-next-line react/no-unescaped-entities */}
                             You don't have an account?{" "}
-                            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                            <a href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                 Register here
                             </a>
                         </p>
@@ -46,20 +110,31 @@ export default function Login(props) {
 
                     <div className="mt-10">
                         <div>
-                            <form action="#" method="POST" className="space-y-6">
+                            <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
                                 <div>
                                     <div className="mt-2">
-                                        <CustomInput className="w-full" label="Email" type="email" autoComplete="email" required />
+                                        <CustomInput
+                                            error={errors.length !== 0 && errors.email !== "" && errors.email !== undefined}
+                                            className="w-full"
+                                            label="Email"
+                                            type="email"
+                                            autoComplete="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required/>
                                     </div>
                                 </div>
 
                                 <div>
                                     <div className="mt-2">
                                         <PasswordField
+                                            error={errors.length !== 0 && errors.password !== "" && errors.password !== undefined}
                                             name="password"
                                             label="Password"
                                             id="password"
                                             autoComplete="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
                                             required
                                         />
 
@@ -68,19 +143,31 @@ export default function Login(props) {
 
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center">
-                                        <FormControlLabel control={<Checkbox />} label="Remember me" />
+                                        <FormControlLabel
+                                            control={<Checkbox/>}
+                                            label="Remember me"
+                                            checked={remember}
+                                            onChange={(e) => setRemember(e.target.checked)}
+                                        />
                                     </div>
 
                                     <div className="text-sm leading-6">
-                                        <a href="#" className="font-semibold hover:text-primary">
+                                        <a href="/forgot-password" className="font-semibold hover:text-primary">
                                             Forgot password?
                                         </a>
                                     </div>
                                 </div>
-
+                                <div className="mt-2">
+                                    <div
+                                        className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
+                                        role="alert">
+                                        {errorString}
+                                    </div>
+                                </div>
                                 <div>
-                                    <CustomButton variant="contained" type="submit" className="w-full"
-                                    >Sign In</CustomButton>
+                                    <CustomLoadingButton variant="contained" type="submit" className="w-full"
+                                                         loading={loading}
+                                    >Sign In</CustomLoadingButton>
                                 </div>
                             </form>
                         </div>
@@ -88,7 +175,7 @@ export default function Login(props) {
                         <div className="mt-10">
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                                    <div className="w-full border-t border-gray-200" />
+                                    <div className="w-full border-t border-gray-200"/>
                                 </div>
                                 <div className="relative flex justify-center text-sm font-medium leading-6">
                                     <span className="bg-white px-6 text-gray-900">Or continue with</span>
@@ -141,7 +228,7 @@ export default function Login(props) {
                 </div>
             </div>
             <div className="relative hidden lg:block">
-                <DotLottieReact className=""
+                <DotLottieReact
                                 style={{ width: "100%", height: "100%" }}
                                 src="https://lottie.host/7af0aab9-f06a-4a96-9607-7ebe4486339b/0fYYVaUlOI.json" loop
                                 autoplay direction="1" />

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -12,7 +13,8 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Password_Reset_Token {
+@Table(name = "password_reset_token")
+public class PasswordResetToken {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -21,7 +23,7 @@ public class Password_Reset_Token {
     private String token;
 
     @Column(nullable = false)
-    private String expiryDate;
+    private Date expiryDate;
 
     @Column(name = "is_activated",nullable = false)
     private boolean isActivated = false;
