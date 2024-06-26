@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import ListCVs from "./components/ListCVs";
 import InfoUser from "./components/InfoUser";
+import TabForm from "../../components/TabForm";
 
 export default function ManageJob(props) {
     const { title } = props;
@@ -17,7 +18,8 @@ export default function ManageJob(props) {
         <main className="min-h-screen bg-gray-100">
             <div className="flex items-center justify-center px-4 py-5 mx-auto lg:px-8">
                 <div className="container px-10">
-                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                    <TabForm id={2} />
+                    <div className="grid grid-cols-1 gap-4 mt-10 lg:grid-cols-3">
                         <div className="col-span-1">
                             <InfoUser />
                         </div>
