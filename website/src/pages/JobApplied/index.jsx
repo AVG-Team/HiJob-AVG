@@ -1,7 +1,17 @@
+import { useEffect } from "react";
+import PropTypes from "prop-types";
 import TabForm from "../../components/TabForm";
 import TableForm from "./components/TableForm";
 
-export default function JobApplied() {
+export default function JobApplied(props) {
+    const { title } = props;
+    useEffect(() => {
+        document.title = title ? `${title}` : "Không tìm thấy trang";
+    }, [title]);
+
+    JobApplied.propTypes = {
+        title: PropTypes.string,
+    };
     return (
         <main className="min-h-screen bg-gray-100">
             <div className="container px-4 py-5 mx-auto sm:px-6 lg:px-8">

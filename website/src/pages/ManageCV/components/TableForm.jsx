@@ -28,7 +28,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
         backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     "&:last-child td, &:last-child th": {
         border: 0,
     },
@@ -147,22 +146,22 @@ export default function TableForm() {
                 <Table sx={{ minWidth: 350, fontSize: 16, overflow: "hidden" }}>
                     <TableHead>
                         <StyledTableRow>
-                            <StyledTableCell align="center" sx={{ width: 100 }}>
+                            <StyledTableCell align="center" sx={{ width: "20%", sm: "table-cell" }}>
                                 Tên CV
                             </StyledTableCell>
                             <StyledTableCell
                                 align="center"
-                                sx={{ width: 600, display: { xs: "none", sm: "table-cell" } }}
+                                sx={{ width: "40%", display: { xs: "none", sm: "table-cell" } }}
                             >
                                 Trạng Thái CV
                             </StyledTableCell>
                             <StyledTableCell
                                 align="center"
-                                sx={{ width: 300, display: { xs: "none", sm: "table-cell" } }}
+                                sx={{ width: "30%", display: { xs: "none", sm: "table-cell" } }}
                             >
                                 Lần Chỉnh Sửa Gần Nhất
                             </StyledTableCell>
-                            <StyledTableCell align="center" sx={{ width: 200 }}>
+                            <StyledTableCell align="center" sx={{ width: "10%" }}>
                                 Tuỳ Chọn
                             </StyledTableCell>
                         </StyledTableRow>
@@ -172,14 +171,14 @@ export default function TableForm() {
                             <StyledTableRow key={row.id}>
                                 <TableCell
                                     align="center"
-                                    sx={{ width: 100, color: "#ed5b2d", fontWeight: "bold", padding: 4 }}
+                                    sx={{ width: "20%", color: "#ed5b2d", fontWeight: "bold", padding: 4 }}
                                 >
                                     {row.name}
                                 </TableCell>
                                 <TableCell
                                     align="center"
                                     sx={{
-                                        width: 600,
+                                        width: "40%",
                                         fontWeight: "bold",
                                         padding: 4,
                                         display: { xs: "none", sm: "table-cell" },
@@ -194,10 +193,13 @@ export default function TableForm() {
                                                             fontSize="small"
                                                             className="mr-2 text-green-500"
                                                         />
-                                                        <div className="flex-1 ">
-                                                            <span>Đã ứng tuyển vào vị trí </span> {status.position}{" "}
-                                                            <span>tại công ty </span> {status.name} <span>vào lúc</span>{" "}
-                                                            {row.dateApply}
+                                                        <div className="text-gray-700">
+                                                            <span>Đã ứng tuyển vào vị trí </span>
+                                                            <span className="font-semibold">{status.position}</span>
+                                                            <span> tại công ty </span>
+                                                            <span className="font-semibold">{status.name}</span>
+                                                            <span> vào lúc </span>
+                                                            <span className="text-blue-500">{status.date}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -207,23 +209,25 @@ export default function TableForm() {
                                 </TableCell>
                                 <TableCell
                                     align="center"
-                                    sx={{ width: 300, padding: 4, display: { xs: "none", sm: "table-cell" } }}
+                                    sx={{ width: "30%", padding: 4, display: { xs: "none", sm: "table-cell" } }}
                                 >
                                     {row.dateApply}
                                 </TableCell>
-                                <TableCell align="center" sx={{ width: 200, fontWeight: "bold" }}>
-                                    <button className="p-2 mr-1 hover:shadow-lg hover:rounded-md">
-                                        <VisibilityIcon
-                                            fontSize="large"
-                                            className="text-secondary hover:text-secondary-600"
-                                        />
-                                    </button>
-                                    <button className="p-2 mr-1 hover:shadow-lg hover:rounded-md">
-                                        <CloudDownloadIcon
-                                            fontSize="large"
-                                            className="text-secondary hover:text-secondary-600"
-                                        />
-                                    </button>
+                                <TableCell align="center" sx={{ width: "10%", fontWeight: "bold" }}>
+                                    <div className="flex justify-center">
+                                        <button className="p-2 mr-1 hover:shadow-lg hover:rounded-md">
+                                            <VisibilityIcon
+                                                fontSize="large"
+                                                className="text-secondary hover:text-secondary-600"
+                                            />
+                                        </button>
+                                        <button className="p-2 mr-1 hover:shadow-lg hover:rounded-md">
+                                            <CloudDownloadIcon
+                                                fontSize="large"
+                                                className="text-secondary hover:text-secondary-600"
+                                            />
+                                        </button>
+                                    </div>
                                 </TableCell>
                             </StyledTableRow>
                         ))}

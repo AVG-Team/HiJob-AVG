@@ -15,6 +15,7 @@ const JobDetail = loadable(() => import("./pages/JobDetail"));
 const JobApplied = loadable(() => import("./pages/JobApplied"));
 const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const ManageCV = loadable(() => import("./pages/ManageCV"));
+const ManageJob = loadable(() => import("./pages/ManageJob"));
 
 function App() {
     useEffect(() => {
@@ -75,6 +76,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <ManageCV title="Quản Lý CV" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/quan-ly-viec-lam"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <ManageJob title="Quản Lý Viêc Lam" />
                             </Suspense>
                         }
                     />

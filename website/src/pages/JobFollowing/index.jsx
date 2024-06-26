@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import TabForm from "../../components/TabForm";
 import JobFollowCard from "./components/JobFollowCard";
@@ -68,7 +69,8 @@ const jobItems = [
     },
 ];
 
-export default function JobFollowing() {
+export default function JobFollowing(props) {
+    const { title } = props;
     const theme = useTheme();
     const isLg = useMediaQuery(theme.breakpoints.up("lg"));
 
@@ -88,6 +90,14 @@ export default function JobFollowing() {
     };
 
     const displayedItems = jobItems.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+    useEffect(() => {
+        document.title = title ? `${title}` : "Không tìm thấy trang";
+    }, [title]);
+
+    JobFollowing.propTypes = {
+        title: PropTypes.string,
+    };
 
     return (
         <main className="min-h-screen bg-gray-100">
