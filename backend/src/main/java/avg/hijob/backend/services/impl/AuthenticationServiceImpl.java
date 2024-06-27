@@ -2,19 +2,19 @@ package avg.hijob.backend.services.impl;
 
 import avg.hijob.backend.entities.*;
 import avg.hijob.backend.enums.AuthenticationResponseEnum;
-import avg.hijob.backend.enums.TokenTypeEnum;
 import avg.hijob.backend.repositories.PasswordResetTokenRepository;
 import avg.hijob.backend.repositories.RoleRepository;
-import avg.hijob.backend.repositories.TokenRepository;
 import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.request.AuthenticationRequest;
 import avg.hijob.backend.request.ForgotPasswordRequest;
+import avg.hijob.backend.responses.GetCurrentUserByAccessTokenResponse;
 import avg.hijob.backend.request.RegisterRequest;
 import avg.hijob.backend.responses.AuthenticationResponse;
 import avg.hijob.backend.responses.MessageResponse;
 import avg.hijob.backend.services.AuthenticationService;
 import avg.hijob.backend.services.EmailService;
 import avg.hijob.backend.services.JwtService;
+import avg.hijob.backend.services.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,11 +40,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final TokenRepository tokenRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
+    private final TokenService tokenService;
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
@@ -105,8 +105,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var jwtToken = jwtService.generateToken(customUserDetail, request.isRememberMe());
         var refreshToken = jwtService.generateRefreshToken(customUserDetail);
 
-        revokedAllUserTokens(user);
-        saveUserToken(user,jwtToken);
+        tokenService.revokedAllUserTokens(user);
+        tokenService.saveUserToken(user,jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
@@ -131,28 +131,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return null;
     }
 
-    private void saveUserToken(User user, String jwtToken) {
-        var token = Token.builder()
-                .user(user)
-                .token(jwtToken)
-                .tokenType(TokenTypeEnum.BEARER)
-                .expired(false)
-                .revoked(false)
-                .build();
-        tokenRepository.save(token);
-    }
-
-    private void revokedAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if(validUserTokens.isEmpty())
-            return;
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
-    }
-
     @Override
     public void refreshToken(
             HttpServletRequest request,
@@ -171,8 +149,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             CustomUserDetail customUserDetail = new CustomUserDetail(user);
             if (jwtService.isTokenValid(refreshToken,customUserDetail)){
                 var accessToken = jwtService.generateToken(customUserDetail);
-                revokedAllUserTokens(user);
-                saveUserToken(user,accessToken);
+                tokenService.revokedAllUserTokens(user);
+                tokenService.saveUserToken(user,accessToken);
                 var authResponse = AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
@@ -199,6 +177,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return MessageResponse.builder()
                 .type(HttpStatus.OK)
                 .message("Verify Successfully")
+                .build();
+    }
+
+    @Override
+    public GetCurrentUserByAccessTokenResponse getCurrentUserByAccessToken(String token) {
+        User user = tokenService.getUserByToken(token);
+        return GetCurrentUserByAccessTokenResponse.builder()
+                .fullName(user.getFullName())
+                .role(user.getRole().getName())
                 .build();
     }
 }

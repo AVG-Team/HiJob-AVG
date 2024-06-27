@@ -1,20 +1,19 @@
 package avg.hijob.backend.controllers;
 
 import avg.hijob.backend.enums.AuthenticationResponseEnum;
+import avg.hijob.backend.request.AccessTokenRequest;
 import avg.hijob.backend.request.AuthenticationRequest;
 import avg.hijob.backend.request.ConfirmEmailRequest;
+import avg.hijob.backend.responses.*;
 import avg.hijob.backend.request.RegisterRequest;
-import avg.hijob.backend.responses.AuthenticationResponse;
-import avg.hijob.backend.responses.MessageResponse;
-import avg.hijob.backend.responses.ResponseHandler;
 import avg.hijob.backend.services.AuthenticationService;
+import avg.hijob.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     private final AuthenticationService authService;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
@@ -73,5 +73,21 @@ public class AuthController {
     ) {
         MessageResponse authResponse = authService.confirm(request.getToken());
         return ResponseHandler.responseBuilder(authResponse.getMessage(), authResponse.getType());
+    }
+
+//    @GetMapping("/profile")
+//    public ResponseEntity<?> profile() {
+//        ProfileResponse user = userService.getUserCurrent();
+//        System.out.println(user);
+//        if (user == null) {
+//            return ResponseHandler.responseBadRequest("User not found");
+//        }
+//        return ResponseHandler.responseOk("Profile retrieved successfully", user);
+//    }
+
+    @PostMapping("/get-current-user")
+    public ResponseEntity<?> getCurrentUser(@RequestBody AccessTokenRequest request) {
+        GetCurrentUserByAccessTokenResponse response = authService.getCurrentUserByAccessToken(request.getToken());
+        return ResponseHandler.responseOk("Profile retrieved successfully", response);
     }
 }

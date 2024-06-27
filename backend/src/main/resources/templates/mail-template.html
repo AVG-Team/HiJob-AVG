@@ -84,7 +84,7 @@
         <h1 th:text="${title}"></h1>
         <p>Kính Gửi, <span th:text="${name}"></span>,</p>
         <p th:text="${message}"></p>
-        <a th:href="${url}" class="btn" style="color: white;">Verify Email</a>
+        <a th:href="${url}" class="btn" style="color: white;" th:text="${textBtn}"></a>
     </div>
     <br>
     <br>

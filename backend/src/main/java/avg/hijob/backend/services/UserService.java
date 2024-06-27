@@ -1,8 +1,9 @@
 package avg.hijob.backend.services;
 
 import avg.hijob.backend.entities.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import avg.hijob.backend.responses.ProfileResponse;
 
 public interface UserService {
     User findByEmail(String email);
+    ProfileResponse getUserCurrent();
 }

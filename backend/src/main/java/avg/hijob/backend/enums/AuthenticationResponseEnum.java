@@ -8,4 +8,5 @@ public enum AuthenticationResponseEnum {
     ACCOUNT_LOCKED,
     ACCOUNT_EXPIRED,
     ACCOUNT_DISABLED,
+    INVALID_TOKEN,
 }

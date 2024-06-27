@@ -15,4 +15,5 @@ public interface AuthenticationService {
     MessageResponse setPassword(ForgotPasswordRequest request);
     void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
     MessageResponse confirm(String token);
+    GetCurrentUserByAccessTokenResponse getCurrentUserByAccessToken(String token);
 }
