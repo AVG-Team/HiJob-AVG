@@ -2,10 +2,7 @@ package avg.hijob.backend.entities;
 
 import avg.hijob.backend.enums.TokenTypeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 
