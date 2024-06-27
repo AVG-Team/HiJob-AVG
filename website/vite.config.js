@@ -9,4 +9,5 @@ export default defineConfig({
             '~': '/src', // Hoặc bất kỳ thư mục gốc nào bạn muốn
         },
     },
+    envPrefix: 'VITE_',
 });

@@ -1,5 +1,6 @@
 import { StorageKeys } from '../key/keys.js';
 import Cookies from "js-cookie";
+import {jwtDecode} from "jwt-decode";
 
 export const getUserInfo = () => {
     const name = localStorage.getItem(StorageKeys.USER_NAME);
@@ -8,6 +9,14 @@ export const getUserInfo = () => {
 };
 
 export const checkAuth = () => {
-    console.log(213124);
     return !!Cookies.get(StorageKeys.ACCESS_TOKEN);
+}
+
+export const setToken = (token, name , role) => {
+    const decodedToken = jwtDecode(token);
+    const expirationTime = decodedToken.exp * 1000;
+
+    Cookies.set(StorageKeys.ACCESS_TOKEN, token, { expires: new Date(expirationTime) });
+    localStorage.setItem(StorageKeys.USER_NAME, name);
+    localStorage.setItem(StorageKeys.USER_ROLE, role);
 }

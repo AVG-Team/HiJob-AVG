@@ -12,6 +12,7 @@ const Login = loadable(() => import("./pages/Auth/Login"));
 const Register = loadable(() => import("./pages/Auth/Register"));
 const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
 const Notify = loadable(() => import("./pages/Auth/Notify"));
+const Confirm = loadable(() => import("./pages/Auth/Confirm"));
 
 function App() {
     return (
@@ -54,14 +55,23 @@ function App() {
                                 <ForgotPassword title="Forgot Password"/>
                             </Suspense>
                         }
-                    /><Route
-                    path="/notify"
-                    element={
-                        <Suspense fallback={<CircularProgress/>}>
-                            <Notify title="Notification"/>
-                        </Suspense>
-                    }
-                />
+                    />
+                    <Route
+                        path="/notify"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <Notify title="Notification"/>
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/oauth2/redirect"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <Confirm title="Confirm Email"/>
+                            </Suspense>
+                        }
+                    />
                 </Route>
             </Routes>
         </BrowserRouter>

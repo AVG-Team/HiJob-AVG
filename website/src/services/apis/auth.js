@@ -1,7 +1,5 @@
 import axiosClient from "./axiosClient.js";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
-import { StorageKeys } from "../key/keys.js";
+import {setToken} from "../auth/auth.js";
 
 export const register = (registerRequest) => {
     const url = "/auth/register";
@@ -19,12 +17,7 @@ export const authenticate = async (authenticateRequest) => {
         const response = await axiosClient.post(url, authenticateRequest);
 
         const { access_token, name, role } = response.data;
-        const decodedToken = jwtDecode(access_token);
-        const expirationTime = decodedToken.exp * 1000;
-
-        Cookies.set(StorageKeys.ACCESS_TOKEN, access_token, { expires: new Date(expirationTime) });
-        localStorage.setItem(StorageKeys.USER_NAME, name);
-        localStorage.setItem(StorageKeys.USER_ROLE, role);
+        setToken(access_token, name, role);
 
         return response;
     } catch (error) {
@@ -32,3 +25,20 @@ export const authenticate = async (authenticateRequest) => {
         throw error;
     }
 };
+
+export const getCurrentUser = async (request) => {
+    try {
+        const url = "auth/get-current-user";
+        const response = await axiosClient.post(url, request);
+
+        console.log(response)
+
+        const { name, role } = response.data;
+        setToken(request.token, name, role);
+
+        return response;
+    } catch (error) {
+        console.error("Authenticate: ", error);
+        throw error;
+    }
+}
