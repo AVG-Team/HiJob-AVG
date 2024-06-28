@@ -105,7 +105,7 @@ public class OAuth2Service extends DefaultOAuth2UserService {
 
         try {
             System.out.println("Send mail : " + email + " ; full name : " + fullName + " ; password : " + password);
-            emailService.sendEmailWithPassword(email, fullName, password);
+            emailService.sendEmailRegisterWithPassword(email, fullName, password);
         } catch (Exception e) {
             System.out.println("error send mail: " + e.getMessage());
         }

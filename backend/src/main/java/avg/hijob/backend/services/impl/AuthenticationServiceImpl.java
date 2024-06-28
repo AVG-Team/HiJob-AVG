@@ -2,13 +2,13 @@ package avg.hijob.backend.services.impl;
 
 import avg.hijob.backend.entities.*;
 import avg.hijob.backend.enums.AuthenticationResponseEnum;
+import avg.hijob.backend.enums.TokenTypeForgotPasswordEnum;
 import avg.hijob.backend.repositories.PasswordResetTokenRepository;
 import avg.hijob.backend.repositories.RoleRepository;
 import avg.hijob.backend.repositories.UserRepository;
-import avg.hijob.backend.request.AuthenticationRequest;
-import avg.hijob.backend.request.ForgotPasswordRequest;
+import avg.hijob.backend.request.auth.AuthenticationRequest;
 import avg.hijob.backend.responses.GetCurrentUserByAccessTokenResponse;
-import avg.hijob.backend.request.RegisterRequest;
+import avg.hijob.backend.request.auth.RegisterRequest;
 import avg.hijob.backend.responses.AuthenticationResponse;
 import avg.hijob.backend.responses.MessageResponse;
 import avg.hijob.backend.services.AuthenticationService;
@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -45,6 +46,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
     private final TokenService tokenService;
+
+    private void setPasswordResetToken(User user, TokenTypeForgotPasswordEnum tokenType, String token) {
+        long expiration = 24 * 60 * 60 * 1000;
+        PasswordResetToken passwordResetToken = new PasswordResetToken();
+        passwordResetToken.setToken(token);
+        Timestamp expiryDate = new Timestamp(new Date().getTime() + expiration);
+        passwordResetToken.setExpiryDate(expiryDate);
+        passwordResetToken.setUser(user);
+        passwordResetToken.setType(tokenType.value);
+        passwordResetTokenRepository.save(passwordResetToken);
+    }
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
@@ -64,15 +76,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setRole(role);
         userRepository.save(user);
 
-        long expiration = 7 * 24 * 60 * 60 * 1000;
         String token = "AVG_" + UUID.randomUUID() + System.currentTimeMillis() + "_HIJOB";
-        PasswordResetToken passwordResetToken = new PasswordResetToken();
-        passwordResetToken.setToken(token);
-        passwordResetToken.setExpiryDate(new Date(System.currentTimeMillis() + expiration));
-        passwordResetToken.setUser(user);
-        passwordResetTokenRepository.save(passwordResetToken);
+        setPasswordResetToken(user, TokenTypeForgotPasswordEnum.EMAIL_VERIFICATION, token);
+
         try {
-            emailService.sendEmailWithToken(user.getEmail(), user.getFullName(), token);
+            emailService.sendEmailRegister(user.getEmail(), user.getFullName(), token);
         } catch (Exception e) {
             System.out.println("error Send Mail : " + e.getMessage());
         }
@@ -114,21 +122,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(user.getRole().getName())
                 .type(AuthenticationResponseEnum.OK)
                 .build();
-    }
-
-    @Override
-    public MessageResponse forgotPassword(ForgotPasswordRequest request) {
-        return null;
-    }
-
-    @Override
-    public boolean verifyResetPasswordToken(ForgotPasswordRequest request) {
-        return false;
-    }
-
-    @Override
-    public MessageResponse setPassword(ForgotPasswordRequest request) {
-        return null;
     }
 
     @Override
@@ -186,6 +179,74 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return GetCurrentUserByAccessTokenResponse.builder()
                 .fullName(user.getFullName())
                 .role(user.getRole().getName())
+                .build();
+    }
+
+    @Override
+    public MessageResponse forgotPassword(String email) {
+        if (email == null || email.isEmpty()) {
+            return MessageResponse.builder()
+                    .type(HttpStatus.BAD_REQUEST)
+                    .message("Email is required")
+                    .build();
+        }
+
+        User user = userRepository.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            return MessageResponse.builder()
+                    .type(HttpStatus.BAD_REQUEST)
+                    .message("Email not found")
+                    .build();
+        }
+        String token = "AVG_" + UUID.randomUUID() + System.currentTimeMillis() + "_HIJOB";
+        setPasswordResetToken(user, TokenTypeForgotPasswordEnum.PASSWORD_RESET, token);
+
+        try {
+            emailService.sendEmailForgotPassword(user.getEmail(), user.getFullName(), token);
+        } catch (Exception e) {
+            System.out.println("error Send Mail : " + e.getMessage());
+            return MessageResponse.builder()
+                    .type(HttpStatus.BAD_REQUEST)
+                    .message("Error Send Mail")
+                    .build();
+        }
+
+        return MessageResponse.builder()
+                .type(HttpStatus.OK)
+                .message("Email sent successfully")
+                .build();
+    }
+
+    @Override
+    public MessageResponse changePassword(String token, String password) {
+        if (token == null || token.isEmpty() || password == null || password.isEmpty()) {
+            return MessageResponse.builder()
+                    .type(HttpStatus.BAD_REQUEST)
+                    .message("Token and password is required")
+                    .build();
+        }
+
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token).orElse(null);
+        if (passwordResetToken == null
+                || passwordResetToken.getExpiryDate().before(new Date())
+                || passwordResetToken.isActivated()
+        ) {
+            return MessageResponse.builder()
+                    .type(HttpStatus.BAD_REQUEST)
+                    .message("Token is invalid or expired or used")
+                    .build();
+        }
+
+        User user = passwordResetToken.getUser();
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+        passwordResetToken.setActivated(true);
+        passwordResetTokenRepository.save(passwordResetToken);
+
+        return MessageResponse.builder()
+                .type(HttpStatus.OK)
+                .message("Password reset successfully")
                 .build();
     }
 }

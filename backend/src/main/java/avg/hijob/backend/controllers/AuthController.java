@@ -1,12 +1,10 @@
 package avg.hijob.backend.controllers;
 
 import avg.hijob.backend.enums.AuthenticationResponseEnum;
-import avg.hijob.backend.request.AccessTokenRequest;
-import avg.hijob.backend.request.AuthenticationRequest;
-import avg.hijob.backend.request.ConfirmEmailRequest;
+import avg.hijob.backend.request.auth.*;
 import avg.hijob.backend.responses.*;
-import avg.hijob.backend.request.RegisterRequest;
 import avg.hijob.backend.services.AuthenticationService;
+import avg.hijob.backend.services.ReCaptchaService;
 import avg.hijob.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -24,6 +22,7 @@ public class AuthController {
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     private final AuthenticationService authService;
     private final UserService userService;
+    private final ReCaptchaService reCaptchaService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
@@ -75,15 +74,27 @@ public class AuthController {
         return ResponseHandler.responseBuilder(authResponse.getMessage(), authResponse.getType());
     }
 
-//    @GetMapping("/profile")
-//    public ResponseEntity<?> profile() {
-//        ProfileResponse user = userService.getUserCurrent();
-//        System.out.println(user);
-//        if (user == null) {
-//            return ResponseHandler.responseBadRequest("User not found");
-//        }
-//        return ResponseHandler.responseOk("Profile retrieved successfully", user);
-//    }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(
+            @RequestBody PasswordResetTokenRequest request
+    ) {
+        System.out.println("Captcha response: " + request.getRecaptchaToken());
+        ReCaptchaResponse reCaptchaResponse = reCaptchaService.verify(request.getRecaptchaToken());
+        if (!reCaptchaResponse.isSuccess()) {
+            return ResponseHandler.responseBadRequest("Captcha verification failed, Please try again.");
+        }
+
+        MessageResponse authResponse = authService.forgotPassword(request.getEmail());
+        return ResponseHandler.responseBuilder(authResponse.getMessage(), authResponse.getType());
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(
+            @RequestBody ChangePasswordRequest request
+    ) {
+        MessageResponse authResponse = authService.changePassword(request.getToken(), request.getNewPassword());
+        return ResponseHandler.responseBuilder(authResponse.getMessage(), authResponse.getType());
+    }
 
     @PostMapping("/get-current-user")
     public ResponseEntity<?> getCurrentUser(@RequestBody AccessTokenRequest request) {

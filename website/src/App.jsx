@@ -11,6 +11,7 @@ const Logout = loadable(() => import("./pages/Auth/Logout"));
 const Login = loadable(() => import("./pages/Auth/Login"));
 const Register = loadable(() => import("./pages/Auth/Register"));
 const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
+const ChangePassword = loadable(() => import("./pages/Auth/ForgotPassword/ChangePassword"));
 const Notify = loadable(() => import("./pages/Auth/Notify"));
 const Confirm = loadable(() => import("./pages/Auth/Confirm"));
 
@@ -53,6 +54,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress/>}>
                                 <ForgotPassword title="Forgot Password"/>
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/change-password"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <ChangePassword title="Change Password"/>
                             </Suspense>
                         }
                     />

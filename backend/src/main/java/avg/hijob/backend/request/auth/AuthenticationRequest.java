@@ -1,4 +1,4 @@
-package avg.hijob.backend.request;
+package avg.hijob.backend.request.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccessTokenRequest {
-    private String token;
+public class AuthenticationRequest {
+    private String email;
+    String password;
+    boolean rememberMe;
 }

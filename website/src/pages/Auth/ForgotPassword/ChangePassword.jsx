@@ -1,39 +1,41 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import Logo from "~/assets/img/favicon.png";
-import CustomButton from "~/components/Forms/Button/customColor";
-import CustomInput from "~/components/Forms/Inputs/customColor";
-import PasswordField from "~/components/Forms/Inputs/customPasswordColor.jsx";
-import {register as registerAxios } from "../../../services/apis/auth.js";
-import {toast } from "react-toastify";
 import {useNavigate} from "react-router-dom";
-import { CustomLoadingButton } from "../../../components/Forms/Button/customColor.jsx";
-import {validateEmail, validatePassword} from "../Validate/validate.js";
+import {CustomLoadingButton} from "../../../components/Forms/Button/customColor.jsx";
+import {changePassword, forgotPassword} from "../../../services/apis/auth.js";
+import {toast} from "react-toastify";
+import {validatePassword} from "../Validate/validate.js";
+import PasswordField from "../../../components/Forms/Inputs/customPasswordColor.jsx";
 
-export default function Register(props) {
+export default function ChangePassword(props) {
     const navigate = useNavigate();
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rePassword, setRePassword] = useState("");
     const [errors, setErrors] = useState({});
     const [errorString, setErrorString] = useState("");
     const [loading, setLoading] = useState(false);
+    const [token, setToken] = useState("");
 
-    // eslint-disable-next-line react/prop-types
     const title = props.title;
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         document.title = title ? `${title}` : "Page Does Not Exist";
+        const urlParams = new URLSearchParams(window.location.search);
+        setToken(urlParams.get('token'));
     }, [title]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const validationErrors = {};
-        validationErrors.email = validateEmail(email);
-        if (validationErrors.email === "") {
-            delete validationErrors.email;
+        if (token === null) {
+            toast.error("Token is required");
+            navigate('/notify?type=forgotPassword')
+            return;
         }
+
+        const validationErrors = {};
         validationErrors.password = validatePassword(password);
         validationErrors.password = validatePassword(rePassword);
         if (validationErrors.password === "") {
@@ -51,9 +53,9 @@ export default function Register(props) {
         } else {
             try {
                 setLoading(true);
-                const response = await registerAxios({
-                    email: email,
-                    password: password
+                const response = await changePassword({
+                    token: token,
+                    newPassword: password,
                 });
 
                 let message = response.message;
@@ -62,8 +64,8 @@ export default function Register(props) {
                 setLoading(false);
 
                 toast.success(message, {
-                    onClose: () => navigate('/notify?type=verifyEmail'),
-                    autoClose: 2000,
+                    onClose: () => navigate('/'),
+                    autoClose: 1000,
                     buttonClose: false
                 });
 
@@ -88,11 +90,10 @@ export default function Register(props) {
                             alt="HI JOB"
                         />
                         <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Sign up to your account
+                            Forgot Password
                         </h2>
                         <p className="mt-2 text-sm leading-6 text-gray-500">
-                            {/* eslint-disable-next-line react/no-unescaped-entities */}
-                            You have an account?{" "}
+                            If you already remember your account ?{" "}
                             <a href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                 Login here
                             </a>
@@ -102,20 +103,6 @@ export default function Register(props) {
                     <div className="mt-10">
                         <div>
                             <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
-                                <div>
-                                    <div className="mt-2">
-                                        <CustomInput
-                                            error={errors.length !== 0 && errors.email !== "" && errors.email !== undefined}
-                                            className="w-full"
-                                            label="Email"
-                                            type="email"
-                                            autoComplete="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required />
-                                    </div>
-                                </div>
-
                                 <div>
                                     <div className="mt-2">
                                         <PasswordField
@@ -129,14 +116,13 @@ export default function Register(props) {
                                             required
                                         />
                                     </div>
-
                                     <div className="mt-2">
                                         <PasswordField
                                             error={errors.length !== 0 && errors.password !== "" && errors.password !== undefined}
-                                            name="re_password"
-                                            label="Re-Password"
-                                            id="re_password"
-                                            autoComplete="re_password"
+                                            name="rePassword"
+                                            label="Re Password"
+                                            id="rePassword"
+                                            autoComplete="rePassword"
                                             value={rePassword}
                                             onChange={(e) => setRePassword(e.target.value)}
                                             required
@@ -144,15 +130,16 @@ export default function Register(props) {
                                     </div>
                                 </div>
                                 <div className="mt-2">
-                                    <div className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
-                                         role="alert">
+                                    <div
+                                        className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
+                                        role="alert">
                                         {errorString}
                                     </div>
                                 </div>
-
                                 <div>
-                                    <CustomLoadingButton variant="contained" type="submit" className="w-full" loading={loading}
-                                    >Sign Up</CustomLoadingButton>
+                                    <CustomLoadingButton variant="contained" type="submit" className="w-full"
+                                                         loading={loading}
+                                    >Change Password</CustomLoadingButton>
                                 </div>
                             </form>
                         </div>
@@ -160,8 +147,8 @@ export default function Register(props) {
                 </div>
             </div>
             <div className="relative hidden lg:block">
-                <DotLottieReact src="https://lottie.host/9b81d0b3-d8fc-4e1e-a646-722edc9a6f32/fX94e8juVb.json"
-                                loop autoplay direction="1" />
+                <DotLottieReact src="https://lottie.host/f0774770-0c02-40fb-8946-cd6f3ba17988/rR9TyEBHNN.json"
+                                loop autoplay direction="1"/>
             </div>
         </div>
     </>;

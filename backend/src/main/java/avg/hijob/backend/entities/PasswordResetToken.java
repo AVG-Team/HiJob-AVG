@@ -4,6 +4,7 @@ import avg.hijob.backend.enums.TokenTypeForgotPasswordEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class PasswordResetToken {
     private String token;
 
     @Column(nullable = false)
-    private Date expiryDate;
+    private Timestamp expiryDate;
 
     @Column(name = "is_activated",nullable = false)
     private boolean isActivated = false;
@@ -31,7 +32,7 @@ public class PasswordResetToken {
     @Column(nullable = false)
     private int type = TokenTypeForgotPasswordEnum.EMAIL_VERIFICATION.value;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 

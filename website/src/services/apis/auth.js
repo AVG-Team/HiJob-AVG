@@ -42,3 +42,13 @@ export const getCurrentUser = async (request) => {
         throw error;
     }
 }
+
+export const forgotPassword = (forgotPasswordRequest) => {
+    const url = "/auth/forgot-password";
+    return axiosClient.post(url, forgotPasswordRequest);
+}
+
+export const changePassword = (changePasswordRequest) => {
+    const url = "/auth/change-password";
+    return axiosClient.post(url, changePasswordRequest);
+}

@@ -18,13 +18,13 @@ public class EmailServiceImpl implements EmailService {
     private final String url = "http://localhost:5173";
 
     @Override
-    public void sendEmailWithToken(String email, String name, String token) throws MessagingException {
+    public void sendEmailRegister(String email, String name, String token) throws MessagingException {
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
         mimeMessageHelper.setTo(email);
-        mimeMessageHelper.setSubject("Forgot Password");
+        mimeMessageHelper.setSubject("Registration Successful");
 
         Context thymeleafContext = new Context();
 
@@ -45,7 +45,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendEmailWithPassword(String email, String name, String password) throws MessagingException {
+    public void sendEmailRegisterWithPassword(String email, String name, String password) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
@@ -62,6 +62,33 @@ public class EmailServiceImpl implements EmailService {
         thymeleafContext.setVariable("message", message);
         thymeleafContext.setVariable("url", url);
         thymeleafContext.setVariable("textBtn", "Login Now");
+
+        String htmlBody = templateEngine.process("mail-template", thymeleafContext);
+        mimeMessageHelper.setText(htmlBody, true);
+
+        mailSender.send(mimeMessage);
+    }
+
+    @Override
+    public void sendEmailForgotPassword(String email, String name, String token) throws MessagingException {
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        mimeMessageHelper.setTo(email);
+        mimeMessageHelper.setSubject("Forgot Password");
+
+        Context thymeleafContext = new Context();
+
+        String title = "Forgot Password!!! ";
+        String message = "You have requested to reset your password. Please click the button below to reset your password.";
+        String url = this.url + "/change-password?token=" + token;
+
+        thymeleafContext.setVariable("title", title);
+        thymeleafContext.setVariable("message", message);
+        thymeleafContext.setVariable("url", url);
+        thymeleafContext.setVariable("name", name);
+        thymeleafContext.setVariable("textBtn", "Reset Password");
 
         String htmlBody = templateEngine.process("mail-template", thymeleafContext);
         mimeMessageHelper.setText(htmlBody, true);

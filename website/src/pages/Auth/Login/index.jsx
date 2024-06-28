@@ -15,6 +15,7 @@ import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 
 import {GOOGLE_AUTH_URL} from "../../../services/key/url.js";
+import {validateEmail, validatePassword} from "../Validate/validate.js";
 
 export default function Login(props) {
     const navigate = useNavigate();
@@ -36,21 +37,17 @@ export default function Login(props) {
         e.preventDefault();
 
         const validationErrors = {};
-
-        if (email.trim().length === 0) {
-            validationErrors.email = "Email is required";
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            validationErrors.email = "Email is invalid";
+        validationErrors.email = validateEmail(email);
+        if (validationErrors.email === "") {
+            delete validationErrors.email;
         }
-
-        if (!password.trim()) {
-            validationErrors.password = "password is required";
-        } else if (password.length < 8) {
-            validationErrors.password = "Password must be at least 8 characters long";
+        validationErrors.password = validatePassword(password);
+        if (validationErrors.password === "") {
+            delete validationErrors.password;
         }
-
         setErrors(validationErrors);
 
+        console.log(validationErrors)
         if (Object.keys(validationErrors).length !== 0) {
             const errorTmp = Object.entries(validationErrors)
                 .map(([key, value]) => `${key} : ${value}`)

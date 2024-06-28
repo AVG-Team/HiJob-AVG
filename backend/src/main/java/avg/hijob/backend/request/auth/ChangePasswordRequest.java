@@ -1,4 +1,4 @@
-package avg.hijob.backend.request;
+package avg.hijob.backend.request.auth;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ChangePasswordRequest {
+    private String token;
     private String currentPassword;
     private String newPassword;
-    private String confirmationPassword;
 }

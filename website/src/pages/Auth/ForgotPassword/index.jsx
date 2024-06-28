@@ -2,15 +2,78 @@
 import React, { useEffect, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import Logo from "~/assets/img/favicon.png";
-import CustomButton from "~/components/Forms/Button/customColor";
 import CustomInput from "~/components/Forms/Inputs/customColor";
+import {useNavigate} from "react-router-dom";
+import {CustomLoadingButton} from "../../../components/Forms/Button/customColor.jsx";
+import {forgotPassword} from "../../../services/apis/auth.js";
+import {toast} from "react-toastify";
+import {validateEmail} from "../Validate/validate.js";
+import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function ForgotPassword(props) {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [errors, setErrors] = useState({});
+    const [errorString, setErrorString] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [recaptchaToken, setRecaptchaToken] = useState(null);
+
     const title = props.title;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         document.title = title ? `${title}` : "Page Does Not Exist";
     }, [title]);
+
+    const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+
+    const handleVerify = (token) => {
+        setRecaptchaToken(token); // Lưu token vào state
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const validationErrors = {};
+        validationErrors.email = validateEmail(email);
+        if (validationErrors.email === "") {
+            delete validationErrors.email;
+        }
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length !== 0) {
+            const errorTmp = Object.entries(validationErrors)
+                .map(([key, value]) => `${key} : ${value}`)
+                .join('\n');
+
+            setErrorString(errorTmp);
+        } else {
+            try {
+                setLoading(true);
+                const response = await forgotPassword({
+                    email: email,
+                    recaptchaToken: recaptchaToken
+                });
+
+                let message = response.message;
+
+                console.log("response: ", message)
+                setLoading(false);
+
+                toast.success(message, {
+                    onClose: () => navigate('/notify?type=forgotPassword'),
+                    autoClose: 2000,
+                    buttonClose: false
+                });
+
+            } catch (err) {
+                toast.error(err.message);
+                setErrorString(err.message)
+                console.error("Error fetching server: ", err);
+
+                setLoading(false);
+            }
+        }
+    };
 
     return <>
         <div className="min-h-full grid lg:grid-cols-2 lg:gap-4">
@@ -36,25 +99,43 @@ export default function ForgotPassword(props) {
 
                     <div className="mt-10">
                         <div>
-                            <form action="#" method="POST" className="space-y-6">
+                            <GoogleReCaptchaProvider reCaptchaKey={siteKey} language="vi">
+                                <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
+                                    <GoogleReCaptcha onVerify={handleVerify} />
                                 <div>
                                     <div className="mt-2">
-                                        <CustomInput className="w-full" label="Email" type="email" autoComplete="email" required />
+                                        <CustomInput
+                                            error={errors.length !== 0 && errors.email !== "" && errors.email !== undefined}
+                                            className="w-full"
+                                            label="Email"
+                                            type="email"
+                                            autoComplete="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required/>
                                     </div>
                                 </div>
-
+                                <div className="mt-2">
+                                    <div
+                                        className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
+                                        role="alert">
+                                        {errorString}
+                                    </div>
+                                </div>
                                 <div>
-                                    <CustomButton variant="contained" type="submit" className="w-full"
-                                    >Forgot Password</CustomButton>
+                                    <CustomLoadingButton variant="contained" type="submit" className="w-full"
+                                                         loading={loading}
+                                    >Reset Password</CustomLoadingButton>
                                 </div>
                             </form>
+                            </GoogleReCaptchaProvider>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="relative hidden lg:block">
                 <DotLottieReact src="https://lottie.host/f0774770-0c02-40fb-8946-cd6f3ba17988/rR9TyEBHNN.json"
-                                loop autoplay direction="1" />
+                                loop autoplay direction="1"/>
             </div>
         </div>
     </>;
