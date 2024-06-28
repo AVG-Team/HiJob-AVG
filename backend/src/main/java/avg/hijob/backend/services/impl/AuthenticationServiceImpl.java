@@ -74,7 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             emailService.sendEmailWithToken(user.getEmail(), user.getFullName(), token);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("error Send Mail : " + e.getMessage());
         }
 
         AuthenticationResponse response = new AuthenticationResponse();

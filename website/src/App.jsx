@@ -68,7 +68,7 @@ function App() {
                         path="/oauth2/redirect"
                         element={
                             <Suspense fallback={<CircularProgress/>}>
-                                <Confirm title="Confirm Email"/>
+                                <Confirm title="Redirect..."/>
                             </Suspense>
                         }
                     />

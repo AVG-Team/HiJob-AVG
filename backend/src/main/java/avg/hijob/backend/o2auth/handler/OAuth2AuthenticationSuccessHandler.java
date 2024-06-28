@@ -92,7 +92,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private boolean isAuthorizedRedirectUri(String uri) {
         Dotenv dotenv = Dotenv.load();
         String AUTHORIZED_REDIRECT_URI = dotenv.get("AUTHORIZED_REDIRECT_URI");
-        System.out.println(AUTHORIZED_REDIRECT_URI);
         URI clientRedirectUri = URI.create(uri);
 
         URI authorizedURI = URI.create(AUTHORIZED_REDIRECT_URI);

@@ -31,8 +31,6 @@ public class JwtService {
 
         if (JWT_SECRET == null) {
             throw new IllegalArgumentException("JWT_SECRET environment variable is not set");
-        } else {
-            System.out.println("JWT_SECRET successfully loaded");
         }
     }
 

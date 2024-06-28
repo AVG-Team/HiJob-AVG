@@ -28,7 +28,6 @@ public class UserServiceImp implements UserService {
     public ProfileResponse getUserCurrent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            System.out.println(authentication.getPrincipal());
             CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
 
             User user = customUserDetail.getUser();

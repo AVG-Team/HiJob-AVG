@@ -43,7 +43,7 @@ export default function Notify(props) {
     }
 
     return <>
-        <div className="min-h-full grid lg:grid-cols-2 lg:gap-4">
+        <div className="min-h-full grid lg:gap-4">
             <DotLottieReact src="https://lottie.host/59f5e53d-ce7c-4d60-aaa9-7ba750fc86a8/OhazetStzz.json"
                             loop autoplay direction="1" />
         </div>

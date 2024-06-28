@@ -55,7 +55,7 @@ public class EmailServiceImpl implements EmailService {
         Context thymeleafContext = new Context();
 
         String title = "Congratulations on your Successful Login!!! ";
-        String message = "Thank you for logging in with us. Your account has been successfully logged in and is now ready to use. We are delighted to have you on board and look forward to providing you with the best experience. Your Password is: " + password + " Please login now by clicking the button below.";
+        String message = "Thank you for logging in with us. Your account has been successfully logged in and is now ready to use. We are delighted to have you on board and look forward to providing you with the best experience. Your Password is: `" + password + "`; Please login now by clicking the button below.";
         String url = this.url + "/login";
 
         thymeleafContext.setVariable("title", title);

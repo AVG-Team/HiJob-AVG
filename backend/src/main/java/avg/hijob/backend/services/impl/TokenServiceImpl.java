@@ -39,7 +39,6 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public User getUserByToken(String token) {
-        System.out.println("token : 122345" + token);
         return tokenRepository.findByToken(token)
                 .map(Token::getUser)
                 .orElse(null);

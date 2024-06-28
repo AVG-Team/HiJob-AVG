@@ -59,103 +59,11 @@ public class OAuth2Service extends DefaultOAuth2UserService {
     private void init() {
         if (CLIENT_GOOGLE_ID == null) {
             throw new IllegalArgumentException("CLIENT_GOOGLE_ID environment variable is not set");
-        } else {
-            System.out.println("CLIENT_GOOGLE_ID successfully loaded");
-        }
-    }
-
-    public AuthenticationResponse googleLogin(String token) {
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
-                .setAudience(Collections.singletonList(CLIENT_GOOGLE_ID))
-                .build();
-
-        GoogleIdToken idToken;
-        try {
-            idToken = verifier.verify(token);
-            if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
-                String userId = payload.getSubject();
-                String email = payload.getEmail();
-                String name = (String) payload.get("name");
-
-                User user = userRepository.findByEmail(email).orElse(null);
-                if (user == null) {
-                    Role role = roleRepository.findById(1)
-                            .orElse(roleRepository.findFirstByOrderByIdAsc());
-
-                    String password = passwordEncoder.encode("AVG_" + new Random().nextInt(1000) + "_HIJOB");
-                    User userRegister = new User();
-                    userRegister.setActive(true);
-                    userRegister.setEmail(email);
-                    userRegister.setPassword(password);
-                    userRegister.setRole(role);
-                    userRepository.save(userRegister);
-
-                    AuthenticationResponse response = new AuthenticationResponse();
-                    try {
-                        emailService.sendEmailWithPassword(email, name, password);
-                        response.setName(name);
-                        response.setRole(role.getName());
-                        response.setType(AuthenticationResponseEnum.OK);
-
-                        CustomUserDetail customUserDetail = new CustomUserDetail(user);
-                        if(!customUserDetail.isEnabled()){
-                            return AuthenticationResponse.builder()
-                                    .type(AuthenticationResponseEnum.ACCOUNT_NOT_ACTIVATED)
-                                    .build();
-                        }
-
-                        var jwtToken = jwtService.generateToken(customUserDetail, true);
-                        var refreshToken = jwtService.generateRefreshToken(customUserDetail);
-
-                        tokenService.revokedAllUserTokens(user);
-                        tokenService.saveUserToken(user,jwtToken);
-
-                        response.setAccessToken(jwtToken);
-                        response.setRefreshToken(refreshToken);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                        response.setType(AuthenticationResponseEnum.ACCOUNT_NOT_ACTIVATED);
-                    }
-
-                    return response;
-                }
-
-                CustomUserDetail customUserDetail = new CustomUserDetail(user);
-                if(!customUserDetail.isEnabled()){
-                    return AuthenticationResponse.builder()
-                            .type(AuthenticationResponseEnum.ACCOUNT_NOT_ACTIVATED)
-                            .build();
-                }
-
-                var jwtToken = jwtService.generateToken(customUserDetail, true);
-                var refreshToken = jwtService.generateRefreshToken(customUserDetail);
-
-                tokenService.revokedAllUserTokens(user);
-                tokenService.saveUserToken(user,jwtToken);
-
-                return AuthenticationResponse.builder()
-                        .accessToken(jwtToken)
-                        .refreshToken(refreshToken)
-                        .name(user.getFullName())
-                        .role(user.getRole().getName())
-                        .type(AuthenticationResponseEnum.OK)
-                        .build();
-            } else {
-                return AuthenticationResponse.builder()
-                        .type(AuthenticationResponseEnum.INVALID_TOKEN)
-                        .build();
-            }
-        } catch (GeneralSecurityException | IOException e) {
-            return AuthenticationResponse.builder()
-                    .type(AuthenticationResponseEnum.INVALID_TOKEN)
-                    .build();
         }
     }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
-        System.out.println(oAuth2UserRequest.getAccessToken().getTokenValue());
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
         try {
@@ -168,9 +76,6 @@ public class OAuth2Service extends DefaultOAuth2UserService {
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
-        System.out.println(oAuth2UserInfo.getEmail());
-        System.out.println(oAuth2UserInfo.getId());
-        System.out.println(oAuth2UserInfo.getAttributes());
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
@@ -199,9 +104,10 @@ public class OAuth2Service extends DefaultOAuth2UserService {
         userRepository.save(userRegister);
 
         try {
+            System.out.println("Send mail : " + email + " ; full name : " + fullName + " ; password : " + password);
             emailService.sendEmailWithPassword(email, fullName, password);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("error send mail: " + e.getMessage());
         }
         return userRepository.save(userRegister);
     }
