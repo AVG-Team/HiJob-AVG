@@ -1,11 +1,11 @@
 import Banner from "../Banner";
-import Navbar from "../Navbar";
+import Navbar from "./components/Navbar";
 
 export default function Header() {
     return (
-        <div>
+        <header>
             <Navbar />
             <Banner />
-        </div>
+        </header>
     );
 }

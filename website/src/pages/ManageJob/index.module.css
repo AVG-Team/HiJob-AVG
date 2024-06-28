@@ -1,0 +1,45 @@
+/* Custom form-radio styling */
+.form-radio {
+    border-radius: 50%;
+    border-width: 2px;
+    appearance: none;
+    background-color: white;
+    border-color: #e5e7eb; /* Tailwind gray-300 */
+    cursor: pointer;
+}
+
+.form-radio:checked {
+    background-color: #4f46e5; /* Tailwind indigo-600 */
+    border-color: #4f46e5; /* Tailwind indigo-600 */
+}
+
+/* Toggle switch styles */
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #34d399; /* Tailwind green-400 */
+    background-color: #34d399; /* Tailwind green-400 */
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #34d399; /* Tailwind green-400 */
+}
+
+.toggle-label {
+    background-color: #d1d5db; /* Tailwind gray-300 */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.toggle-checkbox:checked .toggle-label {
+    background-color: #34d399; /* Tailwind green-400 */
+}
+
+.toggle-checkbox {
+    appearance: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: white;
+    border-radius: 9999px;
+    transition: right 0.2s ease-in-out;
+    position: relative;
+    right: 0;
+}

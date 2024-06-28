@@ -3,12 +3,30 @@ import Logo from "../../assets/img/HIJOB-Landscape.png";
 import {checkAuth, getUserInfo} from "../../services/auth/auth.js";
 import {AccountCircle, Logout} from '@mui/icons-material';
 
-const links = [
-    { id: 1, label: "Việc Làm", href: "/" },
-    { id: 2, label: "Công Ty", href: "/" },
-    { id: 3, label: "Tin Tức", href: "/" },
+const mainLinks = [
+    { id: 1, label: "Việc Làm", href: "/", submenu: [] },
+    {
+        id: 2,
+        label: "Công Ty",
+        href: "/",
+        submenu: [
+            {
+                id: 21,
+                label: "Company 1",
+                href: "/company1",
+                submenu: [
+                    { id: 211, label: "Submenu 1", href: "/company1/sub1" },
+                    { id: 212, label: "Submenu 2", href: "/company1/sub2" },
+                ],
+            },
+            { id: 22, label: "Company 2", href: "/company2", submenu: [] },
+        ],
+    },
+    { id: 3, label: "Tin Tức", href: "/", submenu: [] },
 ];
+
 export default function Navbar() {
+    const [scrollpos, setScrollpos] = useState(0);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isUser, setIsUser] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
@@ -16,14 +34,12 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 0) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
+            const currentPosition = window.scrollY;
+            setScrollpos(currentPosition);
         };
 
         window.addEventListener("scroll", handleScroll);
+
 
         if (checkAuth()) {
             setIsAuth(true);
@@ -39,6 +55,39 @@ export default function Navbar() {
         };
     }, []);
 
+    useEffect(() => {
+        setIsScrolled(scrollpos > 10);
+    }, [scrollpos]);
+
+    useEffect(() => {
+        const handleDropdownHover = () => {
+            const dropdowns = document.querySelectorAll(".dropdown");
+
+            dropdowns.forEach((dropdown) => {
+                dropdown.addEventListener("mouseenter", () => {
+                    const submenu = dropdown.querySelector(".submenu");
+                    if (submenu) submenu.classList.add("block");
+                });
+                dropdown.addEventListener("mouseleave", () => {
+                    const submenu = dropdown.querySelector(".submenu");
+                    if (submenu) submenu.classList.remove("block");
+                });
+            });
+        };
+
+        handleDropdownHover();
+
+        return () => {
+            const dropdowns = document.querySelectorAll(".dropdown");
+
+            dropdowns.forEach((dropdown) => {
+                dropdown.removeEventListener("mouseenter", () => {});
+                dropdown.removeEventListener("mouseleave", () => {});
+            });
+        };
+    }, []);
+
+
     return (
         <nav id="header" className={`w-full bg-white ${isScrolled ? "fixed shadow-md opacity-80 z-50" : "shadow-md"}`}>
             <div className="container flex flex-wrap items-center justify-between w-full py-3 mx-auto mt-0">
@@ -49,14 +98,42 @@ export default function Navbar() {
                                 <img src={Logo} alt="logo" className="h-10" />
                             </a>
                         </li>
-                        {links.map((link) => (
-                            <li key={link.id} className="items-center hidden mr-3 lg:flex">
+                        {mainLinks.map((link) => (
+                            <li key={link.id} className="relative items-center hidden mr-3 lg:flex dropdown">
                                 <a
                                     className="inline-block px-4 py-2 font-bold text-black no-underline hover:text-primary"
                                     href={link.href}
                                 >
                                     {link.label}
                                 </a>
+                                {link.submenu.length > 0 && (
+                                    <ul className="absolute left-0 hidden mt-2 bg-white shadow-md submenu">
+                                        {link.submenu.map((submenu) => (
+                                            <li key={submenu.id} className="relative dropdown">
+                                                <a
+                                                    className="block px-4 py-2 text-black whitespace-no-wrap hover:bg-gray-200"
+                                                    href={submenu.href}
+                                                >
+                                                    {submenu.label}
+                                                </a>
+                                                {submenu.submenu && submenu.submenu.length > 0 && (
+                                                    <ul className="absolute top-0 hidden mt-2 bg-white shadow-md left-full submenu">
+                                                        {submenu.submenu.map((subsubmenu) => (
+                                                            <li key={subsubmenu.id}>
+                                                                <a
+                                                                    className="block px-4 py-2 text-black whitespace-no-wrap hover:bg-gray-200"
+                                                                    href={subsubmenu.href}
+                                                                >
+                                                                    {subsubmenu.label}
+                                                                </a>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </li>
                         ))}
                     </ul>
