@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Logo from "../../assets/img/HIJOB-Landscape.png";
+import Logo from "../../../assets/img/HIJOB-Landscape.png";
 import {checkAuth, getUserInfo} from "../../../services/auth/auth.js";
 import {AccountCircle, Logout} from '@mui/icons-material';
 
