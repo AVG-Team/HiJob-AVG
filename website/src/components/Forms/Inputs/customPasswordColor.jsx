@@ -42,9 +42,12 @@ function PasswordField({
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    const handleChange = useCallback(() => {
+    const handleChange = useCallback((e) => {
         setHasValuePassword(passwordRef.current.value.length > 0);
-    }, []);
+        if (onChange) {
+            onChange(e);
+        }
+    }, [onChange]);
 
     const endAdornment = useMemo(() => {
         if (!hasValuePassword) return null;

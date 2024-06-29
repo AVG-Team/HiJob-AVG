@@ -6,33 +6,26 @@ import lombok.*;
 
 import java.sql.Timestamp;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Password_Reset_Token {
+public class Token {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    public String id;
 
-    @Column(nullable = false)
-    private String token;
+    @Column(unique = true)
+    public String token;
 
-    @Column(nullable = false)
-    private String expiryDate;
+    @Enumerated(EnumType.STRING)
+    public TokenTypeEnum tokenType = TokenTypeEnum.BEARER;
 
-    @Column(name = "is_activated",nullable = false)
-    private boolean isActivated = false;
+    public boolean revoked;
 
-    @Column(nullable = false)
-    private int type = TokenTypeEnum.EMAIL_VERIFICATION.value;
-
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+    public boolean expired;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -61,4 +54,8 @@ public class Password_Reset_Token {
     protected void onDelete() {
         deletedAt = new Timestamp(System.currentTimeMillis());
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    public User user;
 }

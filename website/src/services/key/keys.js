@@ -1,7 +1,8 @@
 const StorageKeys = {
     ACCESS_TOKEN: "ACCESS_TOKEN",
     REFRESH_TOKEN: "REFRESH_TOKEN",
+    USER_NAME: "USER_NAME",
+    USER_ROLE: "USER_ROLE",
 };
-// const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:9000/";
 
 export { StorageKeys };
