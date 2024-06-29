@@ -3,6 +3,7 @@ package avg.hijob.backend.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +40,37 @@ public class Company {
     @JoinColumn(nullable = false, name = "employer_id")
     private User user;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<CompanyFollow> followers = new HashSet<>();
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Job> jobs = new HashSet<>();
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp createdAt;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp updatedAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp deletedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PreRemove
+    protected void onDelete() {
+        deletedAt = new Timestamp(System.currentTimeMillis());
+    }
+
 }
