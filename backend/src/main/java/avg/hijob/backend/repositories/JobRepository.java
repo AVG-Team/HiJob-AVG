@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 
 @Repository
 public interface JobRepository extends JpaRepository<Job, String> {
@@ -18,8 +21,18 @@ public interface JobRepository extends JpaRepository<Job, String> {
             " WHERE ?1 = '' or j.company.id like %?1%")
     Page<ResponseJob> findAllOrCompanyId(String idCompany, Pageable pageable);
 
+
+    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id, j.title, j.description, j.responsibilities, j.requirements, j.benefits, j.requireOfYear, j.salary, j.company.id, j.user.id, j.createdAt, j.updatedAt, j.deletedAt) " +
+            "FROM Job j " +
+            "WHERE FUNCTION('DATE', j.createdAt) = FUNCTION('DATE', ?1)")
+    List<ResponseJob> getJobsCreateToday(Timestamp createdDate);
+
+
     @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id,j.title,j.description,j.responsibilities,j.requirements,j.benefits,j.requireOfYear,j.salary,j.company.id,j.user.id,j.createdAt,j.updatedAt,j.deletedAt) " +
-            "FROM Job j")
-    Page<ResponseJob> findAllCus(Pageable pageable);
+            "FROM Job j " +
+            " WHERE j.id = ?1")
+    ResponseJob getJobById(String id);
+
+
 
 }

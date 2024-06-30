@@ -17,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -117,4 +120,35 @@ public class JobServiceImpl implements JobService {
 
 
 
+
+    @Override
+    public List<ResponseJob> getJobsCreateToday(Timestamp createdDate) {
+        if(jobRepository.findAll().isEmpty()) {
+            throw new NotFoundException("Không tìm thấy công việc nào");
+        }else{
+            if(jobRepository.getJobsCreateToday(createdDate).isEmpty()) {
+                throw new NotFoundException("Không có tin tuyển dụng nào hôm nay");
+            }
+            return jobRepository.getJobsCreateToday(createdDate);
+        }
+
+    }
+
+    @Override
+    public ResponseJob getJobById(String id) {
+        if(jobRepository.findById(id).isEmpty()) {
+            throw new NotFoundException("Không tìm thấy công việc nào");
+        }
+        return jobRepository.getJobById(id);
+    }
+
+    @Override
+    public ResponseJob createJob(RequestJob requestJob) {
+        return null;
+    }
+
+    @Override
+    public ResponseJob updateJob(String id, RequestJob requestJob) {
+        return null;
+    }
 }
