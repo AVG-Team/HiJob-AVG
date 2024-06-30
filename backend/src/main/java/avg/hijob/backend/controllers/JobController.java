@@ -5,11 +5,9 @@ import avg.hijob.backend.services.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @RestController
@@ -19,13 +17,21 @@ public class JobController {
 
     private final JobService jobService;
 
-    @GetMapping("/all")
+    @GetMapping("/getJobByCompany/{companyId}")
     public ResponseEntity<Object> getAllJobs(
-            @RequestParam(name ="companyId",value = "companyId") Optional<String> companyId,
+            @PathVariable Optional<String> companyId,
             @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
             @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
     ){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobs(companyId,pageSize,pageNo) );
+    }
+
+    @GetMapping("/getJobCreateToday")
+    public ResponseEntity<Object> getJobsCreateToday(
+            @RequestParam(name = "createdDate", value="createdDate") String createdDate
+    ){
+        Timestamp timeStamp = Timestamp.valueOf(createdDate);
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getJobsCreateToday(timeStamp) );
     }
 
 }
