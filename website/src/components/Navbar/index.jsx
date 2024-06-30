@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Logo from "../../assets/img/HIJOB-Landscape.png";
-import {checkAuth, getUserInfo} from "../../services/auth/auth.js";
-import {AccountCircle, Logout} from '@mui/icons-material';
+import { checkAuth, getUserInfo } from "../../services/auth/auth.js";
+import { AccountCircle, Logout } from "@mui/icons-material";
 
 const mainLinks = [
     { id: 1, label: "Việc Làm", href: "/", submenu: [] },
@@ -39,7 +39,6 @@ export default function Navbar() {
         };
 
         window.addEventListener("scroll", handleScroll);
-
 
         if (checkAuth()) {
             setIsAuth(true);
@@ -87,9 +86,8 @@ export default function Navbar() {
         };
     }, []);
 
-
     return (
-        <nav id="header" className={`w-full bg-white ${isScrolled ? "fixed shadow-md opacity-80 z-50" : "shadow-md"}`}>
+        <nav id="header" className={`w-full bg-white ${isScrolled ? "fixed shadow-md z-50" : "shadow-md"}`}>
             <div className="container flex flex-wrap items-center justify-between w-full py-3 mx-auto mt-0">
                 <div className="flex items-center pl-4">
                     <ul className="items-center flex-1 list-reset lg:flex">
@@ -157,26 +155,33 @@ export default function Navbar() {
                     id="nav-content"
                 >
                     {isAuth && !isUser ? (
-                        <button
-                            className="px-4 py-3 mx-auto mt-4 mr-2 font-bold border rounded-md shadow text-primary border-primary lg:mx-2 opacity-80 hover:text-primary lg:mt-0 hover:bg-slate-50 hover:shadow-lg">
+                        <button className="px-4 py-3 mx-auto mt-4 mr-2 font-bold border rounded-md shadow text-primary border-primary lg:mx-2 opacity-80 hover:text-primary lg:mt-0 hover:bg-slate-50 hover:shadow-lg">
                             Nhà tuyển dụng
                         </button>
-                    ) : "" }
+                    ) : (
+                        ""
+                    )}
                     {!isAuth ? (
-                        <a href="/login"
-                           className="px-4 py-3 mx-auto mt-4 ml-2 font-bold text-white rounded-md shadow lg:mx-0 bg-primary opacity-80 lg:mt-0 hover:bg-primary-600 hover:shadow-lg">
+                        <a
+                            href="/login"
+                            className="px-4 py-3 mx-auto mt-4 ml-2 font-bold text-white rounded-md shadow lg:mx-0 bg-primary opacity-80 lg:mt-0 hover:bg-primary-600 hover:shadow-lg"
+                        >
                             Đăng nhập
                         </a>
                     ) : (
                         <>
-                            <a href="/profile"
-                               className="px-4 py-3 mx-auto mt-4 ml-2 font-bold text-white rounded-md shadow lg:mx-2 bg-primary opacity-80 lg:mt-0 hover:bg-primary-600 hover:shadow-lg">
+                            <a
+                                href="/profile"
+                                className="px-4 py-3 mx-auto mt-4 ml-2 font-bold text-white rounded-md shadow lg:mx-2 bg-primary opacity-80 lg:mt-0 hover:bg-primary-600 hover:shadow-lg"
+                            >
                                 <AccountCircle />
                                 {name}
                             </a>
 
-                            <a href="/logout"
-                               className="px-4 py-3 mx-auto mt-4 ml-2 font-bold text-white rounded-md shadow lg:mx-0 bg-primary opacity-80 lg:mt-0 hover:bg-primary-600 hover:shadow-lg">
+                            <a
+                                href="/logout"
+                                className="px-4 py-3 mx-auto mt-4 ml-2 font-bold text-white rounded-md shadow lg:mx-0 bg-primary opacity-80 lg:mt-0 hover:bg-primary-600 hover:shadow-lg"
+                            >
                                 <Logout />
                                 Logout
                             </a>
