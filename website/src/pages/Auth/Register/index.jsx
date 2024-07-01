@@ -1,15 +1,13 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from "react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import Logo from "~/assets/img/favicon.png";
-import CustomButton from "~/components/Forms/Button/customColor";
-import CustomInput from "~/components/Forms/Inputs/customColor";
-import PasswordField from "~/components/Forms/Inputs/customPasswordColor.jsx";
-import {register as registerAxios } from "../../../services/apis/auth.js";
-import {toast } from "react-toastify";
+import React, {useEffect, useState} from "react";
+import {DotLottieReact} from "@lottiefiles/dotlottie-react";
+import {register as registerAxios} from "../../../services/apis/auth.js";
+import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
-import { CustomLoadingButton } from "../../../components/Forms/Button/customColor.jsx";
 import {validateEmail, validatePassword} from "../Validate/validate.js";
+import TitleForm from "../Components/TitleForm.jsx";
+import AuthForm from "../Components/AuthForm.jsx";
+import Oauth2 from "../Components/Oauth2.jsx";
 
 export default function Register(props) {
     const navigate = useNavigate();
@@ -31,47 +29,30 @@ export default function Register(props) {
 
         const validationErrors = {};
         validationErrors.email = validateEmail(email);
-        if (validationErrors.email === "") {
-            delete validationErrors.email;
-        }
+        if (validationErrors.email === "") delete validationErrors.email;
         validationErrors.password = validatePassword(password);
         validationErrors.password = validatePassword(rePassword);
-        if (validationErrors.password === "") {
-            delete validationErrors.password;
-        }
+        if (validationErrors.password === "") delete validationErrors.password;
 
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length !== 0) {
-            const errorTmp = Object.entries(validationErrors)
-                .map(([key, value]) => `${key} : ${value}`)
-                .join('\n');
-
-            setErrorString(errorTmp);
+            setErrorString(Object.entries(validationErrors)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('\n'));
         } else {
             try {
                 setLoading(true);
-                const response = await registerAxios({
-                    email: email,
-                    password: password
-                });
-
-                let message = response.message;
-
-                console.log("response: ", message)
-                setLoading(false);
-
-                toast.success(message, {
+                const response = await registerAxios({email, password});
+                toast.success(response.message, {
                     onClose: () => navigate('/notify?type=verifyEmail'),
-                    autoClose: 2000,
-                    buttonClose: false
+                    autoClose: 2000
                 });
-
             } catch (err) {
                 toast.error(err.message);
                 setErrorString(err.message)
                 console.error("Error fetching server: ", err);
-
+            } finally {
                 setLoading(false);
             }
         }
@@ -81,87 +62,30 @@ export default function Register(props) {
         <div className="min-h-full grid lg:grid-cols-2 lg:gap-4">
             <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                 <div className="mx-auto w-full max-w-sm lg:w-96">
-                    <div className="flex items-center flex-col">
-                        <img
-                            className="h-10 w-auto"
-                            src={Logo}
-                            alt="HI JOB"
-                        />
-                        <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Sign up to your account
-                        </h2>
-                        <p className="mt-2 text-sm leading-6 text-gray-500">
-                            {/* eslint-disable-next-line react/no-unescaped-entities */}
-                            You have an account?{" "}
-                            <a href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                Login here
-                            </a>
-                        </p>
-                    </div>
-
+                    <TitleForm type="register"/>
                     <div className="mt-10">
-                        <div>
-                            <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
-                                <div>
-                                    <div className="mt-2">
-                                        <CustomInput
-                                            error={errors.length !== 0 && errors.email !== "" && errors.email !== undefined}
-                                            className="w-full"
-                                            label="Email"
-                                            type="email"
-                                            autoComplete="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required />
-                                    </div>
-                                </div>
+                        <AuthForm
+                            handleSubmit={handleSubmit}
+                            email={email}
+                            setEmail={setEmail}
+                            password={password}
+                            setPassword={setPassword}
+                            rePassword={rePassword}
+                            setRePassword={setRePassword}
+                            errors={errors}
+                            errorString={errorString}
+                            loading={loading}
+                            showRePassword={true}
+                            type={"register"}
+                        />
+                        <Oauth2 />
 
-                                <div>
-                                    <div className="mt-2">
-                                        <PasswordField
-                                            error={errors.length !== 0 && errors.password !== "" && errors.password !== undefined}
-                                            name="password"
-                                            label="Password"
-                                            id="password"
-                                            autoComplete="password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="mt-2">
-                                        <PasswordField
-                                            error={errors.length !== 0 && errors.password !== "" && errors.password !== undefined}
-                                            name="re_password"
-                                            label="Re-Password"
-                                            id="re_password"
-                                            autoComplete="re_password"
-                                            value={rePassword}
-                                            onChange={(e) => setRePassword(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="mt-2">
-                                    <div className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
-                                         role="alert">
-                                        {errorString}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <CustomLoadingButton variant="contained" type="submit" className="w-full" loading={loading}
-                                    >Sign Up</CustomLoadingButton>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
             <div className="relative hidden lg:block">
                 <DotLottieReact src="https://lottie.host/9b81d0b3-d8fc-4e1e-a646-722edc9a6f32/fX94e8juVb.json"
-                                loop autoplay direction="1" />
+                                loop autoplay direction="1"/>
             </div>
         </div>
     </>;
