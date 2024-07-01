@@ -1,5 +1,6 @@
 package avg.hijob.backend.controllers;
 
+import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.entities.Job;
 import avg.hijob.backend.entities.JobLevelDetail;
 import avg.hijob.backend.repoElastic.*;
@@ -26,6 +27,13 @@ public class JobController {
 
     private final JobService jobService;
 
+    @GetMapping("")
+    public ResponseEntity<Object> getAllJobs(
+            @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
+            @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
+    ){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobs(pageSize,pageNo) );
+    }
     private final JobRepository jobRepository;
 
 
@@ -33,12 +41,8 @@ public class JobController {
     private JobElasticRepository jobElasticRepository;
 
     @GetMapping("/all")
-    @GetMapping("/getJobByCompany/{companyId}")
-    public ResponseEntity<Object> getAllJobs(
-            @PathVariable Optional<String> companyId,
-            @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
-            @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
-    ){
+
+
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobRepository.findAllCus(PageRequest.of(pageNo.orElseThrow(), pageSize.orElseThrow())) );
     }
 
@@ -65,7 +69,6 @@ public class JobController {
             @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
     ){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.mappingJobs(jobType, jobSkill, jobLevel, contractType, pageNo, pageSize));
-    }
 
     @GetMapping("/getJobCreateToday")
     public ResponseEntity<Object> getJobsCreateToday(
@@ -73,6 +76,35 @@ public class JobController {
     ){
         Timestamp timeStamp = Timestamp.valueOf(createdDate);
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getJobsCreateToday(timeStamp) );
+    }
+
+    @GetMapping("/getJobById/{id}")
+    public ResponseEntity<Object> getJobById(
+            @PathVariable String id
+    ){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getJobById(id) );
+    }
+
+    @PostMapping("/createJob")
+    public ResponseEntity<Object> create(
+            @RequestBody RequestJob requestJob
+            ){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.createJob(requestJob) );
+    }
+
+    @PutMapping("/updateJob/{id}")
+    public ResponseEntity<Object> update(
+            @PathVariable String id,
+            @RequestBody RequestJob requestJob
+    ){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.updateJob(id,requestJob) );
+    }
+
+    @PutMapping("/deleteJob/{id}")
+    public ResponseEntity<Object> delete(
+            @PathVariable String id
+    ){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.deleteJob(id) );
     }
 
 }
