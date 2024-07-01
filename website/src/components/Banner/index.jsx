@@ -3,7 +3,7 @@ import Hero from "../../assets/img/hero-lottie.json";
 
 export default function Banner() {
     return (
-        <div className="pt-14 bg-gradient-to-bl from-white to-primary-200">
+        <div className="pt-8 bg-gradient-to-b from-white to-primary-200">
             <div className="container flex flex-col flex-wrap items-center px-3 mx-auto md:flex-row">
                 <div
                     data-aos="fade-left"
