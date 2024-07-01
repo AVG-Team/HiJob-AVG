@@ -7,6 +7,8 @@ import {changePassword, forgotPassword} from "../../../services/apis/auth.js";
 import {toast} from "react-toastify";
 import {validatePassword} from "../Validate/validate.js";
 import PasswordField from "../../../components/Forms/Inputs/customPasswordColor.jsx";
+import TitleForm from "../Components/TitleForm.jsx";
+import AuthForm from "../Components/AuthForm.jsx";
 
 export default function ChangePassword(props) {
     const navigate = useNavigate();
@@ -38,42 +40,27 @@ export default function ChangePassword(props) {
         const validationErrors = {};
         validationErrors.password = validatePassword(password);
         validationErrors.password = validatePassword(rePassword);
-        if (validationErrors.password === "") {
-            delete validationErrors.password;
-        }
-
+        if (validationErrors.password === "") delete validationErrors.password;
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length !== 0) {
-            const errorTmp = Object.entries(validationErrors)
+            setErrorString(Object.entries(validationErrors)
                 .map(([key, value]) => `${key} : ${value}`)
-                .join('\n');
-
-            setErrorString(errorTmp);
+                .join('\n'));
         } else {
             try {
                 setLoading(true);
-                const response = await changePassword({
-                    token: token,
-                    newPassword: password,
-                });
-
-                let message = response.message;
-
-                console.log("response: ", message)
-                setLoading(false);
-
-                toast.success(message, {
+                const response = await changePassword({token,newPassword: password});
+                toast.success(response.message, {
                     onClose: () => navigate('/'),
                     autoClose: 1000,
                     buttonClose: false
                 });
-
             } catch (err) {
                 toast.error(err.message);
                 setErrorString(err.message)
                 console.error("Error fetching server: ", err);
-
+            } finally {
                 setLoading(false);
             }
         }
@@ -83,65 +70,21 @@ export default function ChangePassword(props) {
         <div className="min-h-full grid lg:grid-cols-2 lg:gap-4">
             <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                 <div className="mx-auto w-full max-w-sm lg:w-96">
-                    <div className="flex items-center flex-col">
-                        <img
-                            className="h-10 w-auto"
-                            src={Logo}
-                            alt="HI JOB"
-                        />
-                        <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Forgot Password
-                        </h2>
-                        <p className="mt-2 text-sm leading-6 text-gray-500">
-                            If you already remember your account ?{" "}
-                            <a href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                Login here
-                            </a>
-                        </p>
-                    </div>
-
+                    <TitleForm type="changePassword"/>
                     <div className="mt-10">
                         <div>
-                            <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
-                                <div>
-                                    <div className="mt-2">
-                                        <PasswordField
-                                            error={errors.length !== 0 && errors.password !== "" && errors.password !== undefined}
-                                            name="password"
-                                            label="Password"
-                                            id="password"
-                                            autoComplete="password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mt-2">
-                                        <PasswordField
-                                            error={errors.length !== 0 && errors.password !== "" && errors.password !== undefined}
-                                            name="rePassword"
-                                            label="Re Password"
-                                            id="rePassword"
-                                            autoComplete="rePassword"
-                                            value={rePassword}
-                                            onChange={(e) => setRePassword(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="mt-2">
-                                    <div
-                                        className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
-                                        role="alert">
-                                        {errorString}
-                                    </div>
-                                </div>
-                                <div>
-                                    <CustomLoadingButton variant="contained" type="submit" className="w-full"
-                                                         loading={loading}
-                                    >Change Password</CustomLoadingButton>
-                                </div>
-                            </form>
+                            <AuthForm
+                                handleSubmit={handleSubmit}
+                                password={password}
+                                setPassword={setPassword}
+                                rePassword={rePassword}
+                                setRePassword={setRePassword}
+                                errors={errors}
+                                errorString={errorString}
+                                loading={loading}
+                                showRePassword={true}
+                                type={"changePassword"}
+                            />
                         </div>
                     </div>
                 </div>
