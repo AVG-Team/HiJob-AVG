@@ -21,6 +21,7 @@ const JobApplied = loadable(() => import("./pages/JobApplied"));
 const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const ManageCV = loadable(() => import("./pages/ManageCV"));
 const ManageJob = loadable(() => import("./pages/ManageJob"));
+const SearchingPage = loadable(()=> import("./pages/Searching"));
 
 function App() {
     useEffect(() => {
@@ -39,6 +40,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress/>}>
                                 <Home title="HomePage"/>
+                            </Suspense>
+                        }
+                    />
+                     <Route
+                        path="/searching-page"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <SearchingPage />
                             </Suspense>
                         }
                     />

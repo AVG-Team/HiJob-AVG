@@ -1,5 +1,6 @@
 package avg.hijob.backend.controllers;
 
+import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.responses.ResponseHandler;
 import avg.hijob.backend.services.JobService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class JobController {
 
     private final JobService jobService;
 
+    private final JobRepository jobRepository;
     @GetMapping("/all")
     public ResponseEntity<Object> getAllJobs(
             @RequestParam(name ="companyId",value = "companyId") Optional<String> companyId,

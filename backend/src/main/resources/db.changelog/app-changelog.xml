@@ -1,0 +1,21 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                                        http://www.liquibase.org/xml/ns/dbchangelog-ext.xsd
+                                        http://www.liquibase.org/xml/ns/dbchangelog
+                                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+<!--    <include file="db.changelog/scripts/insert_level_table.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_skill_table.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_jobTypes_table.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_role_table.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_contractTypes_table.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_user_table.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_job_table.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_job_skill_detail.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_job_level_detail.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_contract_type_detail.sql"/>-->
+<!--    <include file="db.changelog/scripts/insert_job_type_detail.sql"/>-->
+</databaseChangeLog>

@@ -1,7 +1,66 @@
 import Lottie from "lottie-react";
 import Hero from "../../assets/img/hero-lottie.json";
-
+import React, { useEffect, useState } from "react";
+import { AutoComplete } from 'antd';
+import jobService from "../../services/apis/JobService/JobService";
+import CompanyService from"../../services/apis/CompanyService/CompanyService";
+    
 export default function Banner() {
+    const [page, setPage] = useState(1); 
+    const [pageSize, setPageSize] = useState(3);
+    const [total, setTotal] = useState(0);
+    const [contentOfJobs, setContentOfJobs] = useState([]);
+    const [contentOfCompanies, setContentOfCompanies] = useState([]);
+    const [options, setOptions] = useState([]);
+    const [type, setType] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setIsLoading(false);
+        const fetchJobsData = async () => {
+            try {
+                const { content, totalElements, size } = await jobService.getAllByPage({
+                    type,
+                    pageNo: page,
+                    pageSize,
+                });
+                console.log(content);
+                setContentOfJobs(content);
+                setIsLoading(false);
+                setTotal(Math.ceil(totalElements / size));
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                
+            }
+        };
+        const fetchCompaniesData = async () => {
+            try {
+                const { content, totalElements, size } = await CompanyService.getAllByPage({
+                    type,
+                    pageNo: page,
+                    pageSize,
+                });
+                console.log(content);
+                setContentOfCompanies(content);
+                setTotal(Math.ceil(totalElements / size));
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        Promise.all([fetchJobsData(), fetchCompaniesData()])
+      .then(() => setIsLoading(true))
+      .catch((error) => console.error("Error fetching data:", error));
+    }, [type, page, pageSize]);
+
+    useEffect(() => {
+        // Combine jobs and companies data into options
+        const combinedOptions = [
+            ...contentOfJobs.map(job => ({ label: job.title, value: job.id })),
+            ...contentOfCompanies.map(company => ({ label: company.name, value: company.id }))
+        ];
+        setOptions(combinedOptions);
+    }, [contentOfJobs, contentOfCompanies]);
+    
     return (
         // <div className="px-4 pt-12 pb-20 bg-orange-50">
         //     <div className="container px-4 mx-auto sm:px-6 lg:px-24">
@@ -52,12 +111,15 @@ export default function Banner() {
                                 {/* <label htmlFor="job" className="block px-4 text-sm font-bold uppercase text-primary">
                                     Công Việc
                                 </label> */}
-                                <input
+                                {/* <input
                                     type="text"
                                     id="job"
                                     placeholder="Nhập từ khóa công việc bạn muốn tìm kiếm..."
                                     className="w-full p-3 border rounded-lg focus:border-primary-500 focus:outline-none focus:shadow-lg"
-                                />
+                                /> */}
+                                <AutoComplete id="job" options={options.slice(0,5)} 
+                                    placeholder="Nhập từ khóa công việc bạn muốn tìm kiếm..."
+                                    className="w-full h-[48px] border rounded-lg focus:border-primary-500 focus:outline-none focus:shadow-lg"></AutoComplete>
                             </div>
                             <div className="flex items-center justify-center col-span-1">
                                 <button className="py-3 font-bold text-white uppercase rounded-lg shadow-lg px-9 bg-primary lg:mx-0 hover:bg-primary-600 hover:shadow-lg">

@@ -2,6 +2,9 @@ package avg.hijob.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -13,25 +16,36 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
+@Document(indexName = "Job")
+@Data
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Field(type = FieldType.Keyword, name = "id")
     private String id;
 
     @Column(nullable = false)
+    @Field(type = FieldType.Text, name = "title")
     private String title;
 
     @Column(nullable = false)
+    @Field(type = FieldType.Text, name = "description")
     private String description;
 
+    @Field(type = FieldType.Text, name = "responsibilities")
     private String responsibilities;
+    @Field(type = FieldType.Text, name = "requirements")
     private String requirements;
+
+    @Field(type = FieldType.Text, name = "benefits")
     private String benefits;
 
     @Column(name = "require_of_year", nullable = false)
+    @Field(type = FieldType.Text, name = "benefits")
     private String requireOfYear;
 
     @Column(nullable = false)
+    @Field(type = FieldType.Text, name = "benefits")
     private Long salary;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = false)
@@ -52,6 +66,7 @@ public class Job {
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
+    @Field(type = FieldType.Nested, name = "user_id")
     private User user;
 
     @Column(nullable = false)
