@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Profile from "./pages/Profile/index.jsx";
+import AboutUs from "./pages/AboutUs/index.jsx";
+import {Policy} from "@mui/icons-material";
 
 const Home = loadable(() => import("./pages/Home"));
 const Logout = loadable(() => import("./pages/Logout"));
@@ -18,6 +20,7 @@ const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const ManageCV = loadable(() => import("./pages/ManageCV"));
 const ManageJob = loadable(() => import("./pages/ManageJob"));
 const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
+const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
 
 function App() {
     useEffect(() => {
@@ -102,6 +105,22 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <Profile title="Hồ sơ CV" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/about-us"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <AboutUs title="Về chúng tôi" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/privacy-policy"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <PrivacyPolicy title="Chính sách bảo mật" />
                             </Suspense>
                         }
                     />
