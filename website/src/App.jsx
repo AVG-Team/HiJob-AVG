@@ -9,7 +9,6 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Profile from "./pages/Profile/index.jsx";
 import AboutUs from "./pages/AboutUs/index.jsx";
-import {Policy} from "@mui/icons-material";
 
 const Home = loadable(() => import("./pages/Home"));
 const Register = loadable(() => import("./pages/Auth/Register"));
