@@ -31,7 +31,7 @@ export default function Banner() {
         //         </div>
         //     </div>
         // </div>
-        <div className="pt-14 bg-gradient-to-bl from-white to-primary-200">
+        <div className="pt-14 bg-gradient-to-b from-white to-primary-200">
             <div className="container flex flex-col flex-wrap items-center px-3 mx-auto md:flex-row">
                 <div
                     data-aos="fade-left"
@@ -48,56 +48,33 @@ export default function Banner() {
                     </p>
                     <div className="w-full p-2 bg-white border rounded-lg shadow-lg">
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                            <div className="col-span-1">
-                                <label htmlFor="job" className="block px-4 text-sm font-bold uppercase text-primary">
+                            <div className="col-span-3">
+                                {/* <label htmlFor="job" className="block px-4 text-sm font-bold uppercase text-primary">
                                     Công Việc
-                                </label>
-                                <select
+                                </label> */}
+                                <input
+                                    type="text"
                                     id="job"
-                                    className="block w-full p-3 text-sm text-gray-400 focus:ring-blue-500 focus:border-blue-500"
-                                >
-                                    <option defaultValue>Công Việc</option>
-                                    <option value="US">United States</option>
-                                    <option value="CA">Canada</option>
-                                    <option value="FR">France</option>
-                                    <option value="DE">Germany</option>
-                                </select>
-                            </div>
-                            <div className="col-span-1">
-                                <label htmlFor="skill" className="block px-4 text-sm font-bold uppercase text-primary">
-                                    Kĩ năng
-                                </label>
-                                <select
-                                    id="skill"
-                                    className="block w-full p-3 text-sm text-gray-400 focus:ring-blue-500 focus:border-blue-500"
-                                >
-                                    <option defaultValue>Kĩ Năng</option>
-                                    <option value="US">United States</option>
-                                    <option value="CA">Canada</option>
-                                    <option value="FR">France</option>
-                                    <option value="DE">Germany</option>
-                                </select>
-                            </div>
-                            <div className="col-span-1">
-                                <label htmlFor="type" className="block px-4 text-sm font-bold uppercase text-primary">
-                                    Loại Hình
-                                </label>
-                                <select
-                                    id="type"
-                                    className="block w-full p-3 text-sm text-gray-400 focus:ring-blue-500 focus:border-blue-500"
-                                >
-                                    <option defaultValue>Loại Hình</option>
-                                    <option value="US">United States</option>
-                                    <option value="CA">Canada</option>
-                                    <option value="FR">France</option>
-                                    <option value="DE">Germany</option>
-                                </select>
+                                    placeholder="Nhập từ khóa công việc bạn muốn tìm kiếm..."
+                                    className="w-full p-3 border rounded-lg focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                />
                             </div>
                             <div className="flex items-center justify-center col-span-1">
                                 <button className="py-3 font-bold text-white uppercase rounded-lg shadow-lg px-9 bg-primary lg:mx-0 hover:bg-primary-600 hover:shadow-lg">
                                     tìm việc
                                 </button>
                             </div>
+                        </div>
+                        <div className="flex flex-wrap items-center justify-start mt-4 space-x-2">
+                            <p className="text-sm opacity-75">Từ khoá đề xuất :</p>
+                            {["Java", "C++", "JavaScript", "UI/UX", "C#"].map((keyword) => (
+                                <button
+                                    key={keyword}
+                                    className="px-2 py-1 mt-1 text-sm text-white rounded-md bg-primary hover:bg-primary-600 hover:shadow-lg"
+                                >
+                                    {keyword}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>

@@ -10,8 +10,13 @@ import "aos/dist/aos.css";
 import Profile from "./pages/Profile/index.jsx";
 
 const Home = loadable(() => import("./pages/Home"));
-const Logout = loadable(() => import("./pages/Logout"));
-const Login = loadable(() => import("./pages/Login"));
+const Register = loadable(() => import("./pages/Auth/Register"));
+const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
+const ChangePassword = loadable(() => import("./pages/Auth/ForgotPassword/ChangePassword"));
+const Notify = loadable(() => import("./pages/Auth/Notify"));
+const Confirm = loadable(() => import("./pages/Auth/Confirm"));
+const Logout = loadable(() => import("./pages/Auth/Logout"));
+const Login = loadable(() => import("./pages/Auth/Login"));
 const JobDetail = loadable(() => import("./pages/JobDetail"));
 const JobApplied = loadable(() => import("./pages/JobApplied"));
 const JobFollowing = loadable(() => import("./pages/JobFollowing"));
@@ -27,25 +32,25 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<AuthLayout />}>
-                    <Route path="/logout" element={<Logout />} />
+                <Route element={<AuthLayout/>}>
+                    <Route path="/logout" element={<Logout/>}/>
                 </Route>
-                <Route element={<BasicLayout />}>
+                <Route element={<BasicLayout/>}>
                     <Route
                         index
                         element={
-                            <Suspense fallback={<CircularProgress />}>
-                                <Home title="Trang Chủ" />
+                            <Suspense fallback={<CircularProgress/>}>
+                                <Home title="HomePage"/>
                             </Suspense>
                         }
                     />
                 </Route>
-                <Route element={<LayoutNotSearch />}>
+                <Route element={<LayoutNotSearch/>}>
                     <Route
                         path="/login"
                         element={
-                            <Suspense fallback={<CircularProgress />}>
-                                <Login title="Login" />
+                            <Suspense fallback={<CircularProgress/>}>
+                                <Login title="Login"/>
                             </Suspense>
                         }
                     />
@@ -86,6 +91,46 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <ManageJob title="Quản Lý Viêc Lam" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/register"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <Register title="Register"/>
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/forgot-password"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <ForgotPassword title="Forgot Password"/>
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/change-password"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <ChangePassword title="Change Password"/>
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/notify"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <Notify title="Notification"/>
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/oauth2/redirect"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <Confirm title="Redirect..."/>
                             </Suspense>
                         }
                     />

@@ -11,7 +11,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -34,37 +33,33 @@ public class User {
     @Column(name = "phone", length = 10, unique = true)
     @Length(min = 10, max = 10, message = "Phone must be 10 characters")
     @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
-    @NotBlank(message = "Phone is required")
     private String phone;
 
-    @Column(nullable = true)
     private String address;
 
-    @Column(nullable = true)
     private String province;
 
-    @Column(nullable = true)
     private String avatar;
 
-    @Column(name = "full_name", length = 80, nullable = false)
+    @Column(name = "full_name", length = 80, nullable = true)
     private String fullName;
 
-    @Column(name = "job_position", nullable = true)
+    @Column(name = "job_position")
     private String jobPosition;
 
-    @Column(name = "year_experience", nullable = true)
+    @Column(name = "year_experience")
     private int yearExperience;
 
-    @Column(name = "skills", nullable = true)
+    @Column(name = "skills")
     private String skills;
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive = false;
 
-    @Column(name = "social_network_1", nullable = true)
+    @Column(name = "social_network_1")
     private String socialNetwork1;
 
-    @Column(name = "social_network_2", nullable = true)
+    @Column(name = "social_network_2")
     private String socialNetwork2;
 
     @Column(nullable = false)
@@ -104,5 +99,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CompanyFollow> followedCompanies = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Job> jobs = new HashSet<>();
+
 }
 
