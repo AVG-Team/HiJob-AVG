@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AboutJob, Benefits, Requirements, Responsibilities } from "../../../mocks/detail";
+import { AboutUs, Benefits } from "../../../mocks/detail";
 
 export default function Detail() {
     const [tab, setTab] = useState(0);
@@ -19,7 +19,7 @@ export default function Detail() {
                                 tab === 0 ? "text-white bg-secondary" : "text-gray-600"
                             }`}
                         >
-                            Mô tả công việc
+                            Thông tin công ty
                         </button>
                         <button
                             onClick={() => handleTab(1)}
@@ -27,34 +27,17 @@ export default function Detail() {
                                 tab === 1 ? "text-white bg-secondary" : "text-gray-600"
                             }`}
                         >
-                            Thông Tin Về Công Ty
+                            Vị trí tuyển dụng
                         </button>
                     </div>
                 </div>
                 {tab === 0 && (
                     <div className="w-full mx-auto space-y-6 text-gray-600">
                         <div className="flex-1">
-                            <div className="flex items-center justify-start pt-2 pb-3 border-b">
-                                {AboutJob.map((item) => (
-                                    <p key={item.id} className="text-sm lg:text-md">
-                                        {item.content}
-                                    </p>
-                                ))}
-                            </div>
                             <div className="flex-1 pt-2 pb-3 border-b">
-                                <h2 className="mb-4 text-lg font-bold sm:text-xl">Trách nhiệm công việc</h2>
-                                <ul className="list-disc list-inside">
-                                    {Responsibilities.map((item) => (
-                                        <li key={item.id} className="mb-2 ml-5 text-sm lg:text-md">
-                                            {item.content}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="flex-1 pt-2 pb-3 border-b">
-                                <h2 className="mb-4 text-lg font-bold sm:text-xl">Kĩ năng & Chuyên môn</h2>
-                                <ul className="list-disc list-inside">
-                                    {Requirements.map((item) => (
+                                <h2 className="mb-4 text-lg font-bold sm:text-xl">Về chúng tôi</h2>
+                                <ul className="list-none list-inside">
+                                    {AboutUs.map((item) => (
                                         <li key={item.id} className="mb-2 ml-5 text-sm lg:text-md">
                                             {item.content}
                                         </li>

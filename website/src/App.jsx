@@ -21,6 +21,10 @@ const JobApplied = loadable(() => import("./pages/JobApplied"));
 const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const ManageCV = loadable(() => import("./pages/ManageCV"));
 const ManageJob = loadable(() => import("./pages/ManageJob"));
+const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
+const Profile = loadable(() => import("./pages/Profile"));
+const AboutUs = loadable(() => import("./pages/AboutUs"));
+const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
 
 function App() {
     useEffect(() => {
@@ -129,6 +133,38 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress/>}>
                                 <Confirm title="Redirect..."/>
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/cong-ty"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CompanyDetail title="Công ty" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/cv"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <Profile title="Hồ sơ CV" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/about-us"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <AboutUs title="Về chúng tôi" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/privacy-policy"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <PrivacyPolicy title="Chính sách bảo mật" />
                             </Suspense>
                         }
                     />
