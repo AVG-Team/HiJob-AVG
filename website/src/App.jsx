@@ -7,8 +7,6 @@ import { CircularProgress } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Profile from "./pages/Profile/index.jsx";
-import AboutUs from "./pages/AboutUs/index.jsx";
 
 const Home = loadable(() => import("./pages/Home"));
 const Register = loadable(() => import("./pages/Auth/Register"));
@@ -24,6 +22,8 @@ const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const ManageCV = loadable(() => import("./pages/ManageCV"));
 const ManageJob = loadable(() => import("./pages/ManageJob"));
 const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
+const Profile = loadable(() => import("./pages/Profile"));
+const AboutUs = loadable(() => import("./pages/AboutUs"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
 
 function App() {
