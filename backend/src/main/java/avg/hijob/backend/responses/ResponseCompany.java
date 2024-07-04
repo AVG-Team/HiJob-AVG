@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class ResponseCompany {
     private String id;
     private String name;
