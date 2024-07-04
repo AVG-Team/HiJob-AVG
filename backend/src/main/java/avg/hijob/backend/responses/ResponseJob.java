@@ -1,18 +1,21 @@
 package avg.hijob.backend.responses;
 
-import avg.hijob.backend.entities.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.Set;
 
-@AllArgsConstructor
+
+import lombok.*;
+
+
 @Getter
 @Setter
-@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseJob {
     private String id;
     private String title;
@@ -25,9 +28,10 @@ public class ResponseJob {
     private String companyId;
     private String linkGoogleMap;
     private String userId;
-    private Timestamp createdAt; // CamelCase for consistency
-    private Timestamp updatedAt; // CamelCase for consistency
-    private Timestamp deletedAt; // CamelCase for consistency
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+    private Timestamp deletedAt;
+
 
     public ResponseJob(String id, String title, String description, String responsibilities, String requirements, String benefits,
                        String requireOfYear, Long salary, String companyId, String userId, Timestamp createdAt, Timestamp updatedAt, Timestamp deletedAt) {

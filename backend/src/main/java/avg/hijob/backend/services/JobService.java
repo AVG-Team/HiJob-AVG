@@ -1,5 +1,6 @@
 package avg.hijob.backend.services;
 
+import avg.hijob.backend.entities.Job;
 import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.responses.ResponseJob;
 import org.springframework.data.domain.Page;
