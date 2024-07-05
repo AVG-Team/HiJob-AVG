@@ -30,5 +30,10 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
             "FROM Company c WHERE c.province LIKE %:province%")
     Page<ResponseCompany> findAllByProvince(String province, Pageable pageable);
 
+    @Query("SELECT new avg.hijob.backend.responses.ResponseCompany(c.id,c.name,c.taxCode,c.field,c.address,c.province,c.registration_certificate,c.about,c.linkGoogleMap,c.user.id,c.createdAt,c.updatedAt,c.deletedAt) " +
+            "FROM Company c " +
+            "WHERE c.deletedAt is null")
+    List<ResponseCompany> getTop5Company();
+
 
 }

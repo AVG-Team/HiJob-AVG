@@ -1,7 +1,6 @@
 package avg.hijob.backend.services.impl;
 
-import avg.hijob.backend.entities.JobType;
-import avg.hijob.backend.repositories.JobTypeRepository;
+import avg.hijob.backend.repositories.JobTypeDetailRepository;
 import avg.hijob.backend.responses.ResponseJobTypeDetail;
 import avg.hijob.backend.services.JobTypeDetailService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ import java.util.List;
 public class JobTypeDetailServiceImpl implements JobTypeDetailService {
 
     @Autowired
-    private final JobTypeRepository jobTypeRepository;
+    private final JobTypeDetailRepository jobTypeRepository;
 
     @Override
     public List<ResponseJobTypeDetail> getAllJobTypesByJobId(String jobId) {
