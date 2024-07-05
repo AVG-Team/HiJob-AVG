@@ -3,10 +3,12 @@ import loadable from "@loadable/component";
 import AuthLayout from "./layouts/AuthLayout";
 import BasicLayout from "./layouts/BasicLayout";
 import LayoutNotSearch from "./layouts/LayoutNotSearch";
+import BlankLayout from "~/layouts/Admin/BlankLayout.jsx";
 import { CircularProgress } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import AuthRoute from "./components/Route/AuthRoute.jsx";
 
 const Home = loadable(() => import("./pages/Home"));
 const Register = loadable(() => import("./pages/Auth/Register"));
@@ -25,6 +27,8 @@ const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
 const Profile = loadable(() => import("./pages/Profile"));
 const AboutUs = loadable(() => import("./pages/AboutUs"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
+// ADMIN ROUTE
+const LoginAdmin = loadable(() => import("./pages/Admin/Auth"));
 
 function App() {
     useEffect(() => {
@@ -36,6 +40,7 @@ function App() {
             <Routes>
                 <Route element={<AuthLayout/>}>
                     <Route path="/logout" element={<Logout/>}/>
+                    <Route path="/admin/logout" element={<Logout/>}/>
                 </Route>
                 <Route element={<BasicLayout/>}>
                     <Route
@@ -145,14 +150,6 @@ function App() {
                         }
                     />
                     <Route
-                        path="/cv"
-                        element={
-                            <Suspense fallback={<CircularProgress />}>
-                                <Profile title="Hồ sơ CV" />
-                            </Suspense>
-                        }
-                    />
-                    <Route
                         path="/about-us"
                         element={
                             <Suspense fallback={<CircularProgress />}>
@@ -165,6 +162,30 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <PrivacyPolicy title="Chính sách bảo mật" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                <Route element={<AuthRoute/>}>
+                    <Route element={<LayoutNotSearch/>}>
+                        <Route
+                            path="/profile"
+                            element={
+                                <Suspense fallback={<CircularProgress />}>
+                                    <Profile title="Profile" />
+                                </Suspense>
+                            }
+                        />
+                    </Route>
+                </Route>
+
+            {/* ADMIN */}
+                <Route element={<BlankLayout/>}>
+                    <Route
+                        path="/admin/login"
+                        element={
+                            <Suspense fallback={<CircularProgress/>}>
+                                <LoginAdmin title="Login Admin"/>
                             </Suspense>
                         }
                     />

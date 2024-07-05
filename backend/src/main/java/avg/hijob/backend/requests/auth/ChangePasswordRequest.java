@@ -1,4 +1,4 @@
-package avg.hijob.backend.request.auth;
+package avg.hijob.backend.requests.auth;
 
 import lombok.Builder;
 import lombok.Getter;

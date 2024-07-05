@@ -1,4 +1,4 @@
-package avg.hijob.backend.request.auth;
+package avg.hijob.backend.requests.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class PasswordResetTokenRequest {
     private String email;
-    private String password;
-    private int role;
+    private String recaptchaToken;
 }
