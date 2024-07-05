@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {CustomLoadingButton} from "../../../components/Forms/Button/customColor.jsx";
 import {forgotPassword} from "../../../services/apis/auth.js";
 import {toast} from "react-toastify";
-import {validateEmail} from "../Validate/validate.js";
+import {validateEmail} from "../../../services/validate/validate.js";
 import TitleForm from "../Components/TitleForm.jsx";
 import {GoogleReCaptchaProvider} from "react-google-recaptcha-v3";
 import AuthForm from "../Components/AuthForm.jsx";

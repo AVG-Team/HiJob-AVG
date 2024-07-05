@@ -33,16 +33,7 @@ public class ApplicationConfig {
         return username -> {
             User user = userRepository.findByEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            CustomUserDetail customUserDetail = new CustomUserDetail(user);
-            return org.springframework.security.core.userdetails.User
-                    .withUsername(user.getEmail())
-                    .password(user.getPassword())
-                    .authorities(customUserDetail.getAuthorities())
-                    .accountExpired(!customUserDetail.isAccountNonExpired())
-                    .accountLocked(!customUserDetail.isAccountNonLocked())
-                    .credentialsExpired(!customUserDetail.isCredentialsNonExpired())
-                    .disabled(!customUserDetail.isEnabled())
-                    .build();
+            return new CustomUserDetail(user);
         };
     }
 

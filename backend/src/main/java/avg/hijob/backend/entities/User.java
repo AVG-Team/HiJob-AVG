@@ -1,11 +1,13 @@
 package avg.hijob.backend.entities;
 
+import avg.hijob.backend.enums.UserJobStatusEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,7 +50,7 @@ public class User {
     private String jobPosition;
 
     @Column(name = "year_experience")
-    private int yearExperience;
+    private float yearExperience;
 
     @Column(name = "skills")
     private String skills;
@@ -62,6 +64,9 @@ public class User {
     @Column(name = "social_network_2")
     private String socialNetwork2;
 
+    @Column(name = "job_status")
+    private Boolean jobStatus = UserJobStatusEnum.OFF.value;
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp createdAt;
@@ -72,6 +77,9 @@ public class User {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp deletedAt;
+
+    @Column(name = "cover_letter")
+    private String coverLetter;
 
     // Lifecycle methods
     @PrePersist
@@ -103,5 +111,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Job> jobs = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
 }
 

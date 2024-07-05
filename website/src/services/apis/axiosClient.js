@@ -50,6 +50,11 @@ axiosClient.interceptors.response.use(
                     status: 400,
                     message: data.message || "Tài khoản chưa được kích hoạt",
                 });
+            } else if (status === 302) {
+                return Promise.reject({
+                    status: 302,
+                    message: data.message || "Server Lỗi Vui Lòng Thử Lại",
+                });
             } else {
                 // Xử lý các trường hợp lỗi khác nếu cần
                 return Promise.reject(error);
