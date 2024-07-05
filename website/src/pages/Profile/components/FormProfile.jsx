@@ -7,12 +7,22 @@ import {getAllSkills, updateUserInfo} from "../../../services/apis/profile.js";
 import { CustomLoadingButton } from "~/components/Forms/Button/customColor.jsx";
 import InputFileUpload from "../../../components/Forms/Inputs/InputFileUpload.jsx";
 import {toast} from "react-toastify";
+import {FilesUrl} from "../../../services/key/url.js";
+import {
+    validateAddress,
+    validateEmail, validateFile,
+    validateFullName, validateJobPosition, validateLink, validateNumber,
+    validatePassword,
+    validatePhone, validateProvince, validateSkills
+} from "../../../services/validate/validate.js";
 
-const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
+const FormProfile = ({userInfo}) => {
+    const [formData, setFormData] = useState(userInfo);
     const [skills, setSkills] = useState([]);
-
+    let initialFormData = {};
     useEffect(() => {
         getAllSkillsData();
+        initialFormData = {...formData};
     }, []);
     const getAllSkillsData = async () => {
         try {
@@ -29,10 +39,10 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
         return <p>Loading...</p>;
     }
 
-    const [formData, setFormData] = useState(userInfo);
     const [coverLetter, setCoverLetter] = useState(formData?.coverLetter || "");
     const [provinces, setProvinces] = useState(provincesData);
     const [errors, setErrors] = useState({});
+    const [errorString, setErrorString] = useState("");
     const [selectedProvince, setSelectedProvince] = useState(userInfo?.province ? userInfo.province : "");
     const [selectedJobPosition, setSelectedJobPosition] = useState(userInfo?.jobPosition ? userInfo.jobPosition : "");
     const [loading, setLoading] = useState(false);
@@ -63,6 +73,74 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        //Validate
+        const validationErrors = {};
+
+        if (formData["fullName"] !== userInfo["fullName"]) {
+            validationErrors.fullName = validateFullName(formData["fullName"]);
+            if (validationErrors.fullName === "") delete validationErrors.fullName;
+        }
+
+        if (formData["email"] !== userInfo["email"]) {
+            validationErrors.email = validateEmail(formData["email"]);
+            if (validationErrors.email === "") delete validationErrors.email;
+        }
+
+        if (formData["phone"] !== userInfo["phone"]) {
+            validationErrors.phone = validatePhone(formData["phone"]);
+            if (validationErrors.phone === "") delete validationErrors.phone;
+        }
+
+        if (formData["address"] !== userInfo["address"]) {
+            validationErrors.address = validateAddress(formData["address"]);
+            if (validationErrors.address === "") delete validationErrors.address;
+        }
+
+        if (formData["province"] !== userInfo["province"]) {
+            validationErrors.province = validateProvince(formData["province"]);
+            if (validationErrors.province === "") delete validationErrors.province;
+        }
+
+        if (formData["jobPosition"] !== userInfo["jobPosition"]) {
+            validationErrors.jobPosition = validateJobPosition(formData["jobPosition"]);
+            if (validationErrors.jobPosition === "") delete validationErrors.jobPosition;
+        }
+
+        if (formData["yearExperience"] !== userInfo["yearExperience"]) {
+            validationErrors.yearExperience = validateNumber(formData["yearExperience"]);
+            if (validationErrors.yearExperience === "") delete validationErrors.yearExperience;
+        }
+
+        if (formData["skills"] !== userInfo["skills"]) {
+            validationErrors.skills = validateSkills(formData["skills"], skills);
+            if (validationErrors.skills === "") delete validationErrors.skills;
+        }
+
+        if (formData["socialNetwork1"] !== userInfo["socialNetwork1"]) {
+            validationErrors.socialNetwork1 = validateLink(formData["socialNetwork1"]);
+            if (validationErrors.socialNetwork1 === "") delete validationErrors.socialNetwork1;
+        }
+
+        if (formData["socialNetwork2"] !== userInfo["socialNetwork2"]) {
+            validationErrors.socialNetwork2 = validateLink(formData["socialNetwork2"]);
+            if (validationErrors.socialNetwork2 === "") delete validationErrors.socialNetwork2;
+        }
+
+        if (coverLetter !== userInfo["coverLetter"]) {
+            validationErrors.coverLetter = validateFile(formData["coverLetter"]);
+            if (validationErrors.coverLetter === "") delete validationErrors.coverLetter;
+        }
+
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length !== 0) {
+            setErrorString(Object.entries(validationErrors)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('\n'));
+            return;
+        }
+
+        // Handle Form
         let formSubmit = new FormData();
         for (const key in formData) {
             if (formData.hasOwnProperty(key)) {
@@ -97,7 +175,6 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Full Name</label>
                 <CustomInput
-                    disabled={disabledForm}
                     error={!!errors.fullName}
                     className="w-full"
                     type="text"
@@ -112,7 +189,6 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Email</label>
                 <CustomInput
-                    disabled={disabledForm}
                     error={!!errors.email}
                     className="w-full"
                     type="text"
@@ -127,7 +203,6 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Phone</label>
                 <CustomInput
-                    disabled={disabledForm}
                     error={!!errors.phone}
                     className="w-full"
                     type="text"
@@ -143,7 +218,6 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
                 <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-3">Address</label>
                     <CustomInput
-                        disabled={disabledForm}
                         error={!!errors.address}
                         className="w-full"
                         type="text"
@@ -157,7 +231,7 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-8"> </label>
-                    <FormControl fullWidth disabled={disabledForm}>
+                    <FormControl fullWidth>
                         <InputLabel id="input-province">Province</InputLabel>
                         <Select
                             error={!!errors.province}
@@ -169,7 +243,7 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
                             onChange={handleChangeProvince}
                             renderValue={(selected) => {
                                 if (selected === "" || selected === null || selected === undefined) {
-                                    return <em style={{ opacity: "50%" }}>Select your Province</em>;
+                                    return <em style={{opacity: "50%"}}>Select your Province</em>;
                                 }
 
                                 return selected;
@@ -192,7 +266,6 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
                 <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-3">Job Position</label>
                     <Select
-                        disabled={disabledForm}
                         displayEmpty
                         error={!!errors.jobPosition}
                         className="w-full"
@@ -201,7 +274,7 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
                         onChange={handleChangeJobPosition}
                         renderValue={(selected) => {
                             if (selected === "" || selected === null || selected === undefined) {
-                                return <em style={{ opacity: "50%" }}>Select your Job Position</em>;
+                                return <em style={{opacity: "50%"}}>Select your Job Position</em>;
                             }
 
                             return selected;
@@ -220,7 +293,6 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-3 mt-4 md:mt-0">Year Experience</label>
                     <CustomInput
-                        disabled={disabledForm}
                         error={!!errors.yearExperience}
                         className="w-full"
                         type="number"
@@ -235,13 +307,13 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
             </div>
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Skills</label>
-                <SelectMulti listData={skills} data={formData.skills} textPlaceholder="Enter Your Skills" disabled={disabledForm} formData={formData} setFormData={setFormData}/>
+                <SelectMulti listData={skills} data={formData.skills} textPlaceholder="Enter Your Skills"
+                             formData={formData} setFormData={setFormData}/>
             </div>
 
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Link Github : </label>
                 <CustomInput
-                    disabled={disabledForm}
                     error={!!errors.socialNetwork1}
                     className="w-full"
                     type="text"
@@ -257,7 +329,6 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Link Linkedin : </label>
                 <CustomInput
-                    disabled={disabledForm}
                     error={!!errors.socialNetwork2}
                     className="w-full"
                     type="text"
@@ -270,17 +341,27 @@ const FormProfile = ({userInfo, disabledForm, setDisabledForm}) => {
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Upload CV : {formData?.coverLetter}</label>
-                {!disabledForm && (
-                    <InputFileUpload name="coverLetter" coverLetter={coverLetter} setCoverLetter={setCoverLetter} />
-                )}
+                <label className="block text-sm font-medium text-gray-700 mb-3"
+                >Upload CV :
+                    <a className="text-primary cursor-pointer ml-1"
+                       href={formData?.coverLetter != null ? FilesUrl + formData?.coverLetter : ""}
+                       download target="_blank"
+                    > {formData?.coverLetter}</a>
+                </label>
+                <InputFileUpload name="coverLetter" coverLetter={coverLetter} setCoverLetter={setCoverLetter}/>
             </div>
 
-            {!disabledForm && (
-                <CustomLoadingButton variant="contained" type="submit" className="w-full" loading={loading}>
-                    Save
-                </CustomLoadingButton>
-            )}
+            <CustomLoadingButton variant="contained" type="submit" className="w-full" loading={loading}>
+                Save
+            </CustomLoadingButton>
+
+            <div className="mt-2">
+                <div
+                    className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
+                    role="alert">
+                    {errorString}
+                </div>
+            </div>
         </form>
     );
 }

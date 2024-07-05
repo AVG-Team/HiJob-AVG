@@ -17,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +40,8 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     private FileService fileService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User findByEmail(String email) {
@@ -46,26 +49,30 @@ public class UserServiceImp implements UserService {
                 .orElse(null);
     }
 
+    private User getUserCurrentService() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
+        return customUserDetail.getUser();
+    }
+
     @Override
     public ProfileResponse getUserCurrent() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
-
-            User user = customUserDetail.getUser();
-            return new ProfileResponse(user);
+        User user = getUserCurrentService();
+        if (user == null) {
+            return null;
         }
 
-        return null;
+        return new ProfileResponse(user);
     }
 
     @Override
     public MessageResponse updateStatus(boolean status) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
+        User user = getUserCurrentService();
 
-            User user = customUserDetail.getUser();
+        if (user != null) {
             user.setJobStatus(status);
             userRepository.save(user);
             return MessageResponse
@@ -87,15 +94,14 @@ public class UserServiceImp implements UserService {
         if (file.isEmpty()) {
             return FileUploadResponse.builder().message("Please select a file!").type(HttpStatus.BAD_REQUEST).build();
         }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
+
+        User user = getUserCurrentService();
+        if(user == null) {
             return FileUploadResponse.builder()
                     .message("You are not authorized to upload file Avatar!")
                     .type(HttpStatus.UNAUTHORIZED)
                     .build();
         }
-        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
-        User user = customUserDetail.getUser();
 
         String fileName = fileService.savaFileStatic(file, "avatar");
         if (fileName != null) {
@@ -116,15 +122,14 @@ public class UserServiceImp implements UserService {
 
     @Override
     public MessageResponse updateProfile(UpdateProfileRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
+        User user = getUserCurrentService();
+        if (user == null) {
             return MessageResponse.builder()
                     .message("You are not authorized to upload file Avatar!")
                     .type(HttpStatus.UNAUTHORIZED)
                     .build();
         }
-        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
-        User user = customUserDetail.getUser();
+
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
@@ -150,5 +155,30 @@ public class UserServiceImp implements UserService {
                     .type(HttpStatus.BAD_REQUEST)
                     .build();
         }
+    }
+
+    @Override
+    public MessageResponse changePassword(String oldPassword, String newPassword) {
+        User user = getUserCurrentService();
+        if (user == null) {
+            return MessageResponse.builder()
+                    .message("You are not authorized to change password!")
+                    .type(HttpStatus.UNAUTHORIZED)
+                    .build();
+        }
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            return MessageResponse.builder()
+                    .message("Old password is incorrect")
+                    .type(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return MessageResponse.builder()
+                .message("Password changed successfully")
+                .type(HttpStatus.OK)
+                .build();
     }
 }

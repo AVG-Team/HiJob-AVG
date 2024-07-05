@@ -6,11 +6,12 @@ import RightProfile from "./components/RightProfile.jsx";
 import {toast} from "react-toastify";
 import {profile} from "../../services/apis/profile.js";
 import {useNavigate} from "react-router-dom";
+import ChangePassword from "./components/ChangePassword.jsx";
 
 export default function Profile(props) {
     const navigate = useNavigate();
-    const [disabledForm, setDisabledForm] = useState(true);
     const [userInfo, setUserInfo] = useState({});
+    const [tabEdit, setTabEdit] = useState(true)
     const title = props.title;
     useEffect(() => {
         document.title = title ? `${title}` : "Page Does Not Exist";
@@ -38,10 +39,14 @@ export default function Profile(props) {
                     <div className="lg:py-4 pt-4 lg:col-span-2">
                         {userInfo.email ? (
                             <>
-                                <UserInfo userInfoContent={userInfo} disabledForm={disabledForm} setDisabledForm={setDisabledForm} />
+                                <UserInfo userInfoContent={userInfo} tabEdit={tabEdit} setTabEdit={setTabEdit}/>
                                 <div className="flex items-center justify-center mt-5 px-2">
                                     <div className="w-full p-6 bg-white rounded shadow-lg lg:rounded-lg">
-                                        <FormProfile userInfo={userInfo} disabledForm={disabledForm} setDisabledForm={setDisabledForm} />
+                                        {tabEdit ? (
+                                            <FormProfile userInfo={userInfo}/>
+                                        ) : (
+                                            <ChangePassword />
+                                        )}
                                     </div>
                                 </div>
                             </>

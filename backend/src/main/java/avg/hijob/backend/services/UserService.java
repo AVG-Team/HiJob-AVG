@@ -13,4 +13,5 @@ public interface UserService {
     MessageResponse updateStatus(boolean status);
     FileUploadResponse updateAvatar(MultipartFile file);
     MessageResponse updateProfile(UpdateProfileRequest request);
+    MessageResponse changePassword(String oldPassword, String newPassword);
 }
