@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { AboutJob, Benefits, Requirements, Responsibilities } from "../../../mocks/detail";
+import PropTypes from "prop-types";
 
-export default function Detail() {
+export default function Detail({ job }) {
+    // Add PropTypes validation for the 'job' prop
+    Detail.propTypes = {
+        job: PropTypes.object.isRequired,
+    };
     const [tab, setTab] = useState(0);
 
     const handleTab = (index) => {
@@ -35,40 +39,24 @@ export default function Detail() {
                     <div className="w-full mx-auto space-y-6 text-gray-600">
                         <div className="flex-1">
                             <div className="flex items-center justify-start pt-2 pb-3 border-b">
-                                {AboutJob.map((item) => (
-                                    <p key={item.id} className="text-sm lg:text-md">
-                                        {item.content}
-                                    </p>
-                                ))}
+                                <p className="text-sm lg:text-md">{job.description}</p>
                             </div>
                             <div className="flex-1 pt-2 pb-3 border-b">
                                 <h2 className="mb-4 text-lg font-bold sm:text-xl">Trách nhiệm công việc</h2>
                                 <ul className="list-disc list-inside">
-                                    {Responsibilities.map((item) => (
-                                        <li key={item.id} className="mb-2 ml-5 text-sm lg:text-md">
-                                            {item.content}
-                                        </li>
-                                    ))}
+                                    <li className="mb-2 ml-5 text-sm lg:text-md">{job.responsibilities}</li>
                                 </ul>
                             </div>
                             <div className="flex-1 pt-2 pb-3 border-b">
                                 <h2 className="mb-4 text-lg font-bold sm:text-xl">Kĩ nằng & Chuyên môn</h2>
                                 <ul className="list-disc list-inside">
-                                    {Requirements.map((item) => (
-                                        <li key={item.id} className="mb-2 ml-5 text-sm lg:text-md">
-                                            {item.content}
-                                        </li>
-                                    ))}
+                                    <li className="mb-2 ml-5 text-sm lg:text-md">{job.requirements}</li>
                                 </ul>
                             </div>
                             <div className="flex-1 pt-2 pb-3 border-b">
                                 <h2 className="mb-4 text-lg font-bold sm:text-xl">Phúc lợi cho bạn</h2>
                                 <ul className="list-disc list-inside">
-                                    {Benefits.map((item) => (
-                                        <li key={item.id} className="mb-2 ml-5 text-sm lg:text-md">
-                                            {item.content}
-                                        </li>
-                                    ))}
+                                    <li className="mb-2 ml-5 text-sm lg:text-md">{job.benefits}</li>
                                 </ul>
                             </div>
                         </div>

@@ -30,5 +30,10 @@ public interface CompanyRepository extends JpaRepository<Company,String> {
             "WHERE c.user.id = ?1 and c.deletedAt is null")
     ResponseCompany getCompanyByUserId(String id);
 
+    @Query("SELECT new avg.hijob.backend.responses.ResponseCompany(c.id,c.name,c.taxCode,c.field,c.address,c.province,c.registration_certificate,c.about,c.linkGoogleMap,c.user.id,c.createdAt,c.updatedAt,c.deletedAt) " +
+            "FROM Company c " +
+            "WHERE c.deletedAt is null")
+    List<ResponseCompany> getTop5Company();
+
 
 }

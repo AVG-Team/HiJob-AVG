@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -56,6 +57,15 @@ public class CompanyServiceImpl implements CompanyService {
         }else{
             throw new NotFoundException("Company not found", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    public List<ResponseCompany> getTop5Companies() {
+        Pageable pageable = PageRequest.of(0,5);
+        if(companyRepository.findAll().isEmpty()){
+            throw new NotFoundException("No companies found", HttpStatus.NOT_FOUND);
+        }
+        return companyRepository.getTop5Company();
     }
 
     @Override
