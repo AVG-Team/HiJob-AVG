@@ -3,6 +3,7 @@ package avg.hijob.backend.services.impl;
 import avg.hijob.backend.entities.CustomUserDetail;
 import avg.hijob.backend.entities.User;
 import avg.hijob.backend.repositories.UserRepository;
+import avg.hijob.backend.requests.user.UpdateProfileRequest;
 import avg.hijob.backend.responses.FileUploadResponse;
 import avg.hijob.backend.responses.MessageResponse;
 import avg.hijob.backend.responses.ProfileResponse;
@@ -90,7 +91,7 @@ public class UserServiceImp implements UserService {
         if (authentication == null || !authentication.isAuthenticated()) {
             return FileUploadResponse.builder()
                     .message("You are not authorized to upload file Avatar!")
-                    .type(HttpStatus.BAD_REQUEST)
+                    .type(HttpStatus.UNAUTHORIZED)
                     .build();
         }
         CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
@@ -107,6 +108,44 @@ public class UserServiceImp implements UserService {
                     .build();
         } else {
             return FileUploadResponse.builder()
+                    .message("Error Upload File Please Try Again")
+                    .type(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+    }
+
+    @Override
+    public MessageResponse updateProfile(UpdateProfileRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return MessageResponse.builder()
+                    .message("You are not authorized to upload file Avatar!")
+                    .type(HttpStatus.UNAUTHORIZED)
+                    .build();
+        }
+        CustomUserDetail customUserDetail = (CustomUserDetail) authentication.getPrincipal();
+        User user = customUserDetail.getUser();
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        user.setAddress(request.getAddress());
+        user.setProvince(request.getProvince());
+        user.setJobPosition(request.getJobPosition());
+        user.setYearExperience(request.getYearExperience());
+        user.setSkills(request.getSkills());
+        user.setSocialNetwork1(request.getSocialNetwork1());
+        user.setSocialNetwork2(request.getSocialNetwork2());
+
+        String fileName = fileService.savaFileStatic(request.getCoverLetter(), "files");
+        if (fileName != null) {
+            user.setCoverLetter(fileName);
+            userRepository.save(user);
+            return MessageResponse.builder()
+                    .message("Upload Profile Successfully")
+                    .type(HttpStatus.OK)
+                    .build();
+        } else {
+            return MessageResponse.builder()
                     .message("Error Upload File Please Try Again")
                     .type(HttpStatus.BAD_REQUEST)
                     .build();
