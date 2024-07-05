@@ -4,7 +4,7 @@ import {DotLottieReact} from "@lottiefiles/dotlottie-react";
 import {register as registerAxios} from "../../../services/apis/auth.js";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
-import {validateEmail, validatePassword} from "../Validate/validate.js";
+import {validateEmail, validatePassword} from "../../../services/validate/validate.js";
 import TitleForm from "../Components/TitleForm.jsx";
 import AuthForm from "../Components/AuthForm.jsx";
 import Oauth2 from "../Components/Oauth2.jsx";

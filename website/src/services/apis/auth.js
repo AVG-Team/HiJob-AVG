@@ -26,6 +26,24 @@ export const authenticate = async (authenticateRequest) => {
     }
 };
 
+export const authenticateAdmin = async (authenticateRequest) => {
+    try {
+        const url = "auth/authenticate";
+        const response = await axiosClient.post(url, authenticateRequest);
+
+        const { access_token, name, role } = response.data;
+        if (role !== "ADMIN") {
+            throw new Error("You are not an admin");
+        }
+        setToken(access_token, name, role);
+
+        return response;
+    } catch (error) {
+        console.error("Authenticate: ", error);
+        throw error;
+    }
+};
+
 export const getCurrentUser = async (request) => {
     try {
         const url = "auth/get-current-user";

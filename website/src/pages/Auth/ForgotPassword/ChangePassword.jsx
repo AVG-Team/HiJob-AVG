@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {CustomLoadingButton} from "../../../components/Forms/Button/customColor.jsx";
 import {changePassword, forgotPassword} from "../../../services/apis/auth.js";
 import {toast} from "react-toastify";
-import {validatePassword} from "../Validate/validate.js";
+import {validatePassword} from "../../../services/validate/validate.js";
 import PasswordField from "../../../components/Forms/Inputs/customPasswordColor.jsx";
 import TitleForm from "../Components/TitleForm.jsx";
 import AuthForm from "../Components/AuthForm.jsx";

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {DotLottieReact} from "@lottiefiles/dotlottie-react";
-import {authenticate} from "../../../services/apis/auth.js";
+import {authenticate} from "~/services/apis/auth.js";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
-import {validateEmail, validatePassword} from "../Validate/validate.js";
+import {validateEmail, validatePassword} from "../../../services/validate/validate.js";
 import Oauth2 from "../Components/Oauth2.jsx"
 import TitleForm from "../Components/TitleForm.jsx";
 import AuthForm from "../Components/AuthForm.jsx";

@@ -9,6 +9,13 @@ const ColorButton = styled(Button)({
     },
 });
 
+const ColorButtonGray = styled(Button)({
+    backgroundColor: '#d1d5db',
+    '&:hover': {
+        backgroundColor: '#9ca3af',
+    },
+});
+
 const ColorButtonLoading = styled(LoadingButton)({
     backgroundColor: '#00a9ff',
     '&:hover': {
@@ -19,6 +26,10 @@ const ColorButtonLoading = styled(LoadingButton)({
 // eslint-disable-next-line react/prop-types
 function CustomButton({ children, ...props }) {
     return <ColorButton {...props}>{children}</ColorButton>;
+}
+
+export function CustomButtonGray({ children, ...props }) {
+    return <ColorButtonGray {...props}>{children}</ColorButtonGray>;
 }
 
 // eslint-disable-next-line react/prop-types

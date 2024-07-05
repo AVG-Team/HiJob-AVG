@@ -1,9 +1,7 @@
 package avg.hijob.backend.services.impl;
 
-import avg.hijob.backend.entities.Job;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.JobRepository;
-import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.responses.ResponseJob;
 import avg.hijob.backend.services.JobService;
 import lombok.RequiredArgsConstructor;
