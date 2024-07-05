@@ -50,9 +50,16 @@ public class UserController {
 
     @PostMapping("/update-profile")
     public ResponseEntity<?> updateProfile(@ModelAttribute UpdateProfileRequest request) {
-        System.out.println("!23");
         System.out.println("request: " + request.getCoverLetter());
         MessageResponse response = userService.updateProfile(request);
+        return ResponseHandler.responseBuilder(response.getMessage(), response.getType());
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody Map<String, String> request) {
+        String oldPassword = request.get("oldPassword");
+        String newPassword = request.get("newPassword");
+        MessageResponse response = userService.changePassword(oldPassword, newPassword);
         return ResponseHandler.responseBuilder(response.getMessage(), response.getType());
     }
 }

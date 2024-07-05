@@ -28,7 +28,7 @@ const PasswordVisibilityToggle = ({ showPassword, onClick }) => (
 
 function PasswordField({
                            // eslint-disable-next-line react/prop-types
-                           label = "Password",
+                           label,
                            name = "password",
                            id = "password",
                            autoComplete = "current-password",

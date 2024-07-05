@@ -6,7 +6,7 @@ import {updateAvatar} from "../../../services/apis/profile.js";
 import {toast} from "react-toastify";
 import {AvatarUrl} from "../../../services/key/url.js";
 
-const UserInfo = ({userInfoContent, disabledForm, setDisabledForm}) => {
+const UserInfo = ({userInfoContent, tabEdit, setTabEdit}) => {
     const [userInfo, setUserInfo] = useState({})
     const [skills, setSkills] = useState([])
     const fileInputRef = useRef(null);
@@ -88,11 +88,15 @@ const UserInfo = ({userInfoContent, disabledForm, setDisabledForm}) => {
 
                             <p className="text-sm text-primary mr-2 bg-gray-100 p-1 cursor-pointer">...</p>
                         </div>
-                        <div className="flex mt-4 justify-center sm:mr-28 md:mr-24 mr-0">
+                        <div className="mt-4">
                             <CustomButton variant="contained" type="submit"
-                                          className={`!py-2 !px-4 ${!disabledForm ? '!hidden' : ''}`}
-                                          onClick={() => {setDisabledForm(false)}}
+                                          className={`!py-2 !px-4 !mr-4 ${tabEdit && "!bg-gray-500 !cursor-not-allowed"}`}
+                                          onClick={() => setTabEdit(true)}
                             >Edit Profile</CustomButton>
+                            <CustomButton variant="contained" type="submit"
+                                          className={`!py-2 !px-4 ${!tabEdit && "!bg-gray-500 !cursor-not-allowed"}`}
+                                          onClick={() => setTabEdit(false)}
+                            >Change Password</CustomButton>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import {skills as skillData} from "../../../mocks/data.js";
 import {useTheme} from "@mui/material/styles";
 import {useEffect, useState} from "react";
 
-const SelectMulti = ({listData, data, textPlaceholder, formData, setFormData , disabled = true}) => {
+const SelectMulti = ({listData, data, textPlaceholder, formData, setFormData , disabled = false}) => {
     const [valueArr, setValueArr] = useState([])
 
     useEffect(() => {

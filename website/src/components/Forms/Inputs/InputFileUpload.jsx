@@ -21,16 +21,12 @@ const InputFileUpload = ({ name, coverLetter, setCoverLetter }) => {
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-            console.log("file : " + selectedFile)
-            console.log("selected file : " + selectedFile.name)
             setFileName(selectedFile.name);
             setCoverLetter(selectedFile);
         }
     };
 
     useEffect(() => {
-        console.log("coverLetter : " + coverLetter)
-        console.log("setCoverLetter : " + coverLetter.name)
     }, [coverLetter]);
 
     const handleRemoveFile = () => {
