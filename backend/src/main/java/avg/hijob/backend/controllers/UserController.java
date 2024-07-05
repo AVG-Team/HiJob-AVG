@@ -52,7 +52,7 @@ public class UserController {
     public ResponseEntity<?> updateProfile(@ModelAttribute UpdateProfileRequest request) {
         System.out.println("!23");
         System.out.println("request: " + request.getCoverLetter());
-//        MessageResponse response = userService.updateProfile(request);
-        return ResponseHandler.responseOk("Update Profile", "");
+        MessageResponse response = userService.updateProfile(request);
+        return ResponseHandler.responseBuilder(response.getMessage(), response.getType());
     }
 }

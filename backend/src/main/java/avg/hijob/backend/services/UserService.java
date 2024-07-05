@@ -1,6 +1,7 @@
 package avg.hijob.backend.services;
 
 import avg.hijob.backend.entities.User;
+import avg.hijob.backend.requests.user.UpdateProfileRequest;
 import avg.hijob.backend.responses.FileUploadResponse;
 import avg.hijob.backend.responses.MessageResponse;
 import avg.hijob.backend.responses.ProfileResponse;
@@ -11,4 +12,5 @@ public interface UserService {
     ProfileResponse getUserCurrent();
     MessageResponse updateStatus(boolean status);
     FileUploadResponse updateAvatar(MultipartFile file);
+    MessageResponse updateProfile(UpdateProfileRequest request);
 }
