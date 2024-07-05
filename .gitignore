@@ -25,4 +25,5 @@ replay_pid*
 website/.env
 backend/src/main/resources/.env
 /node_modules
-/backend/src/main/resources/static
+/backend/src/main/resources/static/**
+/backend/src/main/resources/static/
