@@ -30,6 +30,7 @@ public class FileService {
             byte[] bytes = file.getBytes();
             String fileName = System.currentTimeMillis() + "." + getFileExtension(file.getOriginalFilename());
             Path path = Paths.get(folderPath + File.separator + fileName);
+            System.out.println(path);
             Files.write(path, bytes);
 
             return fileName;

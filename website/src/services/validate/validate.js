@@ -63,6 +63,18 @@ export const validateJobPosition = (jobPosition) => {
     }
 }
 
+// Hàm validate number
+export const validateNumber = (number) => {
+    const numberString = String(number).trim();
+    if (!numberString.trim()) {
+        return "Number is required";
+    } else if (isNaN(number)) {
+        return "Number must be a number";
+    } else {
+        return "";
+    }
+}
+
 // Hàm validate skills
 export const validateSkills = (skills, skillsList) => {
     const skillArray = skills.split(",").map(skill => skill.trim());
@@ -80,6 +92,16 @@ export const validateLink = (link) => {
         return "Link is required";
     } else if (!/^https?:\/\/(?:www\.)?github\.com\/\S*$/.test(link) && !/^https?:\/\/(?:www\.)?linkedin\.com\/\S*$/.test(link)) {
         return "Invalid link format";
+    } else {
+        return "";
+    }
+}
+
+export const validateFile = (file) => {
+    if (!file) {
+        return "File is required";
+    } else if (file.size > 10 * 1024 * 1024) {
+        return "File size must be smaller than 10MB";
     } else {
         return "";
     }

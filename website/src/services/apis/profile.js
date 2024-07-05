@@ -33,3 +33,8 @@ export const updateUserInfo = (userInfo) => {
         },
     });
 }
+
+export const changePassword = (passwordRequest) => {
+    const url = "user/change-password";
+    return axiosClient.post(url, passwordRequest);
+}
