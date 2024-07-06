@@ -95,11 +95,13 @@ public class OAuth2Service extends DefaultOAuth2UserService {
         Role role = roleRepository.findById(1)
                 .orElse(roleRepository.findFirstByOrderByIdAsc());
 
-        String password = passwordEncoder.encode("AVG_" + new Random().nextInt(1000) + "_HIJOB");
+        String password = "AVG_" + new Random().nextInt(1000) + "_HIJOB";
+
+        String passwordEnc = passwordEncoder.encode(password);
         User userRegister = new User();
         userRegister.setActive(true);
         userRegister.setEmail(email);
-        userRegister.setPassword(password);
+        userRegister.setPassword(passwordEnc);
         userRegister.setRole(role);
         userRepository.save(userRegister);
 
