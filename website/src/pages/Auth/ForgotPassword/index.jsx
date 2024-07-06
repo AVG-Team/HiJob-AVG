@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {CustomLoadingButton} from "../../../components/Forms/Button/customColor.jsx";
 import {forgotPassword} from "../../../services/apis/auth.js";
 import {toast} from "react-toastify";
-import {validateEmail} from "../Validate/validate.js";
+import {validateEmail} from "../../../services/validate/validate.js";
 import TitleForm from "../Components/TitleForm.jsx";
 import {GoogleReCaptchaProvider} from "react-google-recaptcha-v3";
 import AuthForm from "../Components/AuthForm.jsx";
@@ -23,7 +23,7 @@ export default function ForgotPassword(props) {
     const title = props.title;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        document.title = title ? `${title}` : "Page Does Not Exist";
+        document.title = title ? `${title}` : "Trang không tồn tại";
     }, [title]);
 
     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;

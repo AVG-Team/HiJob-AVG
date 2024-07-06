@@ -1,7 +1,7 @@
 package avg.hijob.backend.controllers;
 
 import avg.hijob.backend.enums.AuthenticationResponseEnum;
-import avg.hijob.backend.request.auth.*;
+import avg.hijob.backend.requests.auth.*;
 import avg.hijob.backend.responses.*;
 import avg.hijob.backend.services.AuthenticationService;
 import avg.hijob.backend.services.ReCaptchaService;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
+@ResponseBody
 public class AuthController {
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     private final AuthenticationService authService;

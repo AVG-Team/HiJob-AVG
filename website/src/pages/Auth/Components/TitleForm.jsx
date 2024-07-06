@@ -7,19 +7,19 @@ export default function TitleForm({type}) {
     let btnExcept = "";
     let href = "";
     if (type === "login") {
-        title = "Sign in to your account";
-        titleExcept = "You don't have an account?";
-        btnExcept = "Register here";
+        title = "Đăng nhập vào tài khoản của bạn";
+        titleExcept = "Bạn chưa có tài khoản?";
+        btnExcept = "Đăng ký ngay";
         href = "/register";
     } else if (type === "register") {
-        title = "Sign up to your account";
-        titleExcept = "You have an account?";
-        btnExcept = "Login here";
+        title = "Đăng ký tài khoản";
+        titleExcept = "Bạn đã có tài khoản?";
+        btnExcept = "Đăng nhập ngay";
         href = "/login";
     } else if (type === "forgotPassword" || type === "changePassword") {
-        title = "Forgot Password";
-        titleExcept = "If you already remember your account ?";
-        btnExcept = "Login here";
+        title = "Quên mật khẩu";
+        titleExcept = "Bạn đã nhớ tài khoản?";
+        btnExcept = "Đăng nhập ngay";
         href = "/login";
     }
 

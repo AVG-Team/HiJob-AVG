@@ -5,7 +5,8 @@ import {jwtDecode} from "jwt-decode";
 export const getUserInfo = () => {
     const name = localStorage.getItem(StorageKeys.USER_NAME);
     const role = localStorage.getItem(StorageKeys.USER_ROLE);
-    return { name, role };
+    const token = Cookies.get(StorageKeys.ACCESS_TOKEN);
+    return { name, role, token };
 };
 
 export const checkAuth = () => {

@@ -18,7 +18,7 @@ export default function Notify(props) {
     // eslint-disable-next-line react/prop-types
     const title = props.title;
     useEffect(() => {
-        document.title = title ? `${title}` : "Page Does Not Exist";
+        document.title = title ? `${title}` : "Trang không tồn tại";
 
         const urlParams = new URLSearchParams(window.location.search);
         const typeParam = urlParams.get('type');
@@ -28,20 +28,19 @@ export default function Notify(props) {
 
     useEffect(() => {
         if (type === "verifyEmailSuccess") {
-            setMessage("Your account has been successfully verified. You can now login to your account.");
-            console.log("1234")
+            setMessage("Tài khoản của bạn đã được xác minh. Bạn có thể đăng nhập vào tài khoản của mình ngay bây giờ.");
             handleCheckVerify().then(r => console.log(r));
         } else if(type === "verifyEmail") {
-            setMessage("An email has been sent to your email address. Please check your email to verify your account.");
+            setMessage("Một email đã được gửi đến địa chỉ email của bạn. Vui lòng kiểm tra email để xác minh tài khoản của bạn.");
         } else if (type === "forgotPassword") {
-            setMessage("An email has been sent to your email address. Please check your email to reset your password.");
+            setMessage("Một email đã được gửi đến địa chỉ email của bạn. Vui lòng kiểm tra email của bạn để đặt lại mật khẩu.");
         }
     }, [type, token]);
 
     const handleCheckVerify = async() => {
         if (!token || !token.startsWith("AVG_") || !token.endsWith("_HIJOB")) {
             console.log("in function")
-            const messageToast = "Invalid token. Please try again.";
+            const messageToast = "Mã không hợp lệ. Vui lòng thử lại.";
             toast.error(messageToast, {
                 // onClose: () => navigate('/'),
                 autoClose: 2000,
@@ -84,13 +83,13 @@ export default function Notify(props) {
                             alt="HI JOB"
                         />
                         <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                            Notification
+                            Thông báo
                         </h2>
                         <p className="mt-2 text-sm leading-6 text-gray-500">
                             {/* eslint-disable-next-line react/no-unescaped-entities */}
-                            Thank you for using our service. Thank you for your trust in us.{" "}
+                            Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng tôi.{" "}
                             <a href="/" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                Visit our homepage
+                                Trang chủ
                             </a>
                         </p>
                     </div>

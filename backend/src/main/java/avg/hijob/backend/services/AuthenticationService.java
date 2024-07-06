@@ -1,8 +1,7 @@
 package avg.hijob.backend.services;
 
-import avg.hijob.backend.request.auth.AuthenticationRequest;
-import avg.hijob.backend.request.auth.ChangePasswordRequest;
-import avg.hijob.backend.request.auth.RegisterRequest;
+import avg.hijob.backend.requests.auth.AuthenticationRequest;
+import avg.hijob.backend.requests.auth.RegisterRequest;
 import avg.hijob.backend.responses.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
