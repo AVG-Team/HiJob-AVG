@@ -8,17 +8,17 @@ export default function TitleForm({type}) {
     let href = "";
     if (type === "login") {
         title = "Đăng nhập vào tài khoản của bạn";
-        titleExcept = "Chưa có tài khoản?";
+        titleExcept = "Bạn chưa có tài khoản?";
         btnExcept = "Đăng ký ngay";
         href = "/register";
     } else if (type === "register") {
         title = "Đăng ký tài khoản";
-        titleExcept = "Đã có tài khoản?";
+        titleExcept = "Bạn đã có tài khoản?";
         btnExcept = "Đăng nhập ngay";
         href = "/login";
     } else if (type === "forgotPassword" || type === "changePassword") {
         title = "Quên mật khẩu";
-        titleExcept = "Đã nhớ tài khoản?";
+        titleExcept = "Bạn đã nhớ tài khoản?";
         btnExcept = "Đăng nhập ngay";
         href = "/login";
     }
