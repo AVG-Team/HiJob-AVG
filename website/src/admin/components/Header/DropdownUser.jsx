@@ -10,7 +10,7 @@ export default function DropdownUser () {
         <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
             <Link
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-4"
+                className="flex items-center gap-4 group"
                 to="#"
             >
         <span className="hidden text-right lg:block">
@@ -21,11 +21,11 @@ export default function DropdownUser () {
         </span>
 
                 <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+          <img src={UserOne} alt="User"/>
         </span>
 
                 <svg
-                    className="hidden fill-current sm:block"
+                    className="hidden fill-current sm:block group-hover:text-primary"
                     width="12"
                     height="8"
                     viewBox="0 0 12 8"

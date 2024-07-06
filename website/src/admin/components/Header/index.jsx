@@ -79,11 +79,6 @@ const Header = ({sidebarOpen, setSidebarOpen}) => {
                                     ),
                                 }}
                             />
-                            {/*<input*/}
-                            {/*    type="text"*/}
-                            {/*    placeholder="Type to search..."*/}
-                            {/*    className=" bg-transparent pl-9 pr-4 text-black focus:outline-none xl:w-125"*/}
-                            {/*/>*/}
                         </div>
                     </form>
                 </div>

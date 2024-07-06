@@ -32,6 +32,7 @@ export default {
                     900: "#8e361b",
                     1000: "#762d16",
                 },
+                'meta-1': '#DC3545',
             },
             boxShadow: {
                 default: '0px 8px 13px -3px rgba(0, 0, 0, 0.07)',

@@ -18,7 +18,6 @@ export default function DropdownNotification() {
             <li>
                 <Link
                     onClick={ handleClick }
-
                     to="#"
                     className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary"
                 >
