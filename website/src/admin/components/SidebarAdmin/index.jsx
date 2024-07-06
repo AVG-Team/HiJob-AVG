@@ -1,20 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from "prop-types";
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
-import Logo from '../../images/logo/logo.svg';
-
-SidebarAdmin.propTypes = {
-    sidebarOpen: PropTypes.bool.isRequired,
-    setSidebarOpen: PropTypes.func.isRequired
-}
+import Logo from '../../../assets/img/HIJOB.png';
 
 export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
     const location = useLocation();
     const { pathname } = location;
 
-    const trigger = useRef<HTMLButtonElement | null>(null); // Định nghĩa kiểu cho trigger
-    const sidebar = useRef<HTMLDivElement | null>(null);
+    const trigger = useRef(null)
+    const sidebar = useRef(null)
 
     const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
     const [sidebarExpanded, setSidebarExpanded] = useState(
@@ -59,14 +53,14 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
     return (
         <aside
             ref={sidebar}
-            className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear lg:static lg:translate-x-0 ${
+            className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-[#1c2434] text-white duration-300 ease-linear lg:static lg:translate-x-0 ${
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
         >
             {/* <!-- SIDEBAR HEADER --> */}
             <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-                <NavLink to="/">
-                    <img src={Logo} alt="Logo" />
+                <NavLink to="/" className="flex justify-center">
+                    <img src={Logo} alt="Logo" className="w-[80%]" />
                 </NavLink>
 
                 <button
@@ -74,7 +68,7 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                     onClick={() => setSidebarOpen(!sidebarOpen)}
                     aria-controls="sidebar"
                     aria-expanded={sidebarOpen}
-                    className="block lg:hidden"
+                    className="block lg:hidden opacity-50 hover:opacity-100 transition-opacity"
                 >
                     <svg
                         className="fill-current"

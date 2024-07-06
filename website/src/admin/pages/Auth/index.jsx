@@ -1,8 +1,8 @@
 import FormInput from "~/pages/Auth/Components/FormInput.jsx";
 import React, { useEffect, useState } from "react";
-import { validateEmail, validatePassword } from "~/pages/Auth/Validate/validate.js";
+import { validateEmail, validatePassword } from "../../../services/validate/validate.js";
 import { toast } from "react-toastify";
-import { authenticate } from "~/services/apis/auth.js";
+import { authenticate } from "../../../services/auth/auth.js";
 import { useNavigate } from "react-router-dom";
 import { GoogleReCaptcha, GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import ShowError from "~/pages/Auth/Components/ShowError.jsx";

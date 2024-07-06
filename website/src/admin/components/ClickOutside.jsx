@@ -1,27 +1,14 @@
-import React, { useRef, useEffect } from 'react';
-import PropTypes from "prop-types";
+import React, {useEffect} from 'react';
 
-ClickOutside.propTypes = {
-    children: React.ReactNode,
-    exceptionRef: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired,
-    className: PropTypes.string.isRequired
-}
-
-export default function ClickOutside({
-                                         children,
-                                         exceptionRef,
-                                         onClick,
-                                         className,
-                                     }) {
+export default function ClickOutside({ children, exceptionRef, onClick, className }) {
     useEffect(() => {
         const handleClickListener = (event) => {
             if (
                 !exceptionRef?.current?.contains(event.target) &&
-            !exceptionRef?.current?.isSameNode(event.target) &&
-            !exceptionRef?.current?.contains(event.target) &&
-            !event.target.closest(`.${className}`)
-        ) {
+                !exceptionRef?.current?.isSameNode(event.target) &&
+                !exceptionRef?.current?.contains(event.target) &&
+                !event.target.closest(`.${className}`)
+            ) {
                 onClick();
             }
         };

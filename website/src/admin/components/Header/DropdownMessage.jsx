@@ -10,7 +10,6 @@ import UserFour from '../../images/user/user-04.png';
 export default function DropdownMessage() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [notifying, setNotifying] = useState(true);
-
     return (
         <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
             <li className="relative">
@@ -57,7 +56,7 @@ export default function DropdownMessage() {
                     </svg>
                 </Link>
 
-                {/* <!-- Dropdown Start --> */}
+                {/* <!-- Dropdown Start -->*/}
                 {dropdownOpen && (
                     <div
                         className={`absolute -right-16 mt-2.5 flex h-90 w-75 flex-col rounded-sm border border-stroke bg-white shadow-default sm:right-0 sm:w-80`}

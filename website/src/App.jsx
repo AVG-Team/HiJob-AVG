@@ -3,12 +3,14 @@ import loadable from "@loadable/component";
 import AuthLayout from "./layouts/AuthLayout";
 import BasicLayout from "./layouts/BasicLayout";
 import LayoutNotSearch from "./layouts/LayoutNotSearch";
-import BlankLayout from "~/layouts/Admin/BlankLayout.jsx";
 import { CircularProgress } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import AuthRoute from "./components/Route/AuthRoute.jsx";
+// Layout Admin
+import BlankLayout from "./admin/layouts/BlankLayout";
+import LayoutAdmin from "./admin/layouts/LayoutAdmin";
 
 const Home = loadable(() => import("./pages/Home"));
 const Register = loadable(() => import("./pages/Auth/Register"));
@@ -28,7 +30,8 @@ const Profile = loadable(() => import("./pages/Profile"));
 const AboutUs = loadable(() => import("./pages/AboutUs"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
 // ADMIN ROUTE
-const LoginAdmin = loadable(() => import("./pages/Admin/Auth"));
+const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
+const ECommerce = loadable(() => import("./admin/pages/Dashboard/ECommerce.jsx"));
 
 function App() {
     useEffect(() => {
@@ -186,6 +189,16 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress/>}>
                                 <LoginAdmin title="Login Admin"/>
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <ECommerce title="Admin" />
                             </Suspense>
                         }
                     />

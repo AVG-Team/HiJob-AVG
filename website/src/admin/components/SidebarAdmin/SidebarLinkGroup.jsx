@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 export default function SidebarLinkGroup({ children, activeCondition }) {
     const [open, setOpen] = useState(activeCondition);
@@ -10,8 +9,3 @@ export default function SidebarLinkGroup({ children, activeCondition }) {
 
     return <li>{children(handleClick, open)}</li>;
 }
-
-SidebarLinkGroup.propTypes = {
-    children: PropTypes.func.isRequired,
-    activeCondition: PropTypes.bool.isRequired,
-};
