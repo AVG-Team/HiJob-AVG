@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 export default function Breadcrumb({ pageName }) {
@@ -12,8 +11,8 @@ export default function Breadcrumb({ pageName }) {
             <nav>
                 <ol className="flex items-center gap-2">
                     <li>
-                        <Link className="font-medium" to="/">
-                            Dashboard /
+                        <Link className="font-medium" to="/admin">
+                            Home /
                         </Link>
                     </li>
                     <li className="font-medium text-primary">{pageName}</li>
@@ -22,7 +21,3 @@ export default function Breadcrumb({ pageName }) {
         </div>
     );
 }
-
-Breadcrumb.propTypes = {
-    pageName: PropTypes.string.isRequired,
-};
