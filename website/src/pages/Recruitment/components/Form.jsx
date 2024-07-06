@@ -1,11 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { MultiSelect } from "react-multi-select-component";
-import jobApi from "../../../services/apis/jobApi";
-import jobTypeApi from "../../../services/apis/jobTypeApi";
-import jobLevelApi from "../../../services/apis/jobLevelApi";
-import contractTypeApi from "../../../services/apis/contractTypeApi";
-import jobSkillApi from "../../../services/apis/jobSkillApi";
+// import jobApi from "../../../services/apis/jobApi";
+// import jobTypeApi from "../../../services/apis/jobTypeApi";
+// import jobLevelApi from "../../../services/apis/jobLevelApi";
+// import contractTypeApi from "../../../services/apis/contractTypeApi";
+// import jobSkillApi from "../../../services/apis/jobSkillApi";
 
 Form.propTypes = {
     levels: PropTypes.array.isRequired,
@@ -16,21 +16,21 @@ Form.propTypes = {
 
 export default function Form({ levels, types, contracts, skills }) {
     const [selected, setSelected] = useState([]);
-    const [job, setJob] = useState({});
-    const [jobType, setJobType] = useState({});
-    const [jobLevel, setJobLevel] = useState({});
-    const [contractType, setContractType] = useState({});
-    const [jobSkill, setJobSkill] = useState({});
+    // const [job, setJob] = useState({});
+    // const [jobType, setJobType] = useState({});
+    // const [jobLevel, setJobLevel] = useState({});
+    // const [contractType, setContractType] = useState({});
+    // const [jobSkill, setJobSkill] = useState({});
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await jobApi.createJob(job);
-            console.log(response.data);
-        } catch (error) {
-            console.log("Failed to create job: ", error);
-        }
-    };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         const response = await jobApi.createJob(job);
+    //         console.log(response.data);
+    //     } catch (error) {
+    //         console.log("Failed to create job: ", error);
+    //     }
+    // };
     return (
         <div className="w-full bg-white rounded-lg shadow-lg ">
             <div className="flex items-center justify-center p-4 border-b">

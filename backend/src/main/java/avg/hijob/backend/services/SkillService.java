@@ -1,8 +1,6 @@
 package avg.hijob.backend.services;
 
 import avg.hijob.backend.responses.ResponseSkill;
-import avg.hijob.backend.entities.Skill;
-import avg.hijob.backend.responses.SkillResponse;
 
 import java.util.List;
 
