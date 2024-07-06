@@ -64,8 +64,6 @@ export default function JobDetail(props) {
                     if (role === "USER") {
                         setIsUser(true);
                     }
-
-                    // const userResponse = await u;
                 }
             } catch (error) {
                 console.log("Failed to fetch job detail: ", error);
