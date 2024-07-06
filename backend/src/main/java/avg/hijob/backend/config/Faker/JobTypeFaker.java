@@ -15,11 +15,14 @@ public class JobTypeFaker implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        JobTypeEnum[] jobTypeEnums = JobTypeEnum.values();
-        for(JobTypeEnum jobTypeEnum : jobTypeEnums){
-            JobType jobType = new JobType();
-            jobType.setName(jobTypeEnum.name());
-            jobTypeRepository.save(jobType);
+        if(jobTypeRepository.findAll().isEmpty()){
+            JobTypeEnum[] jobTypeEnums = JobTypeEnum.values();
+            for(JobTypeEnum jobTypeEnum : jobTypeEnums){
+                JobType jobType = new JobType();
+                jobType.setName(jobTypeEnum.name());
+                jobTypeRepository.save(jobType);
+            }
         }
+
     }
 }

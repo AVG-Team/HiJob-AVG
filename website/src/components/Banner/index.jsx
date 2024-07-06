@@ -32,7 +32,7 @@ export default function Banner() {
                                 />
                             </div>
                             <div className="flex items-center justify-center col-span-1">
-                                <button className="py-3 font-bold text-white uppercase rounded-lg shadow-lg px-9 bg-primary lg:mx-0 hover:bg-primary-600 hover:shadow-lg">
+                                <button className="px-8 py-3 font-bold text-white uppercase rounded-lg shadow-lg bg-primary lg:mx-0 hover:bg-primary-600 hover:shadow-lg">
                                     tìm việc
                                 </button>
                             </div>

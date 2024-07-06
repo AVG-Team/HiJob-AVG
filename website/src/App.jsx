@@ -9,18 +9,19 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 const Home = loadable(() => import("./pages/Home"));
+const Login = loadable(() => import("./pages/Auth/Login"));
+const ManageCV = loadable(() => import("./pages/ManageCV"));
+const Notify = loadable(() => import("./pages/Auth/Notify"));
+const Logout = loadable(() => import("./pages/Auth/Logout"));
+const JobDetail = loadable(() => import("./pages/JobDetail"));
+const ManageJob = loadable(() => import("./pages/ManageJob"));
+const Confirm = loadable(() => import("./pages/Auth/Confirm"));
+const JobApplied = loadable(() => import("./pages/JobApplied"));
 const Register = loadable(() => import("./pages/Auth/Register"));
+const Recruitment = loadable(() => import("./pages/Recruitment"));
+const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
 const ChangePassword = loadable(() => import("./pages/Auth/ForgotPassword/ChangePassword"));
-const Notify = loadable(() => import("./pages/Auth/Notify"));
-const Confirm = loadable(() => import("./pages/Auth/Confirm"));
-const Logout = loadable(() => import("./pages/Auth/Logout"));
-const Login = loadable(() => import("./pages/Auth/Login"));
-const JobDetail = loadable(() => import("./pages/JobDetail"));
-const JobApplied = loadable(() => import("./pages/JobApplied"));
-const JobFollowing = loadable(() => import("./pages/JobFollowing"));
-const ManageCV = loadable(() => import("./pages/ManageCV"));
-const ManageJob = loadable(() => import("./pages/ManageJob"));
 
 function App() {
     useEffect(() => {
@@ -129,6 +130,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <Confirm title="Redirect..." />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/tuyen-dung"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <Recruitment title="Tuyển dụng" />
                             </Suspense>
                         }
                     />

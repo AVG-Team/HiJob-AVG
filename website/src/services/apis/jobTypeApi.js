@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const jobTypeApi = {
     getAllTypeByJobId(jobId) {
-        const url = `/type/${jobId}`;
+        const url = `/jobTypeDetail/${jobId}`;
         return axiosClient.get(url, { jobId });
     },
 };

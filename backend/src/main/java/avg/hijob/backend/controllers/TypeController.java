@@ -1,7 +1,7 @@
 package avg.hijob.backend.controllers;
 
 import avg.hijob.backend.responses.ResponseHandler;
-import avg.hijob.backend.services.ContractTypeService;
+import avg.hijob.backend.services.JobTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/contract-type")
+@RequestMapping("/api/type")
 @RequiredArgsConstructor
-public class ContractTypeController {
+public class TypeController {
 
     @Autowired
-    private final ContractTypeService ContractTypeService;
+    private final JobTypeService jobTypeService;
 
     @GetMapping("")
-    public ResponseEntity<Object> findAllContractTypes() {
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,ContractTypeService.findAllContractTypes());
+    public ResponseEntity<Object> findAllJobTypes() {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobTypeService.findAllJobTypes());
     }
+
 }
