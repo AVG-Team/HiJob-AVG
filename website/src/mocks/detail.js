@@ -78,4 +78,11 @@ const AboutCompany = [
             "OPES Insurance is a leading insurance company in Vietnam, with a focus on providing comprehensive insurance solutions to customers. We are committed to providing the best products and services to our customers, and we are looking for talented individuals to join our team.",
     },
 ];
+export const AboutUs = [
+    {
+        id: 1,
+        content:
+            "FPT Software là công ty thành viên thuộc Tập đoàn FPT. Được thành lập từ năm 1999, FPT Software hiện là công ty chuyên cung cấp các dịch vụ và giải pháp phần mềm cho các khách hàng quốc tế, với hơn 28000 nhân viên, hiện diện tại 27 quốc gia trên toàn cầu. Nhiều năm liền, FPT Software được bình chọn là Nhà Tuyển dụng được yêu thích nhất và nằm trong TOP các công ty có môi trường làm việc tốt nhất Việt Nam."
+    }
+];
 export { Responsibilities, Requirements, Benefits, AboutCompany, AboutJob };

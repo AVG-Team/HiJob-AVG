@@ -50,7 +50,8 @@ public class SecurityConfig {
             "/api-docs",
             "/swagger",
             "/webjars/**",
-            "/swagger-ui/**"};
+            "/swagger-ui.html"
+    };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -75,8 +76,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
+                                .requestMatchers("/avatar/**").permitAll()
+                                .requestMatchers("/file/**").permitAll()
+                                .requestMatchers("/api/admin/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/employee/**").hasAnyRole("EMPLOYEE", "ADMIN")
+                                .requestMatchers("/api/user/profile").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
                                 .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/**").permitAll()
                                 .anyRequest()

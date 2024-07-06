@@ -24,3 +24,6 @@ hs_err_pid*
 replay_pid*
 website/.env
 backend/src/main/resources/.env
+/node_modules
+/backend/src/main/resources/static/avatar/
+/backend/src/main/resources/static/files/

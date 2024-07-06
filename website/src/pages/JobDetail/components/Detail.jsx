@@ -48,7 +48,7 @@ export default function Detail({ job }) {
                                 </ul>
                             </div>
                             <div className="flex-1 pt-2 pb-3 border-b">
-                                <h2 className="mb-4 text-lg font-bold sm:text-xl">Kĩ nằng & Chuyên môn</h2>
+                                <h2 className="mb-4 text-lg font-bold sm:text-xl">Kĩ năng & Chuyên môn</h2>
                                 <ul className="list-disc list-inside">
                                     <li className="mb-2 ml-5 text-sm lg:text-md">{job.requirements}</li>
                                 </ul>

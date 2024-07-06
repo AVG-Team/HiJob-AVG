@@ -29,7 +29,6 @@ export default function Notify(props) {
     useEffect(() => {
         if (type === "verifyEmailSuccess") {
             setMessage("Your account has been successfully verified. You can now login to your account.");
-            console.log("1234")
             handleCheckVerify().then(r => console.log(r));
         } else if(type === "verifyEmail") {
             setMessage("An email has been sent to your email address. Please check your email to verify your account.");
