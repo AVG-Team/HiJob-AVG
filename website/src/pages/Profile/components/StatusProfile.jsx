@@ -12,13 +12,13 @@ export default function StatusProfile({status}) {
 
     useEffect(() => {
         if (statusData === true) {
-            setTitle("You are in job search mode !!!");
-            setDescription("Do you want to refuse employers looking for you?");
-            setBtnTexts("Turn off Looking for a job status");
+            setTitle("Bạn đang ở trạng thái Tìm việc !!!");
+            setDescription("Bạn có muốn từ chối những nhà tuyển dụng đang tìm kiếm bạn?");
+            setBtnTexts("Tắt trạng thái Tìm việc");
         } else {
-            setTitle("Ready for new opportunities?");
-            setDescription("Allow employers to search and view your CV.");
-            setBtnTexts("Turn on Looking for a job status");
+            setTitle("Sẵn sàng cho những cơ hội mới?");
+            setDescription("Cho phép nhà tuyển dụng tìm kiếm và xem CV của bạn.");
+            setBtnTexts("Bật trạng thái Tìm việc");
         }
     }, [statusData]);
 
