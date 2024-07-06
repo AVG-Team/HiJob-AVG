@@ -16,7 +16,7 @@ const LogoutPage = () => {
 
     return (
         <div>
-            <p>Logout</p>
+            <p>Đăng xuất</p>
         </div>
     );
 };

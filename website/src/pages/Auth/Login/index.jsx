@@ -19,7 +19,7 @@ export default function Login(props) {
 
     const title = props.title;
     useEffect(() => {
-        document.title = title ? `${title}` : "Page Does Not Exist";
+        document.title = title ? `${title}` : "Trang không tồn tại";
     }, [title]);
 
     async function handleSubmit(e) {

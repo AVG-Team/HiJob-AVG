@@ -14,15 +14,15 @@ const AuthForm = ({ handleSubmit, email, setEmail, password, setPassword, rePass
     let btnText = "";
 
     if (type === "login") {
-        btnText = "Sign In";
+        btnText = "Đăng nhập";
     } else if (type === "register") {
-        btnText = "Sign Up";
+        btnText = "Đăng ký";
     } else if (type === "forgotPassword") {
-        btnText = "Forgot Password";
+        btnText = "Xác nhận";
     } else if (type === "changePassword") {
-        btnText = "Change Password";
+        btnText = "Đổi mật khẩu";
     } else {
-        btnText = "Submit";
+        btnText = "Xác nhận";
     }
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -41,7 +41,7 @@ const AuthForm = ({ handleSubmit, email, setEmail, password, setPassword, rePass
             )}
             {password !== undefined && (
                 <FormInput
-                    label="Password"
+                    label="Mật khẩu"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -50,7 +50,7 @@ const AuthForm = ({ handleSubmit, email, setEmail, password, setPassword, rePass
             )}
             {showRePassword && rePassword !== undefined && password !== undefined &&(
                 <FormInput
-                    label="Re-Password"
+                    label="Nhập lại mật khẩu"
                     type="password"
                     value={rePassword}
                     onChange={(e) => setRePassword(e.target.value)}
@@ -61,10 +61,10 @@ const AuthForm = ({ handleSubmit, email, setEmail, password, setPassword, rePass
                 <div className="flex items-center justify-between">
                     <FormControlLabel
                         control={<Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} />}
-                        label="Remember me"
+                        label="Ghi nhớ tài khoản"
                     />
                     <a href="/forgot-password" className="font-semibold hover:text-primary">
-                        Forgot password?
+                        Quên mật khẩu?
                     </a>
                 </div>
             )}

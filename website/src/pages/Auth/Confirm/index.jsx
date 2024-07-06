@@ -14,7 +14,7 @@ export default function Notify(props) {
     // eslint-disable-next-line react/prop-types
     const title = props.title;
     useEffect(() => {
-        document.title = title ? `${title}` : "Page Does Not Exist";
+        document.title = title ? `${title}` : "Trang không tồn tại";
 
         const urlParams = new URLSearchParams(window.location.search);
         setToken(urlParams.get('token'));

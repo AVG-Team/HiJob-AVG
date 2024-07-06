@@ -173,7 +173,7 @@ const FormProfile = ({userInfo}) => {
     return (
         <form method="post" onSubmit={handleSubmit}>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Full Name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-3">Họ và tên</label>
                 <CustomInput
                     error={!!errors.fullName}
                     className="w-full"
@@ -182,7 +182,7 @@ const FormProfile = ({userInfo}) => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    placeholder="Enter your Full Name"
+                    placeholder="Nhập họ và tên"
                     required
                 />
             </div>
@@ -196,12 +196,12 @@ const FormProfile = ({userInfo}) => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="Enter your email"
+                    placeholder="Nhập email"
                     required
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Phone</label>
+                <label className="block text-sm font-medium text-gray-700 mb-3">Số điện thoại</label>
                 <CustomInput
                     error={!!errors.phone}
                     className="w-full"
@@ -210,13 +210,13 @@ const FormProfile = ({userInfo}) => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="Enter your phone"
+                    placeholder="Nhập số điện thoại"
                     required
                 />
             </div>
             <div className="mb-4 md:grid md:grid-cols-3 gap-x-5">
                 <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">Address</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Địa chỉ</label>
                     <CustomInput
                         error={!!errors.address}
                         className="w-full"
@@ -225,14 +225,14 @@ const FormProfile = ({userInfo}) => {
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
-                        placeholder="Enter your address"
+                        placeholder="Nhập địa chỉ"
                         required
                     />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-8"> </label>
                     <FormControl fullWidth>
-                        <InputLabel id="input-province">Province</InputLabel>
+                        <InputLabel id="input-province">Tỉnh thành</InputLabel>
                         <Select
                             error={!!errors.province}
                             className="w-full"
@@ -243,14 +243,14 @@ const FormProfile = ({userInfo}) => {
                             onChange={handleChangeProvince}
                             renderValue={(selected) => {
                                 if (selected === "" || selected === null || selected === undefined) {
-                                    return <em style={{opacity: "50%"}}>Select your Province</em>;
+                                    return <em style={{opacity: "50%"}}>Chọn tỉnh thành</em>;
                                 }
 
                                 return selected;
                             }}
                         >
                             <MenuItem disabled value="">
-                                <em>Select your Province</em>
+                                <em>Chọn tỉnh thành</em>
                             </MenuItem>
                             {provinces.map((province) => (
                                 <MenuItem key={province.idProvince} value={province.name}>
@@ -264,7 +264,7 @@ const FormProfile = ({userInfo}) => {
 
             <div className="mb-4 md:grid md:grid-cols-3 gap-x-5">
                 <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">Job Position</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Vị trí công việc</label>
                     <Select
                         displayEmpty
                         error={!!errors.jobPosition}
@@ -274,14 +274,14 @@ const FormProfile = ({userInfo}) => {
                         onChange={handleChangeJobPosition}
                         renderValue={(selected) => {
                             if (selected === "" || selected === null || selected === undefined) {
-                                return <em style={{opacity: "50%"}}>Select your Job Position</em>;
+                                return <em style={{opacity: "50%"}}>Chọn vị trí công việc</em>;
                             }
 
                             return selected;
                         }}
                     >
                         <MenuItem disabled value="">
-                            <em>Select your Job Position</em>
+                            <em>Chọn vị trí công việc</em>
                         </MenuItem>
                         {jobPositionsList.map((job) => (
                             <MenuItem key={job} value={job}>
@@ -291,7 +291,7 @@ const FormProfile = ({userInfo}) => {
                     </Select>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3 mt-4 md:mt-0">Year Experience</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-3 mt-4 md:mt-0">Số năm kinh nghiệm</label>
                     <CustomInput
                         error={!!errors.yearExperience}
                         className="w-full"
@@ -300,19 +300,19 @@ const FormProfile = ({userInfo}) => {
                         name="yearExperience"
                         value={formData.yearExperience}
                         onChange={handleChange}
-                        placeholder="Enter your Year Experience"
+                        placeholder="Nhập số năm kinh nghiệm"
                         required
                     />
                 </div>
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Skills</label>
-                <SelectMulti listData={skills} data={formData.skills} textPlaceholder="Enter Your Skills"
+                <label className="block text-sm font-medium text-gray-700 mb-3">Kỹ năng</label>
+                <SelectMulti listData={skills} data={formData.skills} textPlaceholder="Nhập kỹ năng"
                              formData={formData} setFormData={setFormData}/>
             </div>
 
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Link Github : </label>
+                <label className="block text-sm font-medium text-gray-700 mb-3">Đường dẫn Github : </label>
                 <CustomInput
                     error={!!errors.socialNetwork1}
                     className="w-full"
@@ -321,13 +321,13 @@ const FormProfile = ({userInfo}) => {
                     name="socialNetwork1"
                     value={formData.socialNetwork1}
                     onChange={handleChange}
-                    placeholder="Enter your link github"
+                    placeholder="Nhập đường dẫn Github"
 
                 />
             </div>
 
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Link Linkedin : </label>
+                <label className="block text-sm font-medium text-gray-700 mb-3">Đường dẫn Linkedin : </label>
                 <CustomInput
                     error={!!errors.socialNetwork2}
                     className="w-full"
@@ -336,13 +336,13 @@ const FormProfile = ({userInfo}) => {
                     name="socialNetwork2"
                     value={formData.socialNetwork2}
                     onChange={handleChange}
-                    placeholder="Enter your linkedin"
+                    placeholder="Nhập đường dẫn Linkedin"
 
                 />
             </div>
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3"
-                >Upload CV :
+                >Tải CV :
                     <a className="text-primary cursor-pointer ml-1"
                        href={formData?.coverLetter != null ? FilesUrl + formData?.coverLetter : ""}
                        download target="_blank"
@@ -352,7 +352,7 @@ const FormProfile = ({userInfo}) => {
             </div>
 
             <CustomLoadingButton variant="contained" type="submit" className="w-full" loading={loading}>
-                Save
+                Lưu
             </CustomLoadingButton>
 
             <div className="mt-2">
