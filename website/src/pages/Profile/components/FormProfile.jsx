@@ -307,12 +307,12 @@ const FormProfile = ({userInfo}) => {
             </div>
             <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-3">Kỹ năng</label>
-                <SelectMulti listData={skills} data={formData.skills} textPlaceholder="Nhập kỹ năng"
+                <SelectMulti listData={skills} data={formData.skills} textPlaceholder="Nhập kỹ năng của bạn"
                              formData={formData} setFormData={setFormData}/>
             </div>
 
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Đường dẫn Github : </label>
+                <label className="block text-sm font-medium text-gray-700 mb-3">Link Github : </label>
                 <CustomInput
                     error={!!errors.socialNetwork1}
                     className="w-full"
@@ -321,13 +321,13 @@ const FormProfile = ({userInfo}) => {
                     name="socialNetwork1"
                     value={formData.socialNetwork1}
                     onChange={handleChange}
-                    placeholder="Nhập đường dẫn Github"
+                    placeholder="Nhập link Github"
 
                 />
             </div>
 
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Đường dẫn Linkedin : </label>
+                <label className="block text-sm font-medium text-gray-700 mb-3">Link Linkedin : </label>
                 <CustomInput
                     error={!!errors.socialNetwork2}
                     className="w-full"
@@ -336,7 +336,7 @@ const FormProfile = ({userInfo}) => {
                     name="socialNetwork2"
                     value={formData.socialNetwork2}
                     onChange={handleChange}
-                    placeholder="Nhập đường dẫn Linkedin"
+                    placeholder="Nhập link Linkedin"
 
                 />
             </div>

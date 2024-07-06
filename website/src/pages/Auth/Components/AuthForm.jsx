@@ -61,7 +61,7 @@ const AuthForm = ({ handleSubmit, email, setEmail, password, setPassword, rePass
                 <div className="flex items-center justify-between">
                     <FormControlLabel
                         control={<Checkbox checked={remember} onChange={(e) => setRemember(e.target.checked)} />}
-                        label="Ghi nhớ tài khoản"
+                        label="Ghi nhớ đăng nhập"
                     />
                     <a href="/forgot-password" className="font-semibold hover:text-primary">
                         Quên mật khẩu?
