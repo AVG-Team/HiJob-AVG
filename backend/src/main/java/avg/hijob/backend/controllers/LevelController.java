@@ -1,25 +1,26 @@
 package avg.hijob.backend.controllers;
 
 import avg.hijob.backend.responses.ResponseHandler;
-import avg.hijob.backend.services.ContractTypeService;
+import avg.hijob.backend.responses.ResponseLevel;
+import avg.hijob.backend.services.LevelService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api/contract-type")
-@RequiredArgsConstructor
-public class ContractTypeController {
+import java.util.List;
 
-    @Autowired
-    private final ContractTypeService ContractTypeService;
+@RestController
+@RequestMapping("/api/level")
+@RequiredArgsConstructor
+public class LevelController {
+
+    private final LevelService levelService;
 
     @GetMapping("")
-    public ResponseEntity<Object> findAllContractTypes() {
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,ContractTypeService.findAllContractTypes());
+    public ResponseEntity<Object> findAllLevels() {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,levelService.findAllLevels());
     }
 }

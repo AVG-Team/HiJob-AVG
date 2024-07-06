@@ -126,7 +126,7 @@ export default function FeaturedComp() {
                                             className="h-14 w-14"
                                         />
                                         <p className="mt-2 text-lg font-bold text-primary">{company.name}</p>
-                                        <p className="text-sm text-blue-500">{company.about}</p>
+                                        {/* <p className="text-sm text-blue-500">{company.about}</p> */}
                                     </div>
                                 </div>
                             </div>

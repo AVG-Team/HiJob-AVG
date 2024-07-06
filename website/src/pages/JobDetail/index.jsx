@@ -44,22 +44,18 @@ export default function JobDetail(props) {
 
                 // Fetch skill
                 const skillResponse = await jobSkillApi.getAllSkillsByJobId(response.data.id);
-                console.log(skillResponse.data);
                 setSkill(skillResponse.data);
 
                 // Fetch job level
                 const jobResponse = await jobLevelApi.getAllLevelByJobId(response.data.id);
-                console.log(jobResponse.data);
                 setLevel(jobResponse.data);
 
                 // Fetch type
                 const typeResponse = await jobTypeApi.getAllTypeByJobId(response.data.id);
-                console.log(typeResponse.data);
                 setType(typeResponse.data);
 
                 // Fetch contract type
                 const contractTypeResponse = await contractTypeApi.getAllContractTypeByContractId(response.data.id);
-                console.log(contractTypeResponse.data);
                 setContractType(contractTypeResponse.data);
 
                 if (checkAuth()) {
