@@ -1,5 +1,6 @@
 package avg.hijob.backend.responses;
 
+import avg.hijob.backend.entities.User;
 import lombok.*;
 
 import java.security.Timestamp;
@@ -37,4 +38,13 @@ public class ResponseUser {
         this.email = email;
         this.fullName = fullName;
     }
+
+    public ResponseUser(String id, String email, String fullName, String phone) {
+        this.id = id;
+        this.email = email;
+        this.fullName = fullName;
+        this.phone = phone;
+    }
+
+
 }

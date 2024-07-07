@@ -178,10 +178,10 @@ function App() {
                 <Route element={<AuthRoute />}>
                     <Route element={<LayoutNotSearch />}>
                         <Route
-                            path="/profile"
+                            path="/thong-tin-ca-nhan"
                             element={
                                 <Suspense fallback={<CircularProgress />}>
-                                    <Profile title="Profile" />
+                                    <Profile title="Thông Tin Cá Nhân" />
                                 </Suspense>
                             }
                         />

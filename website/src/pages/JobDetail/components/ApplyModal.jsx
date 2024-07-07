@@ -1,20 +1,43 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 import CloseIcon from "@mui/icons-material/Close";
+import recruitmentApi from "../../../services/apis/recruitmentApi";
 
-export default function ApplicationModal({ isOpen, onClose }) {
-    const [fullName, setFullName] = useState();
-    const [email, setEmail] = useState();
-    const [phone, setPhone] = useState();
-    const [selectedCV, setSelectedCV] = useState();
-    const [introduction, setIntroduction] = useState();
+ApplicationModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    currentUser: PropTypes.object,
+    job: PropTypes.object.isRequired,
+    company: PropTypes.object.isRequired,
+};
 
-    ApplicationModal.propTypes = {
-        isOpen: PropTypes.bool.isRequired,
-        onClose: PropTypes.func.isRequired,
+export default function ApplicationModal({ currentUser, job, company, isOpen, onClose }) {
+    const [fullName, setFullName] = useState(currentUser.fullName);
+    const [email, setEmail] = useState(currentUser.email);
+    const [phone, setPhone] = useState(currentUser.phone);
+    const [selectedCV, setSelectedCV] = useState(null);
+    const [introduction, setIntroduction] = useState("");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const data = {
+                userId: currentUser.id,
+                jobId: job.id,
+                status: 1,
+            };
+
+            const response = await recruitmentApi.applyJob(data);
+            toast.success("Ứng tuyển thành công");
+            console.log("Job application response:", response.data);
+            onClose();
+            // Optionally close the modal or show success message
+        } catch (error) {
+            console.log("Failed to apply for job: ", error);
+        }
     };
 
-    useEffect(() => {}, []);
     return (
         <div className={`fixed inset-0 flex items-center justify-center p-4 z-50  ${isOpen ? "" : "hidden"}`}>
             {/* Overlay */}
@@ -24,8 +47,7 @@ export default function ApplicationModal({ isOpen, onClose }) {
             <div className="relative z-50 w-11/12 bg-white rounded-lg shadow-lg md:w-[60%] max-h-screen overflow-y-scroll">
                 <div className="flex items-center justify-between p-4 border-b">
                     <h5 className="text-xl font-bold">
-                        Bạn đang ứng tuyển <span className="text-secondary">Senior Automation Tester</span> tại DEK
-                        TECHNOLOGIES
+                        Bạn đang ứng tuyển <span className="text-secondary">{job.title}</span> tại {company.name}
                     </h5>
                     <button
                         onClick={onClose}
@@ -35,7 +57,7 @@ export default function ApplicationModal({ isOpen, onClose }) {
                     </button>
                 </div>
                 <div className="p-4">
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700" htmlFor="fullName">
                                 Họ và tên
@@ -83,6 +105,7 @@ export default function ApplicationModal({ isOpen, onClose }) {
                                 type="file"
                                 id="cv"
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                onChange={(e) => setSelectedCV(e.target.files[0])}
                             />
                             <div className="mt-2">
                                 <label className="block mb-4 text-sm font-medium text-gray-700">CV hiện tại:</label>

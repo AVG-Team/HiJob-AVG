@@ -1,22 +1,60 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import PropTypes from "prop-types";
+import jobFollowApi from "../../../services/apis/jobFollowApi";
 import Assignment from "../../../assets/img/assignment.json";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
-export default function CompanyInfo({ job, company }) {
+CompanyInfo.propTypes = {
+    job: PropTypes.object.isRequired,
+    company: PropTypes.object.isRequired,
+    currentUser: PropTypes.object.isRequired,
+    isAuth: PropTypes.bool.isRequired,
+};
+
+export default function CompanyInfo({ job, company, currentUser, isAuth }) {
     const [iconFollow, setIconFollow] = useState(false);
 
-    const handleChangeFollow = () => {
-        setIconFollow((prevState) => !prevState);
+    const handleChangeFollow = async () => {
+        try {
+            const jobId = job.id;
+            const userId = currentUser.id;
+
+            if (!iconFollow) {
+                await jobFollowApi.createJobFollow(userId, jobId);
+                console.log("Job followed successfully");
+            } else {
+                await jobFollowApi.deleteJobFollow(userId, jobId);
+                console.log("Job unfollowed successfully");
+            }
+            setIconFollow((prevState) => !prevState);
+        } catch (error) {
+            console.log("Failed to change job follow status: ", error);
+        }
     };
-    CompanyInfo.propTypes = {
-        job: PropTypes.object.isRequired,
-        company: PropTypes.object.isRequired,
-    };
+
+    useEffect(() => {
+        const fetchJobFollowStatus = async () => {
+            try {
+                const jobId = job.id;
+                const userId = currentUser.id;
+                const response = await jobFollowApi.getJobFollowByUserIdAndJobId(userId, jobId);
+
+                setIconFollow(response.data ? true : false);
+                console.log("Fetched job follow status successfully");
+            } catch (error) {
+                console.log("Failed to fetch job follow status: ", error);
+            }
+        };
+
+        if (job.id && currentUser.id) {
+            fetchJobFollowStatus();
+        }
+    }, [job.id, currentUser.id]);
+
     return (
         <div className="flex items-center justify-center w-full pb-3 mt-2 sm:px-6 lg:px-8">
             <div className="w-full max-w-4xl p-6 overflow-hidden bg-white rounded shadow-lg lg:rounded-lg">
@@ -34,9 +72,13 @@ export default function CompanyInfo({ job, company }) {
                             </div>
                             <div className="flex items-center mt-2">
                                 <PaymentsIcon fontSize="small" className="text-gray-200" />
-                                <p className="ml-1 text-sm font-bold sm:text-md text-secondary">
-                                    Đăng nhập để xem mức lương
-                                </p>
+                                {isAuth ? (
+                                    <p className="ml-1 text-sm font-bold sm:text-md text-secondary">{job.salary} VND</p>
+                                ) : (
+                                    <p className="ml-1 text-sm font-bold sm:text-md text-secondary">
+                                        Đăng nhập để xem mức lương
+                                    </p>
+                                )}
                             </div>
                         </div>
                     </div>

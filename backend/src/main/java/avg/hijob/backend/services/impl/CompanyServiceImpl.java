@@ -23,14 +23,13 @@ import java.util.Optional;
 
 
 @Service
-@RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
-    private final CompanyRepository companyRepository;
+    private  CompanyRepository companyRepository;
     @Autowired
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    private final JobRepository jobRepository;
+    private JobRepository jobRepository;
 
 
     @Override

@@ -5,15 +5,16 @@ import avg.hijob.backend.repositories.JobSkillRepository;
 import avg.hijob.backend.responses.ResponseJobSkillDetail;
 import avg.hijob.backend.services.JobSkillDetailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class JobSkillDetailServiceImpl implements JobSkillDetailService {
 
-    private final JobSkillRepository jobSkillRepository;
+    @Autowired
+    private JobSkillRepository jobSkillRepository;
 
     @Override
     public List<ResponseJobSkillDetail> getAllJobSkillsByJobId(String jobId) {

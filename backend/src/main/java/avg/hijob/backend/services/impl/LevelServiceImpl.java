@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class LevelServiceImpl implements LevelService {
 
     @Autowired
-    private final LevelRepository repository;
+    private LevelRepository repository;
 
     @Override
     public List<ResponseLevel> findAllLevels() {

@@ -24,17 +24,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
 
     @Autowired
-    private final JobRepository jobRepository;
+    private JobRepository jobRepository;
 
     @Autowired
-    private final CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
     @Autowired
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo) {
