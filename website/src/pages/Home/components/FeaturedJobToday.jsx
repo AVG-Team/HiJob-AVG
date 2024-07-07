@@ -1,26 +1,61 @@
-import { useState, useEffect } from "react";
-import jobApi from "../../../services/apis/jobApi";
-import jobSkillApi from "../../../services/apis/jobSkillApi";
-import companyApi from "../../../services/apis/companyApi";
 import Slider from "react-slick";
 import PropTypes from "prop-types";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import jobApi from "../../../services/apis/jobApi";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import companyApi from "../../../services/apis/companyApi";
+import jobSkillApi from "../../../services/apis/jobSkillApi";
+import jobFollowApi from "../../../services/apis/jobFollowApi";
+import { profile, getUser } from "../../../services/apis/profile";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
-const JobCard = ({ job, skills, company }) => {
+const JobCard = ({ job, skills, company, currentUser }) => {
     const [iconFollow, setIconFollow] = useState(false);
 
-    const handleBookmarkClick = () => {
-        setIconFollow((prevState) => !prevState);
+    const handleChangeFollow = async () => {
+        try {
+            const jobId = job.id;
+            const userId = currentUser.id;
+
+            if (!iconFollow) {
+                await jobFollowApi.createJobFollow(userId, jobId);
+                console.log("Job followed successfully");
+            } else {
+                await jobFollowApi.deleteJobFollow(userId, jobId);
+                console.log("Job unfollowed successfully");
+            }
+            setIconFollow((prevState) => !prevState);
+        } catch (error) {
+            console.log("Failed to change job follow status: ", error);
+        }
     };
+
+    useEffect(() => {
+        const fetchJobFollowStatus = async () => {
+            try {
+                const jobId = job.id;
+                const userId = currentUser.id;
+                const response = await jobFollowApi.getJobFollowByUserIdAndJobId(userId, jobId);
+
+                setIconFollow(response.data ? true : false);
+                console.log("Fetched job follow status successfully");
+            } catch (error) {
+                console.log("Failed to fetch job follow status: ", error);
+            }
+        };
+
+        if (job.id && currentUser.id) {
+            fetchJobFollowStatus();
+        }
+    }, [job.id, currentUser.id]);
 
     return (
         <div className="h-64 p-5 bg-white rounded-lg shadow-lg md:h-auto hover:shadow-xl hover:bg-slate-200">
             <Link to={`/viec-lam/${job.id}`} className="block w-full h-1/2">
                 <div className="flex items-center justify-between mb-2">
                     <img src={company.about} alt="" className="w-12 h-12 mr-4" />
-                    <button onClick={handleBookmarkClick}>
+                    <button onClick={handleChangeFollow} className="">
                         {iconFollow ? (
                             <BookmarkIcon className="text-primary hover:text-primary-600 hover:shadow-lg" />
                         ) : (
@@ -67,12 +102,16 @@ JobCard.propTypes = {
         name: PropTypes.string.isRequired,
         about: PropTypes.string.isRequired,
     }).isRequired,
+    currentUser: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default function FeaturedJobToday() {
     const [jobs, setJobs] = useState([]);
     const [skills, setSkills] = useState([]);
     const [companies, setCompanies] = useState({});
+    const [userInfo, setUserInfo] = useState({});
     const settings = {
         dots: true,
         infinite: true,
@@ -135,6 +174,10 @@ export default function FeaturedJobToday() {
                     return acc;
                 }, {});
                 setCompanies(companyData);
+
+                const responseProfile = await profile();
+                const responseUser = await getUser(responseProfile.data.email);
+                setUserInfo(responseUser.data);
             } catch (error) {
                 console.error("Error fetching jobs or skills:", error);
             }
@@ -164,6 +207,7 @@ export default function FeaturedJobToday() {
                                             job={job}
                                             skills={skills[job.id] || []}
                                             company={companies[job.companyId] || {}}
+                                            currentUser={userInfo}
                                         />
                                     </div>
                                 ))}

@@ -31,17 +31,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
 
     @Autowired
-    private final JobRepository jobRepository;
+    private JobRepository jobRepository;
 
     @Autowired
-    private final CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
     @Autowired
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo) {

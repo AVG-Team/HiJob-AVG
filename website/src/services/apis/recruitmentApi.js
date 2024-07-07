@@ -5,6 +5,10 @@ const recruitmentApi = {
         const url = "/recruitment/createRecruitment";
         return axiosClient.post(url, data);
     },
+    getRecruitmentByUserIdAndJobId: (jobId, userId) => {
+        const url = `/recruitment/getRecruitmentByJobIdAndUserId/${jobId}/${userId}`;
+        return axiosClient.get(url, { jobId, userId });
+    },
 };
 
 export default recruitmentApi;

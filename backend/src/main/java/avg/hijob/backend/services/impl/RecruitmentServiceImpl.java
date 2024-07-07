@@ -1,30 +1,36 @@
 package avg.hijob.backend.services.impl;
 
 import avg.hijob.backend.entities.Recruitment;
+import avg.hijob.backend.entities.User;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.repositories.RecruitmentRepository;
 import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.requests.RequestRecruitment;
+import avg.hijob.backend.responses.FileUploadResponse;
 import avg.hijob.backend.responses.ResponseRecruitment;
+import avg.hijob.backend.services.FileService;
 import avg.hijob.backend.services.RecruitmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class RecruitmentServiceImpl implements RecruitmentService {
 
     @Autowired
-    private final RecruitmentRepository recruitmentRepository;
+    private RecruitmentRepository recruitmentRepository;
     @Autowired
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    private final JobRepository jobRepository;
+    private JobRepository jobRepository;
+
+    @Autowired
+    private FileService fileService;
 
     @Override
     public List<ResponseRecruitment> getRecruitmentByUserId(String userId) {
@@ -81,5 +87,37 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     @Override
     public ResponseRecruitment deleteRecruitment(String recruitmentId) {
         return null;
+    }
+
+    @Override
+    public FileUploadResponse updateAvatar(MultipartFile file) {
+        if (file.isEmpty()) {
+            return FileUploadResponse.builder().message("Please select a file!").type(HttpStatus.BAD_REQUEST).build();
+        }
+        return null;
+
+//        User user = getUserCurrentService();
+//        if(user == null) {
+//            return FileUploadResponse.builder()
+//                    .message("You are not authorized to upload file Avatar!")
+//                    .type(HttpStatus.UNAUTHORIZED)
+//                    .build();
+//        }
+
+//        String fileName = fileService.savaFileStatic(file, "avatar");
+//        if (fileName != null) {
+//            recruitmentRepository.setAvatar(fileName);
+//            userRepository.save(user);
+//            return FileUploadResponse.builder()
+//                    .message("File uploaded successfully")
+//                    .name(fileName)
+//                    .type(HttpStatus.OK)
+//                    .build();
+//        } else {
+//            return FileUploadResponse.builder()
+//                    .message("Error Upload File Please Try Again")
+//                    .type(HttpStatus.BAD_REQUEST)
+//                    .build();
+//        }
     }
 }

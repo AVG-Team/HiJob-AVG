@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class JobTypeServiceImpl implements JobTypeService {
 
     @Autowired
-    private final JobTypeRepository repository;
+    private JobTypeRepository repository;
 
     @Override
     public List<ResponseJobType> findAllJobTypes() {
