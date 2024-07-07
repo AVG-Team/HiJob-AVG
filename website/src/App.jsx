@@ -31,7 +31,7 @@ const AboutUs = loadable(() => import("./pages/AboutUs"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
 // ADMIN ROUTE
 const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
-const ECommerce = loadable(() => import("./admin/pages/Dashboard/ECommerce.jsx"));
+const ECommerce = loadable(() => import("./admin/pages/Dashboard/Index.jsx"));
 
 function App() {
     useEffect(() => {

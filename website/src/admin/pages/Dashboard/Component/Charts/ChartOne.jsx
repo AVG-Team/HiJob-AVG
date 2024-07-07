@@ -9,7 +9,7 @@ const options = {
     },
     colors: ['#3C50E0', '#80CAEE'],
     chart: {
-        fontFamily: 'Satoshi, sans-serif',
+        fontFamily: 'NotoSans-Regular',
         height: 335,
         type: 'area',
         dropShadow: {
@@ -123,20 +123,20 @@ export default function ChartOne() {
             <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
                 <div className="flex w-full flex-wrap gap-3 sm:gap-5">
                     <div className="flex min-w-47.5">
-            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-primary">
-              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-primary"></span>
+            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-[#3C50E0]">
+              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-[#3C50E0]"></span>
             </span>
                         <div className="w-full">
-                            <p className="font-semibold text-primary">Total Revenue</p>
+                            <p className="font-semibold text-[#3C50E0]">Total Revenue</p>
                             <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
                         </div>
                     </div>
                     <div className="flex min-w-47.5">
-            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-secondary">
-              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-secondary"></span>
+            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-[#80CAEE]">
+              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-[#80CAEE]"></span>
             </span>
                         <div className="w-full">
-                            <p className="font-semibold text-secondary">Total Sales</p>
+                            <p className="font-semibold text-[#80CAEE]">Total Sales</p>
                             <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
                         </div>
                     </div>

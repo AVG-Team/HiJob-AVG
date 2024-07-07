@@ -4,7 +4,7 @@ import ReactApexChart from 'react-apexcharts';
 const options = {
     colors: ['#3C50E0', '#80CAEE'],
     chart: {
-        fontFamily: 'Satoshi, sans-serif',
+        fontFamily: 'NotoSans-Regular',
         type: 'bar',
         height: 335,
         stacked: true,
@@ -46,7 +46,7 @@ const options = {
     legend: {
         position: 'top',
         horizontalAlign: 'left',
-        fontFamily: 'Satoshi',
+        fontFamily: 'NotoSans-Regular',
         fontWeight: 500,
         fontSize: '14px',
         markers: {
@@ -88,11 +88,11 @@ export default function ChartTwo() {
                     </h4>
                 </div>
                 <div>
-                    <div className="relative z-20 inline-block">
+                    <div className="relative z-20 inline-block cursor-pointer">
                         <select
                             name="#"
                             id="#"
-                            className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
+                            className="cursor-pointer relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
                         >
                             <option value="" className=''>This Week</option>
                             <option value="" className=''>Last Week</option>

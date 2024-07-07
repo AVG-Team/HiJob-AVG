@@ -3,7 +3,7 @@ import ReactApexChart from 'react-apexcharts';
 
 const options = {
     chart: {
-        fontFamily: 'Satoshi, sans-serif',
+        fontFamily: 'NotoSans-Regular',
         type: 'donut',
     },
     colors: ['#3C50E0', '#6577F3', '#8FD0EF', '#0FADCF'],
@@ -51,7 +51,7 @@ export default function ChartThree() {
     };
 
     return (
-        <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default xl:col-span-5">
+        <div className="sm:px-7.5 col-span-2 xl:col-span-1 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default">
             <div className="mb-3 justify-between gap-4 sm:flex">
                 <div>
                     <h5 className="text-xl font-semibold text-black">
@@ -63,7 +63,7 @@ export default function ChartThree() {
                         <select
                             name=""
                             id=""
-                            className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
+                            className="relative cursor-pointer z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
                         >
                             <option value="" className="">
                                 Monthly
