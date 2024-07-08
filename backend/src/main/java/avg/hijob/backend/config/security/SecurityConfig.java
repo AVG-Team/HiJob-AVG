@@ -35,9 +35,7 @@ public class SecurityConfig {
 
     private static final String[] WHITE_LIST_URL = {
             "/api/auth/**",
-            "/avatar/**",
-            "/files/**",
-            "/api/skill/all",
+            "/api/jobs/**",
             "api/oauth2/**",
             "oauth2/**",
             "/v2/api-docs",
@@ -83,7 +81,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/employee/**").hasAnyRole("EMPLOYEE", "ADMIN")
                                 .requestMatchers("/api/user/profile").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
-                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+//                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )

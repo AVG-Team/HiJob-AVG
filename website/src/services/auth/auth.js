@@ -1,6 +1,6 @@
-import { StorageKeys } from '../key/keys.js';
+import { StorageKeys } from "../key/keys.js";
 import Cookies from "js-cookie";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export const getUserInfo = () => {
     const name = localStorage.getItem(StorageKeys.USER_NAME);
@@ -11,7 +11,7 @@ export const getUserInfo = () => {
 
 export const checkAuth = () => {
     return !!Cookies.get(StorageKeys.ACCESS_TOKEN);
-}
+};
 
 export const checkAdmin = () => {
     console.log("role: " + localStorage.getItem(StorageKeys.USER_ROLE) === "ADMIN")
@@ -26,4 +26,4 @@ export const setToken = (token, name , role) => {
     Cookies.set(StorageKeys.ACCESS_TOKEN, token, { expires: new Date(expirationTime) });
     localStorage.setItem(StorageKeys.USER_NAME, name);
     localStorage.setItem(StorageKeys.USER_ROLE, role);
-}
+};

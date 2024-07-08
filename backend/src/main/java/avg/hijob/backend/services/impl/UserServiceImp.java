@@ -7,6 +7,7 @@ import avg.hijob.backend.requests.user.UpdateProfileRequest;
 import avg.hijob.backend.responses.FileUploadResponse;
 import avg.hijob.backend.responses.MessageResponse;
 import avg.hijob.backend.responses.UserResponse;
+import avg.hijob.backend.responses.ResponseUser;
 import avg.hijob.backend.services.FileService;
 import avg.hijob.backend.services.UserService;
 import jakarta.servlet.ServletContext;
@@ -41,6 +42,16 @@ public class UserServiceImp implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElse(null);
+    }
+
+    @Override
+    public ResponseUser getCurrentUserByEmail(String email) {
+        User user = findByEmail(email);
+        if (user == null) {
+            return null;
+        }
+
+        return new ResponseUser(user.getId(), user.getEmail(), user.getFullName(),user.getPhone());
     }
 
     private User getUserCurrentService() {
