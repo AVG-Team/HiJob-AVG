@@ -1,39 +1,45 @@
 import CustomInput from "~/components/Forms/Inputs/customColor.jsx";
-import React, {useEffect, useState} from "react";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {provinces as provincesData, jobPositionsList} from "../../../mocks/data.js";
+import React, { useEffect, useState } from "react";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { provinces as provincesData, jobPositionsList } from "../../../mocks/data.js";
 import SelectMulti from "~/components/Forms/Inputs/SelectMulti.jsx";
-import {getAllSkills, updateUserInfo} from "../../../services/apis/profile.js";
+import { getAllSkills, updateUserInfo } from "../../../services/apis/profile.js";
 import { CustomLoadingButton } from "~/components/Forms/Button/customColor.jsx";
 import InputFileUpload from "../../../components/Forms/Inputs/InputFileUpload.jsx";
-import {toast} from "react-toastify";
-import {FilesUrl} from "../../../services/key/url.js";
+import { toast } from "react-toastify";
+import { FilesUrl } from "../../../services/key/url.js";
 import {
     validateAddress,
-    validateEmail, validateFile,
-    validateFullName, validateJobPosition, validateLink, validateNumber,
+    validateEmail,
+    validateFile,
+    validateFullName,
+    validateJobPosition,
+    validateLink,
+    validateNumber,
     validatePassword,
-    validatePhone, validateProvince, validateSkills
+    validatePhone,
+    validateProvince,
+    validateSkills,
 } from "../../../services/validate/validate.js";
 
-const FormProfile = ({userInfo}) => {
+const FormProfile = ({ userInfo }) => {
     const [formData, setFormData] = useState(userInfo);
     const [skills, setSkills] = useState([]);
     let initialFormData = {};
     useEffect(() => {
         getAllSkillsData();
-        initialFormData = {...formData};
+        initialFormData = { ...formData };
     }, []);
     const getAllSkillsData = async () => {
         try {
             const response = await getAllSkills();
-            const skillsData = response.data.map(skill => skill.name);
+            const skillsData = response.data.map((skill) => skill.skillName);
             setSkills(skillsData);
             return response.data;
         } catch (err) {
             console.error("Error fetching server: ", err);
         }
-    }
+    };
 
     if (!userInfo || Object.keys(userInfo).length === 0) {
         return <p>Loading...</p>;
@@ -48,26 +54,26 @@ const FormProfile = ({userInfo}) => {
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
         });
     };
     const handleChangeProvince = (event) => {
-        const value = event.target.value || '';
+        const value = event.target.value || "";
         setSelectedProvince(value);
         setFormData({
             ...formData,
-            province: value
+            province: value,
         });
     };
     const handleChangeJobPosition = (event) => {
-        const value = event.target.value || '';
+        const value = event.target.value || "";
         setSelectedJobPosition(value);
         setFormData({
             ...formData,
-            jobPosition: value
+            jobPosition: value,
         });
     };
 
@@ -134,9 +140,11 @@ const FormProfile = ({userInfo}) => {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length !== 0) {
-            setErrorString(Object.entries(validationErrors)
-                .map(([key, value]) => `${key}: ${value}`)
-                .join('\n'));
+            setErrorString(
+                Object.entries(validationErrors)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join("\n"),
+            );
             return;
         }
 
@@ -148,32 +156,32 @@ const FormProfile = ({userInfo}) => {
             }
         }
         if (coverLetter != null) {
-            console.log("coverLetter : " + coverLetter)
-            console.log("coverLetter : " + coverLetter.name)
+            console.log("coverLetter : " + coverLetter);
+            console.log("coverLetter : " + coverLetter.name);
             formSubmit.append("coverLetter", coverLetter);
         }
 
         for (let pair of formSubmit.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
+            console.log(pair[0] + ", " + pair[1]);
         }
 
         try {
-            console.log(formSubmit)
+            console.log(formSubmit);
             const response = await updateUserInfo(formSubmit);
             toast.success(response.message, {
-                autoClose: 1000
+                autoClose: 1000,
             });
         } catch (error) {
-            console.error('There was an error!', error);
+            console.error("There was an error!", error);
             toast.error(error.message, {
-                autoClose: 1000
+                autoClose: 1000,
             });
         }
     };
     return (
         <form method="post" onSubmit={handleSubmit}>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Full Name</label>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Full Name</label>
                 <CustomInput
                     error={!!errors.fullName}
                     className="w-full"
@@ -187,7 +195,7 @@ const FormProfile = ({userInfo}) => {
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Email</label>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Email</label>
                 <CustomInput
                     error={!!errors.email}
                     className="w-full"
@@ -201,7 +209,7 @@ const FormProfile = ({userInfo}) => {
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Phone</label>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Phone</label>
                 <CustomInput
                     error={!!errors.phone}
                     className="w-full"
@@ -216,7 +224,7 @@ const FormProfile = ({userInfo}) => {
             </div>
             <div className="mb-4 md:grid md:grid-cols-3 gap-x-5">
                 <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">Address</label>
+                    <label className="block mb-3 text-sm font-medium text-gray-700">Address</label>
                     <CustomInput
                         error={!!errors.address}
                         className="w-full"
@@ -230,7 +238,7 @@ const FormProfile = ({userInfo}) => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-8"> </label>
+                    <label className="block mb-8 text-sm font-medium text-gray-700"> </label>
                     <FormControl fullWidth>
                         <InputLabel id="input-province">Province</InputLabel>
                         <Select
@@ -243,7 +251,7 @@ const FormProfile = ({userInfo}) => {
                             onChange={handleChangeProvince}
                             renderValue={(selected) => {
                                 if (selected === "" || selected === null || selected === undefined) {
-                                    return <em style={{opacity: "50%"}}>Select your Province</em>;
+                                    return <em style={{ opacity: "50%" }}>Select your Province</em>;
                                 }
 
                                 return selected;
@@ -264,7 +272,7 @@ const FormProfile = ({userInfo}) => {
 
             <div className="mb-4 md:grid md:grid-cols-3 gap-x-5">
                 <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">Job Position</label>
+                    <label className="block mb-3 text-sm font-medium text-gray-700">Job Position</label>
                     <Select
                         displayEmpty
                         error={!!errors.jobPosition}
@@ -274,7 +282,7 @@ const FormProfile = ({userInfo}) => {
                         onChange={handleChangeJobPosition}
                         renderValue={(selected) => {
                             if (selected === "" || selected === null || selected === undefined) {
-                                return <em style={{opacity: "50%"}}>Select your Job Position</em>;
+                                return <em style={{ opacity: "50%" }}>Select your Job Position</em>;
                             }
 
                             return selected;
@@ -291,7 +299,7 @@ const FormProfile = ({userInfo}) => {
                     </Select>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3 mt-4 md:mt-0">Year Experience</label>
+                    <label className="block mt-4 mb-3 text-sm font-medium text-gray-700 md:mt-0">Year Experience</label>
                     <CustomInput
                         error={!!errors.yearExperience}
                         className="w-full"
@@ -306,13 +314,18 @@ const FormProfile = ({userInfo}) => {
                 </div>
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Skills</label>
-                <SelectMulti listData={skills} data={formData.skills} textPlaceholder="Enter Your Skills"
-                             formData={formData} setFormData={setFormData}/>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Skills</label>
+                <SelectMulti
+                    listData={skills}
+                    data={formData.skills}
+                    textPlaceholder="Enter Your Skills"
+                    formData={formData}
+                    setFormData={setFormData}
+                />
             </div>
 
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Link Github : </label>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Link Github : </label>
                 <CustomInput
                     error={!!errors.socialNetwork1}
                     className="w-full"
@@ -322,12 +335,11 @@ const FormProfile = ({userInfo}) => {
                     value={formData.socialNetwork1}
                     onChange={handleChange}
                     placeholder="Enter your link github"
-
                 />
             </div>
 
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Link Linkedin : </label>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Link Linkedin : </label>
                 <CustomInput
                     error={!!errors.socialNetwork2}
                     className="w-full"
@@ -337,18 +349,22 @@ const FormProfile = ({userInfo}) => {
                     value={formData.socialNetwork2}
                     onChange={handleChange}
                     placeholder="Enter your linkedin"
-
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3"
-                >Upload CV :
-                    <a className="text-primary cursor-pointer ml-1"
-                       href={formData?.coverLetter != null ? FilesUrl + formData?.coverLetter : ""}
-                       download target="_blank"
-                    > {formData?.coverLetter}</a>
+                <label className="block mb-3 text-sm font-medium text-gray-700">
+                    Upload CV :
+                    <a
+                        className="ml-1 cursor-pointer text-primary"
+                        href={formData?.coverLetter != null ? FilesUrl + formData?.coverLetter : ""}
+                        download
+                        target="_blank"
+                    >
+                        {" "}
+                        {formData?.coverLetter}
+                    </a>
                 </label>
-                <InputFileUpload name="coverLetter" coverLetter={coverLetter} setCoverLetter={setCoverLetter}/>
+                <InputFileUpload name="coverLetter" coverLetter={coverLetter} setCoverLetter={setCoverLetter} />
             </div>
 
             <CustomLoadingButton variant="contained" type="submit" className="w-full" loading={loading}>
@@ -356,13 +372,11 @@ const FormProfile = ({userInfo}) => {
             </CustomLoadingButton>
 
             <div className="mt-2">
-                <div
-                    className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
-                    role="alert">
+                <div className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`} role="alert">
                     {errorString}
                 </div>
             </div>
         </form>
     );
-}
+};
 export default FormProfile;
