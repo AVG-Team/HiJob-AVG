@@ -92,11 +92,11 @@ const UserInfo = ({userInfoContent, tabEdit, setTabEdit}) => {
                             <CustomButton variant="contained" type="submit"
                                           className={`!py-2 !px-4 !mr-4 ${tabEdit && "!bg-gray-500 !cursor-not-allowed"}`}
                                           onClick={() => setTabEdit(true)}
-                            >Edit Profile</CustomButton>
+                            >Chỉnh sửa thông tin</CustomButton>
                             <CustomButton variant="contained" type="submit"
                                           className={`!py-2 !px-4 ${!tabEdit && "!bg-gray-500 !cursor-not-allowed"}`}
                                           onClick={() => setTabEdit(false)}
-                            >Change Password</CustomButton>
+                            >Đổi mật khẩu</CustomButton>
                         </div>
                     </div>
                 </div>

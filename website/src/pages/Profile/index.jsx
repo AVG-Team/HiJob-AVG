@@ -17,7 +17,7 @@ export default function Profile(props) {
     const [tabEdit, setTabEdit] = useState(true);
     const title = props.title;
     useEffect(() => {
-        document.title = title ? `${title}` : "Page Does Not Exist";
+        document.title = title ? `${title}` : "Trang không tồn tại";
         getUserInfo();
     }, [title]);
 
