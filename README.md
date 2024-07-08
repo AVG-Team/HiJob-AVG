@@ -86,7 +86,7 @@ Chưa cập nhật
 
 This software uses the following open source packages:
 
-- [Spring Boot]([http://electron.atom.io/](https://spring.io/projects/spring-boot))
+- [Spring Boot](https://spring.io/projects/spring-boot)
 - [Node.js](https://nodejs.org/)
 - [ReactJS](https://react.dev/)
 - [MUI](https://mui.com/)
