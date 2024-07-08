@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function BlankLayout() {
     return Cookies.get(StorageKeys.ACCESS_TOKEN) &&
-    (location.pathname === "/dang-nhap" || location.pathname === "/dang-ky") ? (
+        (location.pathname === "/dang-nhap" || location.pathname === "/dang-ky") ? (
         <Navigate to="/" replace />
     ) : (
         <div className="flex flex-col min-h-screen">

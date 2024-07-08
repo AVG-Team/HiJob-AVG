@@ -16,10 +16,10 @@ const Register = loadable(() => import("./pages/Auth/Register"));
 const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
 const ChangePassword = loadable(() => import("./pages/Auth/ForgotPassword/ChangePassword"));
 const Notify = loadable(() => import("./pages/Auth/Notify"));
-const Confirm = loadable(() => import("./pages/Auth/Confirm"));
 const Logout = loadable(() => import("./pages/Auth/Logout"));
 const Login = loadable(() => import("./pages/Auth/Login"));
 const JobDetail = loadable(() => import("./pages/JobDetail"));
+const Confirm = loadable(() => import("./pages/Auth/Confirm"));
 const JobApplied = loadable(() => import("./pages/JobApplied"));
 const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const ManageCV = loadable(() => import("./pages/ManageCV"));
@@ -28,6 +28,7 @@ const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
 const Profile = loadable(() => import("./pages/Profile"));
 const AboutUs = loadable(() => import("./pages/AboutUs"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
+const Recruitment = loadable(() => import("./pages/Recruitment"));
 // ADMIN ROUTE
 const LoginAdmin = loadable(() => import("./pages/Admin/Auth"));
 
@@ -39,34 +40,34 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<AuthLayout/>}>
-                    <Route path="/logout" element={<Logout/>}/>
-                    <Route path="/admin/logout" element={<Logout/>}/>
+                <Route element={<AuthLayout />}>
+                    <Route path="/logout" element={<Logout />} />
+                    <Route path="/admin/logout" element={<Logout />} />
                 </Route>
-                <Route element={<BasicLayout/>}>
+                <Route element={<BasicLayout />}>
                     <Route
                         index
                         element={
-                            <Suspense fallback={<CircularProgress/>}>
-                                <Home title="HomePage"/>
+                            <Suspense fallback={<CircularProgress />}>
+                                <Home title="HomePage" />
                             </Suspense>
                         }
                     />
                 </Route>
-                <Route element={<LayoutNotSearch/>}>
+                <Route element={<LayoutNotSearch />}>
                     <Route
                         path="/login"
                         element={
-                            <Suspense fallback={<CircularProgress/>}>
-                                <Login title="Login"/>
+                            <Suspense fallback={<CircularProgress />}>
+                                <Login title="Login" />
                             </Suspense>
                         }
                     />
                     <Route
-                        path="/viec-lam"
+                        path="/viec-lam/:id"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <JobDetail title="Job Detail" />
+                                <JobDetail title="Việc Làm Đang Xem" />
                             </Suspense>
                         }
                     />
@@ -105,40 +106,40 @@ function App() {
                     <Route
                         path="/register"
                         element={
-                            <Suspense fallback={<CircularProgress/>}>
-                                <Register title="Register"/>
+                            <Suspense fallback={<CircularProgress />}>
+                                <Register title="Register" />
                             </Suspense>
                         }
                     />
                     <Route
                         path="/forgot-password"
                         element={
-                            <Suspense fallback={<CircularProgress/>}>
-                                <ForgotPassword title="Forgot Password"/>
+                            <Suspense fallback={<CircularProgress />}>
+                                <ForgotPassword title="Forgot Password" />
                             </Suspense>
                         }
                     />
                     <Route
                         path="/change-password"
                         element={
-                            <Suspense fallback={<CircularProgress/>}>
-                                <ChangePassword title="Change Password"/>
+                            <Suspense fallback={<CircularProgress />}>
+                                <ChangePassword title="Change Password" />
                             </Suspense>
                         }
                     />
                     <Route
                         path="/notify"
                         element={
-                            <Suspense fallback={<CircularProgress/>}>
-                                <Notify title="Notification"/>
+                            <Suspense fallback={<CircularProgress />}>
+                                <Notify title="Notification" />
                             </Suspense>
                         }
                     />
                     <Route
                         path="/oauth2/redirect"
                         element={
-                            <Suspense fallback={<CircularProgress/>}>
-                                <Confirm title="Redirect..."/>
+                            <Suspense fallback={<CircularProgress />}>
+                                <Confirm title="Redirect..." />
                             </Suspense>
                         }
                     />
@@ -167,34 +168,34 @@ function App() {
                         }
                     />
                     <Route
-                        path="/privacy-policy"
+                        path="/tuyen-dung"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <PrivacyPolicy title="Chính sách bảo mật" />
+                                <Recruitment title="Tuyển dụng" />
                             </Suspense>
                         }
                     />
                 </Route>
-                <Route element={<AuthRoute/>}>
-                    <Route element={<LayoutNotSearch/>}>
+                <Route element={<AuthRoute />}>
+                    <Route element={<LayoutNotSearch />}>
                         <Route
-                            path="/profile"
+                            path="/thong-tin-ca-nhan"
                             element={
                                 <Suspense fallback={<CircularProgress />}>
-                                    <Profile title="Profile" />
+                                    <Profile title="Thông Tin Cá Nhân" />
                                 </Suspense>
                             }
                         />
                     </Route>
                 </Route>
 
-            {/* ADMIN */}
-                <Route element={<BlankLayout/>}>
+                {/* ADMIN */}
+                <Route element={<BlankLayout />}>
                     <Route
                         path="/admin/login"
                         element={
-                            <Suspense fallback={<CircularProgress/>}>
-                                <LoginAdmin title="Login Admin"/>
+                            <Suspense fallback={<CircularProgress />}>
+                                <LoginAdmin title="Login Admin" />
                             </Suspense>
                         }
                     />

@@ -1,4 +1,13 @@
-export default function AboutJob() {
+import PropTypes from "prop-types";
+
+export default function AboutJob({ job, skill, level, type, contractType }) {
+    AboutJob.propTypes = {
+        job: PropTypes.object.isRequired,
+        skill: PropTypes.array.isRequired,
+        level: PropTypes.array.isRequired,
+        type: PropTypes.array.isRequired,
+        contractType: PropTypes.array.isRequired,
+    };
     return (
         <div className="flex items-center justify-center w-full mt-5">
             <div className="w-full p-6 overflow-hidden bg-white rounded shadow-lg lg:rounded-lg">
@@ -8,25 +17,42 @@ export default function AboutJob() {
                     </div>
                     <div>
                         <p className="mt-2 mb-1 font-bold text-gray-500">Năm kinh nghiệm tối thiểu</p>
-                        <p className="ml-1 text-md">3 năm</p>
+                        <p className="ml-1 text-md">{job.requireOfYear}</p>
                     </div>
                     <div>
                         <p className="mt-2 mb-1 font-bold text-gray-500">Cấp bậc</p>
-                        <p className="ml-1 text-md">Middle, Senior</p>
+                        {level.map((item) => (
+                            <p key={item.id} className="ml-1 text-md">
+                                {item.name}
+                            </p>
+                        ))}
                     </div>
                     <div>
                         <p className="mt-2 mb-1 font-bold text-gray-500">Loại hình</p>
-                        <p className="ml-1 text-md">In Office</p>
+                        {type.map((item) => (
+                            <p key={item.id} className="ml-1 text-md">
+                                {item.name}
+                            </p>
+                        ))}
                     </div>
                     <div>
                         <p className="mt-2 mb-1 font-bold text-gray-500">Loại hợp đồng</p>
-                        <p className="ml-1 text-md">Fulltime</p>
+                        {contractType.map((item) => (
+                            <p key={item.id} className="ml-1 text-md">
+                                {item.name}
+                            </p>
+                        ))}
                     </div>
                     <div>
                         <p className="mt-2 mb-1 font-bold text-gray-500">Các công nghệ sử dụng</p>
-                        <span className="px-2 py-1 mt-1 text-sm text-white rounded-md bg-primary hover:bg-primary-600 hover:shadow-lg">
-                            Java
-                        </span>
+                        {skill.map((item) => (
+                            <span
+                                key={item.id}
+                                className="px-2 py-1 mt-1 ml-2 text-sm text-white rounded-md bg-primary hover:bg-primary-600 hover:shadow-lg"
+                            >
+                                {item.name}
+                            </span>
+                        ))}
                     </div>
                     <div>
                         <p className="mt-2 mb-1 font-bold text-gray-500">Quy trình phỏng vấn</p>
