@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -14,6 +17,7 @@ public class UpdateProfileRequest {
     private String fullName;
     private String email;
     private String phone;
+    private String birthday;
     private String address;
     private String province;
     private String jobPosition;

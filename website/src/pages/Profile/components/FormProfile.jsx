@@ -15,6 +15,8 @@ import {
     validatePassword,
     validatePhone, validateProvince, validateSkills
 } from "../../../services/validate/validate.js";
+import DatePickerValue from "../../../components/Forms/Inputs/InputDate.jsx";
+import dayjs from "dayjs";
 
 const FormProfile = ({userInfo}) => {
     const [formData, setFormData] = useState(userInfo);
@@ -46,6 +48,7 @@ const FormProfile = ({userInfo}) => {
     const [selectedProvince, setSelectedProvince] = useState(userInfo?.province ? userInfo.province : "");
     const [selectedJobPosition, setSelectedJobPosition] = useState(userInfo?.jobPosition ? userInfo.jobPosition : "");
     const [loading, setLoading] = useState(false);
+    const [birthdate, setBirthdate] = useState(formData?.birthday ? dayjs(formData.birthday) : null);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -126,7 +129,7 @@ const FormProfile = ({userInfo}) => {
             if (validationErrors.socialNetwork2 === "") delete validationErrors.socialNetwork2;
         }
 
-        if (coverLetter !== userInfo["coverLetter"]) {
+        if (coverLetter.name !== userInfo["coverLetter"]) {
             validationErrors.coverLetter = validateFile(formData["coverLetter"]);
             if (validationErrors.coverLetter === "") delete validationErrors.coverLetter;
         }
@@ -140,6 +143,10 @@ const FormProfile = ({userInfo}) => {
             return;
         }
 
+        if (birthdate != null && birthdate.format("YYYY-MM-DD") !== userInfo["birthday"]) {
+            formData.birthday = birthdate.format("YYYY-MM-DD");
+        }
+
         // Handle Form
         let formSubmit = new FormData();
         for (const key in formData) {
@@ -147,10 +154,13 @@ const FormProfile = ({userInfo}) => {
                 formSubmit.append(key, formData[key]);
             }
         }
-        if (coverLetter != null) {
+
+        if (coverLetter !== userInfo["coverLetter"]) {
             console.log("coverLetter : " + coverLetter)
             console.log("coverLetter : " + coverLetter.name)
             formSubmit.append("coverLetter", coverLetter);
+        } else {
+            formSubmit.delete("coverLetter");
         }
 
         for (let pair of formSubmit.entries()) {
@@ -158,7 +168,6 @@ const FormProfile = ({userInfo}) => {
         }
 
         try {
-            console.log(formSubmit)
             const response = await updateUserInfo(formSubmit);
             toast.success(response.message, {
                 autoClose: 1000
@@ -213,6 +222,10 @@ const FormProfile = ({userInfo}) => {
                     placeholder="Nhập số điện thoại"
                     required
                 />
+            </div>
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-3">Ngày Sinh</label>
+                <DatePickerValue value={birthdate} setValue={setBirthdate}/>
             </div>
             <div className="mb-4 md:grid md:grid-cols-3 gap-x-5">
                 <div className="col-span-2">

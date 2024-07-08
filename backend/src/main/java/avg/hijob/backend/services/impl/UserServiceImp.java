@@ -6,28 +6,22 @@ import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.requests.user.UpdateProfileRequest;
 import avg.hijob.backend.responses.FileUploadResponse;
 import avg.hijob.backend.responses.MessageResponse;
-import avg.hijob.backend.responses.ProfileResponse;
+import avg.hijob.backend.responses.UserResponse;
 import avg.hijob.backend.services.FileService;
 import avg.hijob.backend.services.UserService;
 import jakarta.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -59,13 +53,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public ProfileResponse getUserCurrent() {
+    public UserResponse getUserCurrent() {
         User user = getUserCurrentService();
         if (user == null) {
             return null;
         }
 
-        return new ProfileResponse(user);
+        return new UserResponse(user);
     }
 
     @Override
@@ -96,7 +90,7 @@ public class UserServiceImp implements UserService {
         }
 
         User user = getUserCurrentService();
-        if(user == null) {
+        if (user == null) {
             return FileUploadResponse.builder()
                     .message("You are not authorized to upload file Avatar!")
                     .type(HttpStatus.UNAUTHORIZED)
@@ -140,21 +134,26 @@ public class UserServiceImp implements UserService {
         user.setSkills(request.getSkills());
         user.setSocialNetwork1(request.getSocialNetwork1());
         user.setSocialNetwork2(request.getSocialNetwork2());
-
-        String fileName = fileService.savaFileStatic(request.getCoverLetter(), "files");
-        if (fileName != null) {
-            user.setCoverLetter(fileName);
-            userRepository.save(user);
-            return MessageResponse.builder()
-                    .message("Upload Profile Successfully")
-                    .type(HttpStatus.OK)
-                    .build();
-        } else {
-            return MessageResponse.builder()
-                    .message("Error Upload File Please Try Again")
-                    .type(HttpStatus.BAD_REQUEST)
-                    .build();
+        if (request.getBirthday() != null) {
+            user.setBirthday(LocalDate.parse(request.getBirthday()));
         }
+
+        if (request.getCoverLetter() != null) {
+            String fileName = fileService.savaFileStatic(request.getCoverLetter(), "files");
+            if (fileName != null) {
+                user.setCoverLetter(fileName);
+            } else {
+                return MessageResponse.builder()
+                        .message("Error Upload File Please Try Again")
+                        .type(HttpStatus.BAD_REQUEST)
+                        .build();
+            }
+        }
+        userRepository.save(user);
+        return MessageResponse.builder()
+                .message("Upload Profile Successfully")
+                .type(HttpStatus.OK)
+                .build();
     }
 
     @Override
@@ -180,5 +179,11 @@ public class UserServiceImp implements UserService {
                 .message("Password changed successfully")
                 .type(HttpStatus.OK)
                 .build();
+    }
+
+    @Override
+    public List<UserResponse> getUsers() {
+        List<User> userList = userRepository.findAll();
+        return userList.stream().map(UserResponse::new).toList();
     }
 }

@@ -2,11 +2,11 @@ import React from 'react';
 import ChartOne from "./Component/Charts/ChartOne.jsx";
 import ChartTwo from "./Component/Charts/ChartTwo.jsx";
 import ChartThree from "./Component/Charts/ChartThree.jsx";
-import CardDataStats from "./Component/CardDataStats.jsx";
+import CardDataStats from "./Component/cardDataStats.jsx";
 import { WorkOutlineOutlined, ApartmentOutlined, PeopleAltOutlined, ManageAccountsOutlined } from '@mui/icons-material';
-import BasicTable from "./Component/Table.jsx";
+import BasicTable from "./Component/table.jsx";
 
-export default function Index() {
+export default function Dashboard() {
     return (
         <>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">

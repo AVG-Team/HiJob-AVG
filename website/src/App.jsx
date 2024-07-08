@@ -31,7 +31,8 @@ const AboutUs = loadable(() => import("./pages/AboutUs"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
 // ADMIN ROUTE
 const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
-const ECommerce = loadable(() => import("./admin/pages/Dashboard/Index.jsx"));
+const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
+const UsersAdmin = loadable(() => import("./admin/pages/Users"));
 
 function App() {
     useEffect(() => {
@@ -198,7 +199,17 @@ function App() {
                         path="/admin"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <ECommerce title="Admin" />
+                                <Dashboard title="Admin" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/users"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <UsersAdmin title="Quản Lý Người Dùng" />
                             </Suspense>
                         }
                     />

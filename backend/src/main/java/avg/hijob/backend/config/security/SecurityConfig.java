@@ -80,7 +80,6 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/avatar/**").permitAll()
                                 .requestMatchers("/file/**").permitAll()
-                                .requestMatchers("/api/admin/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/employee/**").hasAnyRole("EMPLOYEE", "ADMIN")
                                 .requestMatchers("/api/user/profile").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
