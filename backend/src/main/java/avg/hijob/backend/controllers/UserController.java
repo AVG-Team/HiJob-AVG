@@ -22,6 +22,11 @@ public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
+    @GetMapping("/getUser/{email}")
+    public ResponseEntity<?> getUser(@PathVariable String email) {
+        return ResponseHandler.responseOk("Get User", userService.getCurrentUserByEmail(email));
+    }
+
     @GetMapping("/profile")
     public ResponseEntity<?> profile() {
         ProfileResponse profile = userService.getUserCurrent();

@@ -179,7 +179,7 @@ export default function Navbar() {
                     ) : (
                         <>
                             <a
-                                href="/profile"
+                                href="/thong-tin-ca-nhan"
                                 className="px-4 py-3 mx-auto mt-4 ml-2 font-bold text-white rounded-md shadow lg:mx-2 bg-primary opacity-80 lg:mt-0 hover:bg-primary-600 hover:shadow-lg"
                             >
                                 <AccountCircle />

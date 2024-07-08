@@ -1,14 +1,21 @@
 import Slider from "react-slick";
-
-const categories = [
-    { id: 1, name: "Java", jobs: 2 },
-    { id: 2, name: "C#", jobs: 4 },
-    { id: 3, name: "Spring Boot", jobs: 3 },
-    { id: 4, name: "Reactjs", jobs: 2 },
-    { id: 5, name: "Php", jobs: 3 },
-];
+import { useState, useEffect } from "react";
+import skillApi from "../../../services/apis/skillApi";
 
 export default function JobByCategory() {
+    const [skills, setSkills] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await skillApi.getAllSkills();
+                console.log(response);
+                setSkills(response.data);
+            } catch (error) {
+                console.log("Failed to fetch data at: ", error);
+            }
+        };
+        fetchData();
+    }, []);
     const settings = {
         dots: true,
         infinite: true,
@@ -60,20 +67,22 @@ export default function JobByCategory() {
                 <div className="flex items-center justify-center px-2 md:px-10">
                     <div className="w-full">
                         <Slider {...settings}>
-                            {categories.map((category) => (
-                                <div key={category.id} className="px-2">
+                            {skills.map((skill) => (
+                                <div key={skill.id} className="px-2">
                                     <div className="p-4 bg-white rounded-lg shadow-lg">
                                         <div className="flex items-center">
                                             <div className="p-4 bg-blue-100 rounded-full">
                                                 <img
-                                                    src={`https://via.placeholder.com/40?text=${category.name}`}
-                                                    alt={category.name}
+                                                    src={`https://via.placeholder.com/40?text=${skill.skillName}`}
+                                                    alt={skill.skillName}
                                                     className="w-10 h-10"
                                                 />
                                             </div>
                                             <div className="ml-4">
-                                                <h3 className="text-lg font-bold md:text-xl">{category.name}</h3>
-                                                <p className="text-blue-500">{category.jobs} Jobs</p>
+                                                <h3 className="text-lg font-bold lowercase text-primary md:text-xl ">
+                                                    {skill.skillName}
+                                                </h3>
+                                                {/* <p className="text-blue-500">{category.jobs} Jobs</p> */}
                                             </div>
                                         </div>
                                     </div>

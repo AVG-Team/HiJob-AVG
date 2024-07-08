@@ -1,5 +1,6 @@
 package avg.hijob.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,12 +47,18 @@ public class Job {
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<JobSkillDetail> skills = new HashSet<>();
 
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = false)
+    private Set<JobFollow> followers = new HashSet<>();
+
+
     @ManyToOne(targetEntity = Company.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "company_id")
+    @JsonBackReference
     private Company company;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
+    @JsonBackReference
     private User user;
 
     @Column(nullable = false)
