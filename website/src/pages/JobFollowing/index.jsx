@@ -1,73 +1,19 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import TabForm from "../../components/TabForm";
-import JobFollowCard from "./components/JobFollowCard";
-import Pagination from "@mui/material/Pagination";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import jobApi from "../../services/apis/jobApi";
+import Pagination from "@mui/material/Pagination";
+import JobFollowCard from "./components/JobFollowCard";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import companyApi from "../../services/apis/companyApi";
+import jobSkillApi from "../../services/apis/jobSkillApi";
+import jobFollowApi from "../../services/apis/jobFollowApi";
+import { profile, getUser } from "../../services/apis/profile";
 
-const jobItems = [
-    {
-        id: 1,
-        title: "Fresher/Junior - Senior C++ Developer",
-        companyName: "DTS Software Viet Nam",
-        companyLogo: "https://via.placeholder.com/48", // Replace with actual logo URL
-        salaryInfo: "Đăng nhập để xem mức lương",
-        location: "Quận Ba Đình, Hà Nội",
-        skills: ["C++", "C#", "CAD"],
-        to: "/viec-lam",
-    },
-    {
-        id: 2,
-        title: "Fresher/Junior - Senior Java Developer",
-        companyName: "DTS Software Viet Nam",
-        companyLogo: "https://via.placeholder.com/48", // Replace with actual logo URL
-        salaryInfo: "Đăng nhập để xem mức lương",
-        location: "Quận Ba Đình, Hà Nội",
-        skills: ["C++", "C#", "CAD"],
-        to: "/viec-lam",
-    },
-    {
-        id: 3,
-        title: "Fresher/Junior - Senior Reactjs Developer",
-        companyName: "DTS Software Viet Nam",
-        companyLogo: "https://via.placeholder.com/48", // Replace with actual logo URL
-        salaryInfo: "Đăng nhập để xem mức lương",
-        location: "Quận Ba Đình, Hà Nội",
-        skills: ["C++", "C#", "CAD"],
-        to: "/viec-lam",
-    },
-    {
-        id: 4,
-        title: "Fresher/Junior - Senior Software Developer",
-        companyName: "DTS Software Viet Nam",
-        companyLogo: "https://via.placeholder.com/48", // Replace with actual logo URL
-        salaryInfo: "Đăng nhập để xem mức lương",
-        location: "Quận Ba Đình, Hà Nội",
-        skills: ["C++", "C#", "CAD"],
-        to: "/viec-lam",
-    },
-    {
-        id: 5,
-        title: "Fresher/Junior - Senior Software Developer",
-        companyName: "DTS Software Viet Nam",
-        companyLogo: "https://via.placeholder.com/48", // Replace with actual logo URL
-        salaryInfo: "Đăng nhập để xem mức lương",
-        location: "Quận Ba Đình, Hà Nội",
-        skills: ["C++", "C#", "CAD"],
-        to: "/viec-lam",
-    },
-    {
-        id: 6,
-        title: "Fresher/Junior - Senior Software Developer",
-        companyName: "DTS Software Viet Nam",
-        companyLogo: "https://via.placeholder.com/48", // Replace with actual logo URL
-        salaryInfo: "Đăng nhập để xem mức lương",
-        location: "Quận Ba Đình, Hà Nội",
-        skills: ["C++", "C#", "CAD"],
-        to: "/viec-lam",
-    },
-];
+JobFollowing.propTypes = {
+    title: PropTypes.string,
+};
 
 export default function JobFollowing(props) {
     const { title } = props;
@@ -77,27 +23,63 @@ export default function JobFollowing(props) {
     const [page, setPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
 
+    const [jobItems, setJobItems] = useState([]);
+
     useEffect(() => {
         if (isLg) {
             setItemsPerPage(6);
         } else {
             setItemsPerPage(3); // Default value for other screen sizes
         }
+
+        const fetchJobs = async () => {
+            const userId = await profile();
+            const res = await getUser(userId.data.email);
+            const jobFollows = await jobFollowApi.getAllFollowsByUserId(res.data.id);
+            console.log(jobFollows);
+            const jobIds = jobFollows.data.map((jobFollow) => jobFollow.jobId);
+            const jobPromises = jobIds.map((id) => jobApi.getJobById(id));
+            const jobResponses = await Promise.all(jobPromises);
+            const jobsData = jobResponses.map((response) => response.data);
+
+            const skillsPromises = jobIds.map((id) => jobSkillApi.getAllSkillsByJobId(id));
+            const skillsResponses = await Promise.all(skillsPromises);
+
+            const skillsData = skillsResponses.reduce((acc, response, index) => {
+                acc[jobIds[index]] = response.data || []; // Ensure response.data is defined
+                return acc;
+            }, {});
+            console.log(skillsData);
+
+            const companyPromises = jobsData.map((job) => companyApi.getCompanyById(job.companyId));
+            const companyResponses = await Promise.all(companyPromises);
+
+            const companyData = companyResponses.reduce((acc, response, index) => {
+                acc[jobsData[index].companyId] = response.data; // Ensure response.data is defined
+                return acc;
+            }, {});
+
+            const jobItemsData = jobsData.map((job) => ({
+                idJob: job.id,
+                title: job.title,
+                companyName: companyData[job.companyId]?.name || "Unknown",
+                salary: job.salary,
+                location: companyData[job.companyId]?.address || "Unknown",
+                skills: skillsData[job.id] || [],
+            }));
+
+            setJobItems(jobItemsData);
+        };
+        fetchJobs();
     }, [isLg]);
 
     const handleChangePage = (event, value) => {
         setPage(value);
     };
 
-    const displayedItems = jobItems.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-
     useEffect(() => {
         document.title = title ? `${title}` : "Không tìm thấy trang";
     }, [title]);
-
-    JobFollowing.propTypes = {
-        title: PropTypes.string,
-    };
 
     return (
         <main className="min-h-screen bg-gray-100">
@@ -110,26 +92,8 @@ export default function JobFollowing(props) {
                                 <h1 className="text-lg font-bold text-start">Việc Đã Theo Dõi</h1>
                             </div>
                             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-                                {displayedItems.map((item) => (
-                                    <JobFollowCard key={item.id} job={item} />
-                                ))}
-                            </div>
-                            <Pagination
-                                count={Math.ceil(jobItems.length / itemsPerPage)}
-                                page={page}
-                                onChange={handleChangePage}
-                                variant="outlined"
-                                shape="rounded"
-                                sx={{ marginTop: 5, display: "flex", justifyContent: "end" }}
-                            />
-                        </div>
-                        <div className="mt-14">
-                            <div className="flex justify-start py-4 mb-5 text-primary">
-                                <h1 className="text-lg font-bold text-start">Việc Đã Xem</h1>
-                            </div>
-                            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-                                {displayedItems.map((item) => (
-                                    <JobFollowCard key={item.id} job={item} />
+                                {jobItems.map((item) => (
+                                    <JobFollowCard key={item.idJob} job={item} />
                                 ))}
                             </div>
                             <Pagination
