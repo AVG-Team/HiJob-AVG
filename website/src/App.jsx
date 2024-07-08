@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import AuthRoute from "./components/Route/AuthRoute.jsx";
+import Page404 from './components/Page404/index.jsx';
 
 const Home = loadable(() => import("./pages/Home"));
 const Register = loadable(() => import("./pages/Auth/Register"));
@@ -199,6 +200,16 @@ function App() {
                         }
                     />
                 </Route>
+
+                {/* PAGE 404 */}
+                <Route
+                    path="*"
+                    element={
+                        <Suspense fallback={<CircularProgress />}>
+                            <Page404 />
+                        </Suspense>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );
