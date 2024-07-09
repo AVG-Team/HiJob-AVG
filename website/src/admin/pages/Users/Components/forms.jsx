@@ -21,8 +21,10 @@ import {
     validateSkills
 } from "../../../../services/validate/validate.js";
 import {createUser, editUser} from "../../../../services/apis/admin/users.js";
+import {useNavigate} from "react-router-dom";
 
 export default function Forms({typeForm, userInfo}) {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState(userInfo);
     const [errors, setErrors] = React.useState({});
     const [coverLetter, setCoverLetter] = useState(formData?.coverLetter || "");
@@ -174,7 +176,7 @@ export default function Forms({typeForm, userInfo}) {
             formSubmit.delete("coverLetter");
         }
 
-        if (avatar !== formData["avatar"]) {
+        if (avatar !== userInfo["avatar"]) {
             console.log("avatar", avatar)
             formSubmit.append("avatar", avatar);
         } else {
@@ -196,6 +198,9 @@ export default function Forms({typeForm, userInfo}) {
             }
             console.log(response);
             toast.success(response.message, {
+                onClose: () => {
+                    navigate("/admin/users");
+                },
                 autoClose: 1000
             });
         } catch (error) {
@@ -228,7 +233,7 @@ export default function Forms({typeForm, userInfo}) {
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700 mb-3">Email</label>
                     <CustomInput
-                        disabled={!!typeForm}
+                        disabled={typeForm === "edit"}
                         error={!!errors.email}
                         className="w-full"
                         type="text"

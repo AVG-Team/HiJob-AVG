@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {EditOutlined, DeleteForeverOutlined } from '@mui/icons-material';
-import Pagination from "./pagination.jsx";
+import Pagination from "../../../components/pagination.jsx";
 import {deleteUser} from "../../../../services/apis/admin/users.js";
 import {toast} from "react-toastify";
 

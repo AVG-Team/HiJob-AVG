@@ -83,6 +83,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/admin/users").hasRole("ADMIN")
                                 .requestMatchers("/api/employee/**").hasAnyRole("EMPLOYEE", "ADMIN")
                                 .requestMatchers("/api/user/profile").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
+//                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/companies/**").permitAll()
                                 .requestMatchers("/api/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
