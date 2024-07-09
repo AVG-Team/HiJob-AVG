@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,45 +8,29 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { EditOutlined, DeleteForeverOutlined } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import jobApi from '../../../../services/apis/jobApi';
+import Pagination from '../../../components/pagination.jsx';
 
-export default function JobTableData() {
-    const [jobs, setJobs] = useState([]);
+export default function JobTableData({jobs, setJobs, query, setQuery, totalResults, resultsPerPage }) {
 
-    useEffect(() => {
-        getData();
-    }, []);
-
-    const getData = async () => {
-        try {
-            const response = await jobApi.getAllJobs();
-            const data = response.data.content;
-            console.log('Jobs data:', data);
-            setJobs(data);
-        } catch (error) {
-            console.error('Error fetching jobs:', error);
-            toast.error('Error fetching jobs');
-            setJobs([]);
-        }
-    };
-
-    const handleDelete = async (jobId) => {
+    const handleDelete = (jobId) => async (event) => {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
         if (!jobId) {
             console.error('Job ID is null or undefined');
             return;
         }
-
-        if (window.confirm('Are you sure you want to delete this job?')) {
+        const confirmation = confirm("Bạn có chắc chắn muốn xóa công việc này không?");
+        if (confirmation) {
             try {
                 await jobApi.deleteJob(jobId);
-                toast.success('Job deleted successfully');
-                getData();
+                setJobs(jobs.filter((job) => job.id !== jobId))
+                toast.success("Xóa công việc thành công", {
+                    autoClose: 1000
+                })
             } catch (error) {
-                console.error('Error deleting job:', error);
-                toast.error('Failed to delete job');
+                console.error("Error deleting user:", error);
+                toast.error('Failed to delete company');
             }
         }
     };
@@ -81,7 +66,7 @@ export default function JobTableData() {
                                 <TableCell align="center">{job.benefits}</TableCell>
                                 <TableCell align="center">{job.requireOfYear}</TableCell>
                                 <TableCell align="center">{job.salary}</TableCell>
-                                <TableCell align="center">{job.company ? job.companyId : 'N/A'}</TableCell>
+                                <TableCell align="center">{job.company ? job.company.name : 'N/A'}</TableCell>
                                 <TableCell align="center">{new Date(job.createdAt).toLocaleDateString()}</TableCell>
                                 <TableCell align="center">{new Date(job.updatedAt).toLocaleDateString()}</TableCell>
                                 <TableCell align="center">
@@ -96,13 +81,12 @@ export default function JobTableData() {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={12} align="center">
-                                No jobs found
-                            </TableCell>
+                            <TableCell colSpan={11} align="center">No jobs found</TableCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
+            <Pagination query={query} setQuery={setQuery} totalResults={totalResults} resultsPerPage={resultsPerPage} />
         </TableContainer>
     );
 }

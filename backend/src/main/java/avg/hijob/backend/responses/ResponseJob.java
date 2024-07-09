@@ -30,6 +30,4 @@ public class ResponseJob {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private Timestamp deletedAt;
-
-
 }

@@ -33,39 +33,38 @@ public class JobServiceImpl implements JobService {
     private UserRepository userRepository;
 
     @Override
-    public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo) {
-    Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
-        if(jobRepository.findAll().isEmpty()) {
+    public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q) {
+        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(9));
+        if (jobRepository.findAll().isEmpty()) {
             throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
         }
-        return jobRepository.findAllJobs(pageable);
+        return jobRepository.getAllJobsQuery(q.orElse(null), pageable);
     }
 
     @Override
     public Page<ResponseJob> getAllJobsByCompany(Optional<String> companyId, Optional<Integer> pageSize, Optional<Integer> pageNo) {
-        Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
-        if(jobRepository.findAll().isEmpty()) {
+        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(9));
+        if (jobRepository.findAll().isEmpty()) {
             throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
         }
-        return jobRepository.findAllByCompanyId(companyId.orElse(""),pageable);
+        return jobRepository.findAllByCompanyId(companyId.orElse(""), pageable);
     }
 
     @Override
     public List<ResponseJob> getJobsCreateToday(Timestamp createdDate) {
-        if(jobRepository.findAll().isEmpty()) {
+        if (jobRepository.findAll().isEmpty()) {
             throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
-        }else{
-            if(jobRepository.getJobsCreateToday(createdDate).isEmpty()) {
+        } else {
+            if (jobRepository.getJobsCreateToday(createdDate).isEmpty()) {
                 throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
             }
             return jobRepository.getJobsCreateToday(createdDate);
         }
-
     }
 
     @Override
     public ResponseJob getJobById(String id) {
-        if(jobRepository.findById(id).isEmpty()) {
+        if (jobRepository.findById(id).isEmpty()) {
             throw new NotFoundException("No job found", HttpStatus.NOT_FOUND);
         }
         return jobRepository.getJobById(id);
@@ -73,7 +72,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public ResponseJob createJob(RequestJob requestJob) {
-        try{
+        try {
             Job job = Job.builder()
                     .title(requestJob.getTitle())
                     .description(requestJob.getDescription())
@@ -87,19 +86,19 @@ public class JobServiceImpl implements JobService {
                     .build();
             jobRepository.save(job);
 
-            return new ResponseJob(job.getId(),job.getTitle(),job.getDescription(),job.getResponsibilities(),
-                    job.getRequirements(),job.getBenefits(),job.getRequireOfYear(),job.getSalary(),
-                    job.getCompany().getId(),job.getUser().getId(),job.getCreatedAt(),job.getUpdatedAt(),job.getDeletedAt());
+            return new ResponseJob(job.getId(), job.getTitle(), job.getDescription(), job.getResponsibilities(),
+                    job.getRequirements(), job.getBenefits(), job.getRequireOfYear(), job.getSalary(),
+                    job.getCompany().getId(), job.getUser().getId(), job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             throw new NotFoundException("Error creating job", HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
     public ResponseJob updateJob(String id, RequestJob requestJob) {
-        try{
-            if(jobRepository.findById(id).isEmpty()) {
+        try {
+            if (jobRepository.findById(id).isEmpty()) {
                 throw new NotFoundException("No job found", HttpStatus.NOT_FOUND);
             }
             Job job = jobRepository.findById(id).get();
@@ -112,19 +111,19 @@ public class JobServiceImpl implements JobService {
             job.setSalary(requestJob.getSalary());
             jobRepository.save(job);
 
-            return new ResponseJob(job.getId(),job.getTitle(),job.getDescription(),job.getResponsibilities(),
-                    job.getRequirements(),job.getBenefits(),job.getRequireOfYear(),job.getSalary(),
-                    job.getCompany().getId(),job.getUser().getId(),job.getCreatedAt(),job.getUpdatedAt(),job.getDeletedAt());
+            return new ResponseJob(job.getId(), job.getTitle(), job.getDescription(), job.getResponsibilities(),
+                    job.getRequirements(), job.getBenefits(), job.getRequireOfYear(), job.getSalary(),
+                    job.getCompany().getId(), job.getUser().getId(), job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             throw new NotFoundException("Error updating job", HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
     public ResponseJob deleteJob(String id) {
-        try{
-            if(jobRepository.findById(id).isEmpty()) {
+        try {
+            if (jobRepository.findById(id).isEmpty()) {
                 throw new NotFoundException("No job found", HttpStatus.NOT_FOUND);
             }
             Timestamp dateNow = Timestamp.from(Instant.now());
@@ -133,11 +132,11 @@ public class JobServiceImpl implements JobService {
 
             jobRepository.save(job);
 
-            return new ResponseJob(job.getId(),job.getTitle(),job.getDescription(),job.getResponsibilities(),
-                    job.getRequirements(),job.getBenefits(),job.getRequireOfYear(),job.getSalary(),
-                    job.getCompany().getId(),job.getUser().getId(),job.getCreatedAt(),job.getUpdatedAt(),job.getDeletedAt());
+            return new ResponseJob(job.getId(), job.getTitle(), job.getDescription(), job.getResponsibilities(),
+                    job.getRequirements(), job.getBenefits(), job.getRequireOfYear(), job.getSalary(),
+                    job.getCompany().getId(), job.getUser().getId(), job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new NotFoundException("Error deleting job", HttpStatus.BAD_REQUEST);
         }
     }
