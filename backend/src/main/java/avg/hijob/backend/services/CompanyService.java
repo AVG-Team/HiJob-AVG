@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CompanyService {
-    public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo);
+    public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<String> province);
     public ResponseCompany getCompanyById(String id);
     public ResponseCompany getCompanyByUser(String userId);
     public List<ResponseCompany> getTop5Companies();

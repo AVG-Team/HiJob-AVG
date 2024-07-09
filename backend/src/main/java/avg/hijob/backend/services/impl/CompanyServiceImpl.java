@@ -8,7 +8,6 @@ import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.requests.RequestCompany;
 import avg.hijob.backend.responses.ResponseCompany;
-import avg.hijob.backend.responses.UserResponse;
 import avg.hijob.backend.services.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +34,12 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     @Override
-    public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo) {
+    public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<String> province) {
         Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(12));
-        if(companyRepository.findAll().isEmpty()){
+        if(companyRepository.findAll().isEmpty()) {
             throw new NotFoundException("No companies found", HttpStatus.NOT_FOUND);
         }
-        return companyRepository.getAllCompanies(pageable);
+        return companyRepository.getAllCompaniesQuery(q.orElse(null), province.orElse(null), pageable);
     }
 
     @Override

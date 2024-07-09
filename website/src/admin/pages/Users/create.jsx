@@ -16,6 +16,7 @@ export default function Create(props) {
         socialNetwork1: "",
         socialNetwork2: "",
         coverLetter: "",
+        avatar: "",
     };
 
     const title = props.title;

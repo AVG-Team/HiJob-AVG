@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,49 +7,33 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import companyApi  from "../../../../services/apis/companyApi.js";
 import { toast } from 'react-toastify';
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { EditOutlined, DeleteForeverOutlined } from '@mui/icons-material';
 import {Link} from "react-router-dom";
+import {deleteUser} from "../../../../services/apis/admin/users.js";
+import Pagination from "../../../components/pagination.jsx";
 
-export default function CompanyTableData() {
-    const [companies, setCompanies] = React.useState([]);
-
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        getData();
-    }, []);
-
-    const getData = async () => {
-        try {
-            const response = await companyApi.getCompanies();
-            const data = response.data.content;
-            console.log(data)
-            setCompanies(data);
-        } catch (error) {
-            console.error('Error fetching companies:', error);
-            toast.error("Error fetching companies")
-            setCompanies([]);
-        }
-    };
-
-    const handleDelete = async (companyId) => {
+export default function CompanyTableData({companies, setCompanies, query, setQuery, totalResults, resultsPerPage}) {
+    const handleDelete = (companyId) => async (event) => {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
         if (!companyId) {
             console.error('Company ID is null or undefined');
             return;
         }
-
-        if (window.confirm(`Are you sure you want to delete this company?`)) {
+        const confirmation = confirm("Bạn có chắc chắn muốn xóa công ty này không?");
+        if (confirmation) {
             try {
                 await companyApi.deleteCompany(companyId);
-                toast.success('Company deleted successfully');
-                getData();
+                setCompanies(companies.filter((company) => company.id !== companyId))
+                toast.success("Xóa người dùng thành công", {
+                    autoClose: 1000
+                })
             } catch (error) {
-                console.error('Error deleting company:', error);
+                console.error("Error deleting user:", error);
                 toast.error('Failed to delete company');
             }
         }
     };
-
 
     return (
         <TableContainer component={Paper} className="!py-7.5">
@@ -64,9 +47,7 @@ export default function CompanyTableData() {
                         <TableCell align="center">Địa chỉ</TableCell>
                         <TableCell align="center">Tỉnh</TableCell>
                         <TableCell align="center">Chứng nhận đăng ký</TableCell>
-                        <TableCell align="center">Link Google Map</TableCell>
-                        <TableCell align="center">Ngày tạo</TableCell>
-                        <TableCell align="center">Ngày sửa</TableCell>
+                        <TableCell align="center">Người tuyển dụng</TableCell>
                         <TableCell align="center">Hành động</TableCell>
                     </TableRow>
                 </TableHead>
@@ -83,12 +64,10 @@ export default function CompanyTableData() {
                                 <TableCell align="center">{company.address}</TableCell>
                                 <TableCell align="center">{company.province}</TableCell>
                                 <TableCell align="center">{company.registration_certificate}</TableCell>
-                                <TableCell align="center">{company.linkGoogleMap}</TableCell>
-                                <TableCell align="center">{new Date(company.createdAt).toLocaleDateString()}</TableCell>
-                                <TableCell align="center">{new Date(company.updatedAt).toLocaleDateString()}</TableCell>
+                                <TableCell align="center">{company.employer_name}</TableCell>
                                 <TableCell align="center">
                                     <Link to={`/admin/companies/edit/${company.id}`}><EditOutlined className="hover:text-primary" /></Link>
-                                    <a href="" onClick={() => handleDelete(company.id)}><DeleteForeverOutlined className="hover:text-red-500" /></a>
+                                    <a href="" onClick={handleDelete(company.id)}><DeleteForeverOutlined className="hover:text-red-500" /></a>
                                 </TableCell>
                             </TableRow>
                         ))
@@ -99,6 +78,7 @@ export default function CompanyTableData() {
                     )}
                 </TableBody>
             </Table>
+            <Pagination query={query} setQuery={setQuery} totalResults={totalResults} resultsPerPage={resultsPerPage}/>
         </TableContainer>
     );
 }
