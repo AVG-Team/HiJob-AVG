@@ -24,6 +24,7 @@ export default function TableData() {
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
+        //search filter
         setRole(urlParams.get('role'));
         setSearch(urlParams.get('search'));
         setPage(urlParams.get('page'));

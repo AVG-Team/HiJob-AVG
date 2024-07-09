@@ -35,6 +35,8 @@ const Recruitment = loadable(() => import("./pages/Recruitment"));
 const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
 const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
 const UsersAdmin = loadable(() => import("./admin/pages/Users"));
+const CompaniesAdmin = loadable(() => import("./admin/pages/Company"))
+const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"))
 
 function App() {
     useEffect(() => {
@@ -224,7 +226,26 @@ function App() {
                         }
                     />
                 </Route>
-
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/companies"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CompaniesAdmin title="Quản Lý Công Ty" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/companies/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <FormEdit title="Chỉnh Sửa Công Ty" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
                 {/* PAGE 404 */}
                 <Route
                     path="*"

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import jobApi from "../../../services/apis/jobApi";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import companyApi from "../../../services/apis/companyApi";
-import jobSkillApi from "../../../services/apis/jobSkillApi";
+import jobSkillApi from "../../../services/apis/JobSkillApi.js";
 import jobFollowApi from "../../../services/apis/jobFollowApi";
 import { profile, getUser } from "../../../services/apis/profile";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
