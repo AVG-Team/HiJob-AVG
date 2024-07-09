@@ -4,8 +4,6 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import jobApi from "../../../../services/apis/jobApi.js";
 import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb.jsx";
-import CustomInput from "../../../../components/Forms/Inputs/customColor.jsx";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function JobEdit() {
     const { id } = useParams();
@@ -85,7 +83,7 @@ export default function JobEdit() {
 
         try {
             await jobApi.updateJob(id, formValues);
-            toast.success('Job updated successfully');
+            toast.success('Cập nhật thông tin thành công');
             navigate('/admin/jobs');
         } catch (error) {
             console.error('Error updating job:', error);
@@ -100,18 +98,18 @@ export default function JobEdit() {
     return (
         <>
             <div>
-                <Breadcrumb pageName="Edit Job" />
+                <Breadcrumb pageName="Sửa Công Việc" />
             </div>
 
             <div className="rounded-sm border border-stroke bg-white shadow-default">
                 <div className="border-b border-stroke py-4 px-6.5">
                     <h3 className="font-medium text-black">
-                        Edit Job Form
+                        Job Form
                     </h3>
                 </div>
                 <form method="post" onSubmit={handleSubmit} className="p-6.5">
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Title</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Vị trí</label>
                         <input
                             className="w-full border border-gray-300 p-2 rounded"
                             type="text"
@@ -124,7 +122,7 @@ export default function JobEdit() {
                         {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Description</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Mô tả</label>
                         <textarea
                             className="w-full border border-gray-300 p-2 rounded"
                             name="description"
@@ -136,7 +134,7 @@ export default function JobEdit() {
                         {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Responsibilities</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Trách nhiệm</label>
                         <textarea
                             className="w-full border border-gray-300 p-2 rounded"
                             name="responsibilities"
@@ -147,7 +145,7 @@ export default function JobEdit() {
                         {errors.responsibilities && <p className="text-red-500 text-sm">{errors.responsibilities}</p>}
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Requirements</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Yêu cầu</label>
                         <textarea
                             className="w-full border border-gray-300 p-2 rounded"
                             name="requirements"
@@ -158,7 +156,7 @@ export default function JobEdit() {
                         {errors.requirements && <p className="text-red-500 text-sm">{errors.requirements}</p>}
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Benefits</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Lợi ích</label>
                         <textarea
                             className="w-full border border-gray-300 p-2 rounded"
                             name="benefits"
@@ -169,7 +167,7 @@ export default function JobEdit() {
                         {errors.benefits && <p className="text-red-500 text-sm">{errors.benefits}</p>}
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Required Years of Experience</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Số năm kinh nghiệm</label>
                         <input
                             className="w-full border border-gray-300 p-2 rounded"
                             type="text"
@@ -182,7 +180,7 @@ export default function JobEdit() {
                         {errors.requireOfYear && <p className="text-red-500 text-sm">{errors.requireOfYear}</p>}
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Salary</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Lương</label>
                         <input
                             className="w-full border border-gray-300 p-2 rounded"
                             type="text"
@@ -195,7 +193,7 @@ export default function JobEdit() {
                         {errors.salary && <p className="text-red-500 text-sm">{errors.salary}</p>}
                     </div>
                     <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
-                        Save Changes
+                        Lưu
                     </button>
                 </form>
             </div>

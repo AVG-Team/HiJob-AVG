@@ -15,7 +15,7 @@ import Pagination from '../../../components/pagination.jsx';
 export default function JobTableData({jobs, setJobs, query, setQuery, totalResults, resultsPerPage }) {
 
     const handleDelete = (jobId) => async (event) => {
-        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+        event.preventDefault();
         if (!jobId) {
             console.error('Job ID is null or undefined');
             return;
@@ -41,16 +41,16 @@ export default function JobTableData({jobs, setJobs, query, setQuery, totalResul
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">#</TableCell>
-                        <TableCell align="center">Title</TableCell>
-                        <TableCell align="center">Responsibilities</TableCell>
-                        <TableCell align="center">Requirements</TableCell>
-                        <TableCell align="center">Benefits</TableCell>
-                        <TableCell align="center">Required Years of Experience</TableCell>
-                        <TableCell align="center">Salary</TableCell>
-                        <TableCell align="center">Company</TableCell>
-                        <TableCell align="center">Created At</TableCell>
-                        <TableCell align="center">Updated At</TableCell>
-                        <TableCell align="center">Actions</TableCell>
+                        <TableCell align="center">Vị trí</TableCell>
+                        <TableCell align="center">Trách nhiệm</TableCell>
+                        <TableCell align="center">Yêu cầu</TableCell>
+                        <TableCell align="center">Lợi ích</TableCell>
+                        <TableCell align="center">Số năm KN</TableCell>
+                        <TableCell align="center">Lương</TableCell>
+                        <TableCell align="center">Công ty</TableCell>
+                        <TableCell align="center">Ngày tạo</TableCell>
+                        <TableCell align="center">Ngày sửa</TableCell>
+                        <TableCell align="center">Hành động</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -73,7 +73,7 @@ export default function JobTableData({jobs, setJobs, query, setQuery, totalResul
                                     <Link to={`/admin/jobs/edit/${job.id}`}>
                                         <EditOutlined className="hover:text-primary" />
                                     </Link>
-                                    <a href="#" onClick={() => handleDelete(job.id)}>
+                                    <a href="" onClick={handleDelete(job.id)}>
                                         <DeleteForeverOutlined className="hover:text-red-500" />
                                     </a>
                                 </TableCell>

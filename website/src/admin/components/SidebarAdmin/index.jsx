@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../../assets/img/HIJOB-Landscape.png';
-import {GroupOutlined, BusinessOutlined} from '@mui/icons-material';
+import {GroupOutlined, BusinessOutlined } from '@mui/icons-material';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 
 export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
     const location = useLocation();
@@ -311,17 +312,6 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                                             Quản Lý Nhà Tuyển Dụng
                                                         </NavLink>
                                                     </li>
-                                                    <li>
-                                                        <NavLink
-                                                            to="/admin/jobs"
-                                                            className={({isActive}) =>
-                                                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium duration-300 ease-in-out hover:text-white ' +
-                                                                (isActive && '!text-white')
-                                                            }
-                                                        >
-                                                            Quản Lý Công Việc
-                                                        </NavLink>
-                                                    </li>
                                                 </ul>
                                             </div>
                                             {/* <!-- Dropdown Menu End --> */}
@@ -341,6 +331,15 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                 >
                                     <BusinessOutlined />
                                     <p>Quản Lý Công Ty</p>
+                                </NavLink>
+                                <NavLink
+                                    to="/admin/jobs"
+                                    className={`group hover:bg-graydark relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out ${
+                                        pathname.includes('companies') && 'bg-graydark'
+                                    }`}
+                                >
+                                    <WorkOutlineIcon />
+                                    <p>Quản Lý Công Việc</p>
                                 </NavLink>
                             </li>
                             {/* <!-- Menu Item Users --> */}
