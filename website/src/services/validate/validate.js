@@ -106,3 +106,13 @@ export const validateFile = (file) => {
         return "";
     }
 }
+
+export const validateFileAllowNull = (file) => {
+    if (!file) {
+        return "";
+    } else if (file.size > 10 * 1024 * 1024) {
+        return "File size must be smaller than 10MB";
+    } else {
+        return "";
+    }
+}

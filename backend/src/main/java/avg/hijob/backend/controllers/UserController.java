@@ -3,7 +3,7 @@ package avg.hijob.backend.controllers;
 import avg.hijob.backend.requests.user.UpdateProfileRequest;
 import avg.hijob.backend.responses.FileUploadResponse;
 import avg.hijob.backend.responses.MessageResponse;
-import avg.hijob.backend.responses.UserResponse;
+import avg.hijob.backend.responses.ResponseUsers;
 import avg.hijob.backend.responses.ResponseHandler;
 import avg.hijob.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> profile() {
-        UserResponse profile = userService.getUserCurrent();
+        ResponseUsers profile = userService.getUserCurrent();
         if (profile != null) {
             return ResponseHandler.responseOk("Get Profile",profile);
         }

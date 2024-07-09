@@ -7,13 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
+public class ResponseUsers {
     private String id;
     private String fullName;
     private String email;
@@ -33,7 +32,7 @@ public class UserResponse {
     private LocalDate Birthday;
     private String company;
 
-    public UserResponse(User user) {
+    public ResponseUsers(User user) {
         this.fullName = defaultIfNull(user.getFullName());
         this.email = defaultIfNull(user.getEmail());
         this.phone = defaultIfNull(user.getPhone());

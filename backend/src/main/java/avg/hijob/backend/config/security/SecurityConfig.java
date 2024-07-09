@@ -79,6 +79,8 @@ public class SecurityConfig {
                                 .requestMatchers("/avatar/**").permitAll()
                                 .requestMatchers("/file/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/api/admin/roles").hasRole("ADMIN")
+                                .requestMatchers("/api/admin/users").hasRole("ADMIN")
                                 .requestMatchers("/api/employee/**").hasAnyRole("EMPLOYEE", "ADMIN")
                                 .requestMatchers("/api/user/profile").hasAnyRole("USER", "EMPLOYEE", "ADMIN")
 //                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
