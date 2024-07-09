@@ -1,6 +1,7 @@
 package avg.hijob.backend.services.impl;
 
 import avg.hijob.backend.entities.Company;
+import avg.hijob.backend.entities.User;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.CompanyRepository;
 import avg.hijob.backend.repositories.JobRepository;
@@ -33,12 +34,12 @@ public class CompanyServiceImpl implements CompanyService {
 
 
     @Override
-    public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo) {
-        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(9));
-        if(companyRepository.findAll().isEmpty()){
+    public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<String> province) {
+        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(12));
+        if(companyRepository.findAll().isEmpty()) {
             throw new NotFoundException("No companies found", HttpStatus.NOT_FOUND);
         }
-        return companyRepository.getAllCompanies(pageable);
+        return companyRepository.getAllCompaniesQuery(q.orElse(null), province.orElse(null), pageable);
     }
 
     @Override
@@ -69,6 +70,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public ResponseCompany createCompany(RequestCompany requestCompany) {
+        System.out.println(requestCompany.toString());
+
         try{
             if(companyRepository.existsByUser(userRepository.getReferenceById(requestCompany.getEmployer_id()))){
                 throw new NotFoundException("Company already exists", HttpStatus.BAD_REQUEST);
@@ -84,10 +87,12 @@ public class CompanyServiceImpl implements CompanyService {
                         .linkGoogleMap(requestCompany.getLinkGoogleMap())
                         .user(userRepository.getReferenceById(requestCompany.getEmployer_id()))
                         .build();
+                System.out.println(company.toString());
                 companyRepository.save(company);
                 return companyRepository.getCompanyById(company.getId());
             }
         }catch (Exception e){
+            System.out.println(e.getMessage());
             throw new NotFoundException("Error creating company", HttpStatus.BAD_REQUEST);
         }
     }
@@ -130,7 +135,7 @@ public class CompanyServiceImpl implements CompanyService {
             }
 
         }catch (Exception e){
-            throw new NotFoundException("Error creating company", HttpStatus.BAD_REQUEST);
+            throw new NotFoundException("Error deleting company", HttpStatus.BAD_REQUEST);
         }
     }
 }

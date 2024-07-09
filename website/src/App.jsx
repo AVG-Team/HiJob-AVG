@@ -40,6 +40,9 @@ const CreateAdmin = loadable(() => import("./admin/pages/Users/create"));
 const EditAdmin = loadable(() => import("./admin/pages/Users/edit"));
 const JobsAdmin = loadable(() => import("./admin/pages/Job"))
 const EditJob = loadable(() => import("./admin/pages/Job/components/FormEdit.jsx"))
+//Company
+const CompaniesAdmin = loadable(() => import("./admin/pages/Company"))
+const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"))
 
 function App() {
     useEffect(() => {
@@ -204,7 +207,7 @@ function App() {
                         path="/admin/login"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <LoginAdmin title="Login Admin" />
+                                <LoginAdmin title="Đăng Nhập Admin" />
                             </Suspense>
                         }
                     />
@@ -220,6 +223,7 @@ function App() {
                     />
                 </Route>
                 <Route element={<LayoutAdmin/>}>
+                    {/*Users*/}
                     <Route
                         path="/admin/users"
                         element={
@@ -228,23 +232,40 @@ function App() {
                             </Suspense>
                         }
                     />
-                </Route>
-                <Route element={<LayoutAdmin/>}>
                     <Route
-                        path="/admin/jobs"
+                        path="/admin/users/create"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <JobsAdmin title="Quản Lý Công Việc" />
+                                <CreateAdmin title="Thêm Người Dùng" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/users/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditAdmin title="Sửa Người Dùng" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*Company*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/companies"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CompaniesAdmin title="Quản Lý Công Ty" />
                             </Suspense>
                         }
                     />
                 </Route>
                 <Route element={<LayoutAdmin/>}>
                     <Route
-                        path="/admin/jobs/edit/:id"
+                        path="/admin/companies/edit/:id"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <EditJob title="Chỉnh Sửa Công Việc" />
+                                <FormEdit title="Chỉnh Sửa Công Ty" />
                             </Suspense>
                         }
                     />
