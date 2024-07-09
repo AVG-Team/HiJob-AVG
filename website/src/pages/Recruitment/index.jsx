@@ -18,20 +18,18 @@ export default function Recruitment() {
         const fetchSkill = async () => {
             try {
                 const responseSkill = await skillApi.getAllSkills();
-                console.log(responseSkill.data);
                 setSkills(responseSkill.data);
             } catch (error) {
                 console.log("Failed to fetch skill: ", error);
             }
         };
         fetchSkill();
-    });
+    }, []);
 
     useEffect(() => {
         const fetchType = async () => {
             try {
                 const responseType = await typeApi.getAllType();
-                console.log(responseType.data);
                 setTypes(responseType.data);
             } catch (error) {
                 console.log("Failed to fetch type: ", error);
@@ -45,7 +43,6 @@ export default function Recruitment() {
         const fetchLevel = async () => {
             try {
                 const responseLevel = await levelApi.getAllLevel();
-                console.log(responseLevel.data);
                 setLevels(responseLevel.data);
             } catch (error) {
                 console.log("Failed to fetch level: ", error);

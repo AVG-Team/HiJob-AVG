@@ -54,6 +54,7 @@ public class JobController {
     public ResponseEntity<Object> create(
             @RequestBody RequestJob requestJob
             ){
+        System.out.println("1"+requestJob.toString());
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.createJob(requestJob) );
     }
 

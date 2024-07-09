@@ -1,11 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { MultiSelect } from "react-multi-select-component";
-// import jobApi from "../../../services/apis/jobApi";
-// import jobTypeApi from "../../../services/apis/jobTypeApi";
-// import jobLevelApi from "../../../services/apis/jobLevelApi";
-// import contractTypeApi from "../../../services/apis/contractTypeApi";
-// import jobSkillApi from "../../../services/apis/jobSkillApi";
+import { toast } from "react-toastify";
+import jobApi from "../../../services/apis/jobApi";
+import companyApi from "../../../services/apis/companyApi";
+import { profile, getUser } from "../../../services/apis/profile.js";
 
 Form.propTypes = {
     levels: PropTypes.array.isRequired,
@@ -16,21 +15,59 @@ Form.propTypes = {
 
 export default function Form({ levels, types, contracts, skills }) {
     const [selected, setSelected] = useState([]);
-    // const [job, setJob] = useState({});
-    // const [jobType, setJobType] = useState({});
-    // const [jobLevel, setJobLevel] = useState({});
-    // const [contractType, setContractType] = useState({});
-    // const [jobSkill, setJobSkill] = useState({});
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        responsibility: "",
+        requirement: "",
+        benefits: "",
+        requireOfYear: "",
+        salary: "",
+        level: 0,
+        type: 0,
+        contract: 0,
+    });
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await jobApi.createJob(job);
-    //         console.log(response.data);
-    //     } catch (error) {
-    //         console.log("Failed to create job: ", error);
-    //     }
-    // };
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [id]: value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const profileUser = await profile();
+            console.log("Profile user:", profileUser);
+            const user = await getUser(profileUser.data.email);
+            console.log("User:", user.data.id);
+            const company = await companyApi.getCompanyByUserId(user.data.id);
+            console.log("Company:", company.data.id);
+
+            const dataJob = {
+                title: formData.title,
+                description: formData.description,
+                responsibilities: formData.responsibility,
+                requirements: formData.requirement,
+                benefits: formData.benefits,
+                requireOfYear: formData.requireOfYear,
+                salary: parseInt(formData.salary, 10) || 0,
+                companyId: company.data.id,
+                userId: user.data.id,
+            };
+
+            console.log("Data job:", dataJob);
+            const response = await jobApi.createJob(dataJob);
+            toast.success("Ứng tuyển thành công");
+            console.log("Job application response:", response.data);
+        } catch (error) {
+            console.error("Error submitting job application:", error);
+            toast.error("Đã xảy ra lỗi khi ứng tuyển");
+        }
+    };
+
     return (
         <div className="w-full bg-white rounded-lg shadow-lg ">
             <div className="flex items-center justify-center p-4 border-b">
@@ -39,7 +76,7 @@ export default function Form({ levels, types, contracts, skills }) {
                 </h5>
             </div>
             <div className="p-4">
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700" htmlFor="title">
                             Tên Công Việc
@@ -47,6 +84,8 @@ export default function Form({ levels, types, contracts, skills }) {
                         <input
                             type="text"
                             id="title"
+                            value={formData.title}
+                            onChange={handleInputChange}
                             className="block w-full p-2 mt-1 rounded-md shadow-sm focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             placeholder="Java Developer"
                         />
@@ -59,6 +98,8 @@ export default function Form({ levels, types, contracts, skills }) {
                             <textarea
                                 id="description"
                                 rows="5"
+                                value={formData.description}
+                                onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             />
                         </div>
@@ -69,6 +110,8 @@ export default function Form({ levels, types, contracts, skills }) {
                             <textarea
                                 id="responsibility"
                                 rows="5"
+                                value={formData.responsibility}
+                                onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             />
                         </div>
@@ -81,6 +124,8 @@ export default function Form({ levels, types, contracts, skills }) {
                             <textarea
                                 id="requirement"
                                 rows="5"
+                                value={formData.requirement}
+                                onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             />
                         </div>
@@ -91,36 +136,74 @@ export default function Form({ levels, types, contracts, skills }) {
                             <textarea
                                 id="benefits"
                                 rows="5"
+                                value={formData.benefits}
+                                onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             />
                         </div>
                     </div>
                     <div className="grid grid-cols-3 gap-4 mb-4">
                         <div className="col-span-1">
+                            <label className="block text-sm font-medium text-gray-700" htmlFor="requireOfYear">
+                                Kinh nghiệm
+                            </label>
+                            <input
+                                type="number"
+                                id="requireOfYear"
+                                value={formData.requireOfYear}
+                                onChange={handleInputChange}
+                                className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                placeholder="Kinh nghiệm"
+                            />
+                        </div>
+                        <div className="col-span-1">
+                            <label className="block text-sm font-medium text-gray-700" htmlFor="salary">
+                                Lương
+                            </label>
+                            <input
+                                type="number"
+                                id="salary"
+                                value={formData.salary}
+                                onChange={handleInputChange}
+                                className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                placeholder="Lương"
+                            />
+                        </div>
+                        <div className="col-span-1">
                             <label className="block text-sm font-medium text-gray-700" htmlFor="level">
                                 Cấp bậc
                             </label>
                             <select
                                 id="level"
+                                value={formData.level}
+                                onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             >
-                                <option defaultValue={0}>Chọn cấp bậc</option>
+                                <option value={0}>Chọn cấp bậc</option>
                                 {levels.map((level) => (
-                                    <option key={level.id}>{level.levelName}</option>
+                                    <option key={level.id} value={level.id}>
+                                        {level.levelName}
+                                    </option>
                                 ))}
                             </select>
                         </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="col-span-1">
-                            <label className="block text-sm font-medium text-gray-700" htmlFor="contract">
+                            <label className="block text-sm font-medium text-gray-700" htmlFor="type">
                                 Loại Hình Làm Việc
                             </label>
                             <select
-                                id="contract"
+                                id="type"
+                                value={formData.type}
+                                onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             >
-                                <option defaultValue={0}>Chọn loại hình làm việc</option>
+                                <option value={0}>Chọn loại hình làm việc</option>
                                 {types.map((type) => (
-                                    <option key={type.id}>{type.typeName}</option>
+                                    <option key={type.id} value={type.id}>
+                                        {type.typeName}
+                                    </option>
                                 ))}
                             </select>
                         </div>
@@ -130,18 +213,22 @@ export default function Form({ levels, types, contracts, skills }) {
                             </label>
                             <select
                                 id="contract"
+                                value={formData.contract}
+                                onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             >
-                                <option defaultValue={0}>Chọn loại hợp đồng</option>
+                                <option value={0}>Chọn loại hợp đồng</option>
                                 {contracts.map((contract) => (
-                                    <option key={contract.id}>{contract.typeName}</option>
+                                    <option key={contract.id} value={contract.id}>
+                                        {contract.typeName}
+                                    </option>
                                 ))}
                             </select>
                         </div>
                     </div>
                     <div className="mb-4 ">
                         <div className="col-span-1">
-                            <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="description">
+                            <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="skills">
                                 Kĩ năng
                             </label>
                             {selected.map((skill) => (

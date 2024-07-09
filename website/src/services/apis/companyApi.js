@@ -10,7 +10,7 @@ const companyApi = {
         return axiosClient.get(url);
     },
     getCompanyByUserId(userId) {
-        const url = `/companies/getCompanyByUserId/${userId}`;
+        const url = `/companies/getCompanyByUser/${userId}`;
         return axiosClient.get(url, { userId });
     },
     getCompanies() {
