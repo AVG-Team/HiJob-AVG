@@ -23,7 +23,7 @@ const jobApi = {
     },
     updateJob(id, data) {
         const url = `/jobs/updateJob/${id}`;
-        return axiosClient.put(url, { id, data });
+        return axiosClient.put(url, data);
     },
     deleteJob(id) {
         const url = `/jobs/deleteJob/${id}`;
