@@ -229,7 +229,26 @@ function App() {
                         }
                     />
                 </Route>
-
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/jobs"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <JobsAdmin title="Quản Lý Công Việc" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/jobs/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditJob title="Chỉnh Sửa Công Việc" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
                 {/* PAGE 404 */}
                 <Route
                     path="*"
