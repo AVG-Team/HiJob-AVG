@@ -8,7 +8,6 @@ import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.responses.ResponseJob;
 import avg.hijob.backend.services.JobService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,10 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,8 +110,6 @@ public class JobServiceImpl implements JobService {
             job.setBenefits(requestJob.getBenefits());
             job.setRequireOfYear(requestJob.getRequireOfYear());
             job.setSalary(requestJob.getSalary());
-            job.setCompany(companyRepository.getReferenceById(requestJob.getCompanyId()));
-            job.setUser(userRepository.getReferenceById(requestJob.getUserId()));
             jobRepository.save(job);
 
             return new ResponseJob(job.getId(),job.getTitle(),job.getDescription(),job.getResponsibilities(),

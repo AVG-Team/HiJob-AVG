@@ -35,6 +35,8 @@ const Recruitment = loadable(() => import("./pages/Recruitment"));
 const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
 const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
 const UsersAdmin = loadable(() => import("./admin/pages/Users"));
+const JobsAdmin = loadable(() => import("./admin/pages/Job"))
+const EditJob = loadable(() => import("./admin/pages/Job/components/FormEdit.jsx"))
 
 function App() {
     useEffect(() => {
@@ -224,7 +226,26 @@ function App() {
                         }
                     />
                 </Route>
-
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/jobs"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <JobsAdmin title="Quản Lý Công Việc" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/jobs/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditJob title="Chỉnh Sửa Công Việc" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
                 {/* PAGE 404 */}
                 <Route
                     path="*"
