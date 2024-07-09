@@ -2,6 +2,9 @@ package avg.hijob.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -13,8 +16,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
+@Document(indexName = "company")
 public class Company {
     @Id
+    @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
@@ -23,9 +28,12 @@ public class Company {
     @Column(name = "tax_code")
     private int taxCode;
 
+    @Field(name = "field", type = FieldType.Text)
     private String field;
 
     private String address;
+
+    @Field(name = "province", type = FieldType.Text)
     private String province;
 
     // path image registration certificate of company notarized
@@ -43,7 +51,7 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<CompanyFollow> followers = new HashSet<>();
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Job> jobs = new HashSet<>();
 
     @Column(nullable = false)

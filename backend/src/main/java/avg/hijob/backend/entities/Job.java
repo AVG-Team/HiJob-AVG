@@ -16,39 +16,36 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-@Document(indexName = "Job")
-@Data
+@Document(indexName = "job")
 public class Job {
     @Id
+    @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Field(type = FieldType.Keyword, name = "id")
     private String id;
 
+    @Field(name = "title", type = FieldType.Text)
     @Column(nullable = false)
-    @Field(type = FieldType.Text, name = "title")
     private String title;
 
     @Column(nullable = false)
-    @Field(type = FieldType.Text, name = "description")
     private String description;
 
-    @Field(type = FieldType.Text, name = "responsibilities")
     private String responsibilities;
-    @Field(type = FieldType.Text, name = "requirements")
+
     private String requirements;
 
-    @Field(type = FieldType.Text, name = "benefits")
+    @Field(name = "benefits", type = FieldType.Text)
     private String benefits;
 
     @Column(name = "require_of_year", nullable = false)
-    @Field(type = FieldType.Text, name = "benefits")
+    @Field(name = "requireOfYear", type = FieldType.Text)
     private String requireOfYear;
 
     @Column(nullable = false)
-    @Field(type = FieldType.Text, name = "benefits")
     private Long salary;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = false)
+
     private Set<JobLevelDetail> levels = new HashSet<>();
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = false)
@@ -66,7 +63,6 @@ public class Job {
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
-    @Field(type = FieldType.Nested, name = "user_id")
     private User user;
 
     @Column(nullable = false)

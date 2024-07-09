@@ -1,0 +1,11 @@
+version: '2'
+services:
+  my-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+    container_name: my-elasticsearch
+    # volumes:
+    #     - ~/data/my-elasticsearch/:/usr/share/elasticsearch/data/
+    ports:
+      - 9200:9200
+    environment:
+      - 'discovery.type=single-node'

@@ -19,4 +19,8 @@ public interface JobRepository extends JpaRepository<Job, String> {
             " WHERE ?1 = '' or j.company.id like %?1%")
     Page<ResponseJob> findAllOrCompanyId(String idCompany, Pageable pageable);
 
+    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id,j.title,j.description,j.responsibilities,j.requirements,j.benefits,j.requireOfYear,j.salary,j.company.id,j.user.id,j.createdAt,j.updatedAt,j.deletedAt) " +
+            "FROM Job j")
+    Page<ResponseJob> findAllCus(Pageable pageable);
+
 }
