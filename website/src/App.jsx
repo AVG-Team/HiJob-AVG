@@ -34,7 +34,10 @@ const Recruitment = loadable(() => import("./pages/Recruitment"));
 // ADMIN ROUTE
 const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
 const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
+// Users
 const UsersAdmin = loadable(() => import("./admin/pages/Users"));
+const CreateAdmin = loadable(() => import("./admin/pages/Users/create"));
+const EditAdmin = loadable(() => import("./admin/pages/Users/edit"));
 
 function App() {
     useEffect(() => {
@@ -199,7 +202,7 @@ function App() {
                         path="/admin/login"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <LoginAdmin title="Login Admin" />
+                                <LoginAdmin title="Đăng Nhập Admin" />
                             </Suspense>
                         }
                     />
@@ -215,11 +218,28 @@ function App() {
                     />
                 </Route>
                 <Route element={<LayoutAdmin/>}>
+                    {/*Users*/}
                     <Route
                         path="/admin/users"
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <UsersAdmin title="Quản Lý Người Dùng" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/users/create"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CreateAdmin title="Thêm Người Dùng" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/users/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditAdmin title="Sửa Người Dùng" />
                             </Suspense>
                         }
                     />

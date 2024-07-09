@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ImageInput = ({name,value, formData, setFormData}) => {
+const ImageInput = ({name,value, avatar, setAvatar}) => {
     const [imagePreview, setImagePreview] = useState(value);
 
     const handleImageChange = (e) => {
@@ -9,15 +9,16 @@ const ImageInput = ({name,value, formData, setFormData}) => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result);
-                setFormData({ ...formData, coverLetter: reader.result });
             };
             reader.readAsDataURL(selectedFile);
+            console.log(avatar)
+            setAvatar(selectedFile);
         }
     };
 
     const handleRemoveImage = () => {
         setImagePreview(null);
-        setFormData({ ...formData, coverLetter: "" });
+        setAvatar(null);
     };
 
     return (

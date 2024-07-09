@@ -41,6 +41,17 @@ export default {
                 'meta-7': '#FF6766',
                 'meta-8': '#F0950C',
                 'meta-9': '#E5E7EB',
+                'graydark': '#333A48',
+            },
+            fontSize: {
+                'title-xxl': ['44px', '55px'],
+                'title-xl': ['36px', '45px'],
+                'title-xl2': ['33px', '45px'],
+                'title-lg': ['28px', '35px'],
+                'title-md': ['24px', '30px'],
+                'title-md2': ['26px', '30px'],
+                'title-sm': ['20px', '26px'],
+                'title-xsm': ['18px', '24px'],
             },
             boxShadow: {
                 default: '0px 8px 13px -3px rgba(0, 0, 0, 0.07)',

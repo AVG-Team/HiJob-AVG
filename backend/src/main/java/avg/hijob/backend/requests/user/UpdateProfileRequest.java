@@ -1,5 +1,6 @@
 package avg.hijob.backend.requests.user;
 
+import javax.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,5 +26,9 @@ public class UpdateProfileRequest {
     private String skills;
     private String socialNetwork1;
     private String socialNetwork2;
+    @Nullable
     private MultipartFile coverLetter;
+    private MultipartFile avatar;
+    private String active;
+    private String jobStatus;
 }

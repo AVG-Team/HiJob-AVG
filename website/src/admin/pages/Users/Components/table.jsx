@@ -6,50 +6,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {getAll} from "../../../../services/apis/admin/users.js";
+import {EditOutlined, DeleteForeverOutlined } from '@mui/icons-material';
+import Pagination from "./pagination.jsx";
+import {deleteUser} from "../../../../services/apis/admin/users.js";
 import {toast} from "react-toastify";
-import {useEffect} from "react";
-import {EditOutlined, DeleteForeverOutlined} from '@mui/icons-material';
 
-export default function TableData() {
-    const [data, setData] = React.useState([]);
-    const [role, setRole] = React.useState("");
-    const [search, setSearch] = React.useState("");
-    const [page, setPage] = React.useState("1");
-    const [totalPage, setTotalPage] = React.useState(15);
-    const [company, setCompany] = React.useState("");
-    const [active, setActive] = React.useState("1");
-    const [jobStatus, setJobStatus] = React.useState("");
-    const [province, setProvince] = React.useState("");
-
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        setRole(urlParams.get('role'));
-        setSearch(urlParams.get('search'));
-        setPage(urlParams.get('page'));
-        setCompany(urlParams.get('company'));
-        setActive(urlParams.get('active'));
-        setJobStatus(urlParams.get('jobStatus'));
-        setProvince(urlParams.get('province'));
-        getData();
-    }, []);
-
-    const getData = async () => {
-        try {
-            const response = await getAll();
-            const data = response.data;
-            setData(data);
-            console.log(data)
-        } catch (error) {
-            console.error(error);
+export default function TableData({data, setData, role, query, setQuery, totalResults, resultsPerPage}) {
+    const handleDelete = (id) => async (event) => {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+        const confirmation = confirm("Bạn có chắc chắn muốn xóa người dùng này không?");
+        if (confirmation) {
+            try {
+                await deleteUser(id);
+                setData(data.filter(each => each.id !== id));
+                toast.success("Xóa người dùng thành công")
+            } catch (error) {
+                console.error("Error deleting user:", error);
+            }
         }
-    }
+    };
 
     return (
         <TableContainer component={Paper} className="!py-7.5">
-            <h4 className="mb-6 text-xl font-semibold px-7.5">
-                Top Channels
-            </h4>
             <Table sx={{minWidth: 650}} aria-label="simple table">
                 <TableHead>
                     <TableRow>
@@ -69,7 +47,7 @@ export default function TableData() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((each, index) => (
+                    {data?.map((each, index) => (
                         <TableRow
                             key={each.id}
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
@@ -86,14 +64,14 @@ export default function TableData() {
                             <TableCell align="center">{each.company}</TableCell>
                             <TableCell align="center">{each.role}</TableCell>
                             <TableCell align="center">
-
-                                <a href=""><EditOutlined className="hover:text-primary"/></a>
-                                <a href=""><DeleteForeverOutlined className="hover:text-red-500"/></a>
+                                <a href={`/admin/users/${each.id}`}><EditOutlined className="hover:text-primary"/></a>
+                                <a href="#" onClick={handleDelete(each.id)}><DeleteForeverOutlined className="hover:text-red-500"/></a>
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
+            <Pagination query={query} setQuery={setQuery} totalResults={totalResults} resultsPerPage={resultsPerPage}/>
         </TableContainer>
     );
 }

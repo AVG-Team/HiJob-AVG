@@ -11,7 +11,7 @@ export default function Breadcrumb({ pageName }) {
             <nav>
                 <ol className="flex items-center gap-2">
                     <li>
-                        <Link className="font-medium" to="/admin">
+                        <Link className="font-medium hover:text-primary" to="/admin">
                             Trang Chủ /
                         </Link>
                     </li>

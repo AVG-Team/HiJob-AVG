@@ -23,13 +23,13 @@ const FormProfile = ({userInfo}) => {
     const [skills, setSkills] = useState([]);
     let initialFormData = {};
     useEffect(() => {
-        getAllSkillsData();
+        getAllSkillsData().then();
         initialFormData = {...formData};
     }, []);
     const getAllSkillsData = async () => {
         try {
             const response = await getAllSkills();
-            const skillsData = response.data.map(skill => skill.name);
+            const skillsData = response.data.map(skill => skill.skillName);
             setSkills(skillsData);
             return response.data;
         } catch (err) {
@@ -251,7 +251,7 @@ const FormProfile = ({userInfo}) => {
                             className="w-full"
                             name="province"
                             labelId="input-province"
-                            label="Province"
+                            label="Tỉnh thành"
                             value={selectedProvince}
                             onChange={handleChangeProvince}
                             renderValue={(selected) => {
