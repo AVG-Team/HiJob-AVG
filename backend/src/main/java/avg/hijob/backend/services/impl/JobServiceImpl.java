@@ -85,11 +85,8 @@ public class JobServiceImpl implements JobService {
     public ResponseJob createJob(RequestJob requestJob) {
         try {
             // Fetch company and user entities
-            System.out.println(requestJob.toString());
-            System.out.println(requestJob.getCompanyId());
             Company company = companyRepository.findById(requestJob.getCompanyId())
                     .orElseThrow(() -> new NotFoundException("Company not found", HttpStatus.NOT_FOUND));
-            System.out.println(requestJob.getUserId());
             User user = userRepository.findById(requestJob.getUserId())
                     .orElseThrow(() -> new NotFoundException("User not found", HttpStatus.NOT_FOUND));
 

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class RequestJobSkillDetail {
+public class RequestJobLevelDetail {
     private String jobId;
-    private Long skillId;
+    private Long levelId;
 }

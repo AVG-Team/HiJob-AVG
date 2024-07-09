@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import { MultiSelect } from "react-multi-select-component";
 import { toast } from "react-toastify";
 import jobApi from "../../../services/apis/jobApi";
+import jobTypeApi from "../../../services/apis/jobTypeApi.js";
+import jobSkillApi from "../../../services/apis/jobSkillApi.js";
+import jobLevelApi from "../../../services/apis/jobLevelApi.js";
+import contractTypeApi from "../../../services/apis/contractTypeApi.js";
 import companyApi from "../../../services/apis/companyApi";
 import { profile, getUser } from "../../../services/apis/profile.js";
 
@@ -57,9 +61,41 @@ export default function Form({ levels, types, contracts, skills }) {
                 companyId: company.data.id,
                 userId: user.data.id,
             };
-
-            console.log("Data job:", dataJob);
             const response = await jobApi.createJob(dataJob);
+
+            const jobId = response.data.id;
+            const level = {
+                jobId: jobId,
+                levelId: formData.level,
+            };
+            const levelResponse = await jobLevelApi.create(level);
+            console.log("level" + levelResponse);
+
+            console.log(formData.type);
+            const type = {
+                jobId: jobId,
+                jobTypeId: formData.type,
+            };
+            const typeResponse = await jobTypeApi.create(type);
+            console.log("type" + typeResponse.data);
+
+            const contract = {
+                jobId: jobId,
+                contractTypeId: formData.contract,
+            };
+            const contractResponse = await contractTypeApi.create(contract);
+            console.log("contract" + contractResponse.data);
+
+            const skills = selected.map((item) => ({
+                jobId: jobId,
+                skillId: item.value,
+            }));
+
+            for (let i = 0; i < skills.length; i++) {
+                const skillResponse = await jobSkillApi.create(skills[i]);
+                console.log("skill" + skillResponse.data);
+            }
+
             toast.success("Ứng tuyển thành công");
             console.log("Job application response:", response.data);
         } catch (error) {
@@ -88,6 +124,7 @@ export default function Form({ levels, types, contracts, skills }) {
                             onChange={handleInputChange}
                             className="block w-full p-2 mt-1 rounded-md shadow-sm focus:border-primary-500 focus:outline-none focus:shadow-lg"
                             placeholder="Java Developer"
+                            required
                         />
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-4">
@@ -101,6 +138,7 @@ export default function Form({ levels, types, contracts, skills }) {
                                 value={formData.description}
                                 onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                required
                             />
                         </div>
                         <div className="col-span-1">
@@ -113,6 +151,7 @@ export default function Form({ levels, types, contracts, skills }) {
                                 value={formData.responsibility}
                                 onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                required
                             />
                         </div>
                     </div>
@@ -127,6 +166,7 @@ export default function Form({ levels, types, contracts, skills }) {
                                 value={formData.requirement}
                                 onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                required
                             />
                         </div>
                         <div className="col-span-1">
@@ -139,6 +179,7 @@ export default function Form({ levels, types, contracts, skills }) {
                                 value={formData.benefits}
                                 onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                required
                             />
                         </div>
                     </div>
@@ -154,6 +195,7 @@ export default function Form({ levels, types, contracts, skills }) {
                                 onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                                 placeholder="Kinh nghiệm"
+                                required
                             />
                         </div>
                         <div className="col-span-1">
@@ -167,6 +209,7 @@ export default function Form({ levels, types, contracts, skills }) {
                                 onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
                                 placeholder="Lương"
+                                required
                             />
                         </div>
                         <div className="col-span-1">
@@ -178,6 +221,7 @@ export default function Form({ levels, types, contracts, skills }) {
                                 value={formData.level}
                                 onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                required
                             >
                                 <option value={0}>Chọn cấp bậc</option>
                                 {levels.map((level) => (
@@ -198,6 +242,7 @@ export default function Form({ levels, types, contracts, skills }) {
                                 value={formData.type}
                                 onChange={handleInputChange}
                                 className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                required
                             >
                                 <option value={0}>Chọn loại hình làm việc</option>
                                 {types.map((type) => (
