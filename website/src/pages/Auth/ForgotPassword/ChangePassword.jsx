@@ -22,7 +22,7 @@ export default function ChangePassword(props) {
     const title = props.title;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        document.title = title ? `${title}` : "Page Does Not Exist";
+        document.title = title ? `${title}` : "Trang không tồn tại";
         const urlParams = new URLSearchParams(window.location.search);
         setToken(urlParams.get('token'));
     }, [title]);

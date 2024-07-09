@@ -23,7 +23,7 @@ export default function ForgotPassword(props) {
     const title = props.title;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        document.title = title ? `${title}` : "Page Does Not Exist";
+        document.title = title ? `${title}` : "Trang không tồn tại";
     }, [title]);
 
     const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
