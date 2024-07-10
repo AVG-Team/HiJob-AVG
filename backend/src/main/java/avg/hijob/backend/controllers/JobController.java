@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -49,8 +51,9 @@ public class JobController {
             @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
             @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
     ){
+       String decodedField = URLDecoder.decode(field.orElse(""), StandardCharsets.UTF_8);
        Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
-       return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,  jobElasticRepository.findByTitleContaining(field.orElse(""),pageable));
+       return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,  jobElasticRepository.findByTitleContaining(decodedField,pageable));
     }
 
     @GetMapping("/elastic")
@@ -98,6 +101,7 @@ public class JobController {
             @RequestParam(name = "pageNo", defaultValue = "0") Optional<Integer> pageNo,
             @RequestParam(name = "pageSize", defaultValue = "3") Optional<Integer> pageSize
     ) {
+
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.mappingJobs( jobSkill,  jobLevel,jobType, contractType, pageNo, pageSize));
     }
     @GetMapping("/getJobCreateToday")

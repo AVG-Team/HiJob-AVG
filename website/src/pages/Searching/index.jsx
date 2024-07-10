@@ -7,10 +7,11 @@ import contractApi from "../../services/apis/contractApi";
 import typeApi from "../../services/apis/typeApi";
 import skillApi from "../../services/apis/skillApi";
 import companyApi from "../../services/apis/companyApi";
+import Pagination from "@mui/material/Pagination";
 
 export default function Searching({results}) {
-    const [page, setPage] = useState(0);
-    const [pageSize, setPageSize] = useState(3);
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(6);
     const [total, setTotal] = useState(0);
     const [contentOfJobs, setContentOfJobs] = useState([]);
     const [contentOfCompanies, setContentOfCompanies] = useState([]);
@@ -31,6 +32,7 @@ export default function Searching({results}) {
         skil: ""
     });
 
+
     const handleInputChange = async (e) => {
         const { id, value } = e.target;
         
@@ -43,8 +45,8 @@ export default function Searching({results}) {
     };
 
 
-    const handleShowMore = () => {
-        setPageSize(pageSize + 3);
+    const handleChangePage = (event, value) => {
+        setPage(value);
     };
 
     const handleTab = (index) => {
@@ -116,9 +118,9 @@ export default function Searching({results}) {
                         pageNo: page,
                         pageSize: pageSize
                     });
-
+                    console.log(response.data.totalElements);
                     setContentOfJobs(response.data.content);
-                    setTotal(Math.ceil(response.data.totalElements / response.data.size));
+                    setTotal(Math.ceil(response.data.totalElements / pageSize));
                 } catch (error) {
                     console.log("Failed to fetch contract: ", error);
                 }
@@ -132,9 +134,15 @@ export default function Searching({results}) {
         setIsLoading(true);
         const fetchJobsData = async () => {
             try {
-                const response = await jobApi.getAllJobs({ pageNo: page, pageSize: pageSize });
+                const response = await jobApi.findJobsByTitle({
+                    pageNo: page,
+                    pageSize: pageSize
+                });
+            
                 setContentOfJobs(response.data.content);
-                setTotal(Math.ceil(response.data.totalElements/ response.data.size));
+                console.log(response.data.totalElements);
+                setTotal(Math.ceil(response.data.totalElements/ pageSize));
+                console.log(total);
                 setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -145,7 +153,6 @@ export default function Searching({results}) {
             try {
                 const response= await companyApi.getCompanies({pageNo:page,pageSize: pageSize});
                 setContentOfCompanies(response.data.content);
-                setTotal(Math.ceil(response.data.totalElements/ response.data.size));
                 setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -163,7 +170,6 @@ export default function Searching({results}) {
     useEffect(() => {
         console.log(results);
         setContentOfJobs(results);
-      
         
     }, [results]);
     return (
@@ -285,18 +291,21 @@ export default function Searching({results}) {
                                         <div>
                                             <Spin spinning={isLoading}>
                                                 {contentOfJobs.map((item) => (
-                                                    <Card key={item.id} name={item.title} />
+                                                    <Card key={item.id} name={item.title} require_of_year = {item.require_of_year}
+                                                     benefits = {item.benefits} requirements = {item.requirements} salary = {item.salary}
+                                                     responsibilities = {item.responsibilities} />
                                                 ))}
                                             </Spin>
                                         </div>
                                         <div className="mx-auto mt-4 text-center sm:max-lg:w[238px]">
-                                            <button
-                                                className="inline-flex items-center justify-center border border-solid text-primary-600 text-md bg-transparent rounded w-full h-9
-                                                 border-primary font-semibold px-4 lg:text-base lg:px-6 lg:gap-3 transition-all"
-                                                type="button"
-                                                onClick={handleShowMore}>
-                                                Show more
-                                            </button>
+                                              <Pagination
+                                                    count={total}
+                                                    page={page}
+                                                    onChange={handleChangePage}
+                                                    variant="outlined"
+                                                    shape="rounded"
+                                                    sx={{ marginTop: 5, display: "flex", justifyContent: "end" }}
+                            />
                                         </div>
                                     </div>
                                     <div className="col-span-1 ml-6">

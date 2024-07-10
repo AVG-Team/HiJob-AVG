@@ -19,23 +19,21 @@ export default function Card(props){
                                 <h3 className="line-clamp-1">
                                     <a target="_blank" className="text-md text-lg font-bold transistion transition-all text-primary" href="">{props.name}</a>
                                 </h3>
-                                <div className="mt-1 line-clamp-1">
-                                    <a target="_blank" className="text-md text-gray-600 transition-all hover:text-primary" href="">Viet Nam</a>
-                                </div>
+                               
                                 <div className="mt-2 flex items-center justify-start gap-5">
-                                    <div className="text-primary">
+                                    {/* <div className="text-primary">
                                         <p>
-                                            <span className="text-md cursor-pointer transition-all hover:text-primary">Login to view salary</span>
+                                            <span className="text-md cursor-pointer transition-all hover:text-primary">{props.salary}</span>
                                         </p>
-                                    </div>
-                                    <div className="text-gray-600">
+                                    </div> */}
+                                    {/* <div className="text-gray-600">
                                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M156,128a28,28,0,1,1-28-28A28,28,0,0,1,156,128Z"></path>
                                         </svg>
-                                    </div>
-                                    <div>
-                                        <p className="text-md text-gray-500">Junior</p>
-                                    </div>
+                                    </div> */}
+                                    {/* <div>
+                                        <p className="text-md text-gray-500">{props.require_of_year}</p>
+                                    </div> */}
                                 </div>
                                 <div className="text-md flex flex-wrap items-end gap-2 text-gray-500">
                                     <p>Hồ Chí Minh</p>
@@ -45,9 +43,8 @@ export default function Card(props){
                                 </div>
                                 <div className="mt-2">
                                     <ul className=" ml-6 list-disc text-gray-600">
-                                        <li className="text-md"> Lương, Thưởng sẽ được thảo luận</li>
-                                        <li className="text-md"> Review đánh giá năng lực hằng năm </li>
-                                        <li className="text-md"> Phụ cấp chứng chỉ</li>
+                                        <li className="text-md"> {props.responsibilities}</li>
+                                        <li className="text-md">Salary: {props.salary}</li>
                                     </ul>
                                 </div>
                                 <hr className="mt-2 h-px w-full bg-gray-200"/>

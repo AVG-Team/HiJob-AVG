@@ -8,14 +8,11 @@ import avg.hijob.backend.entities.*;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.CompanyRepository;
 import avg.hijob.backend.repoElastic.*;
-import avg.hijob.backend.repositories.CompanyRepository;
 import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.requests.RequestJob;
-import avg.hijob.backend.responses.ResponseHandler;
 import avg.hijob.backend.responses.ResponseJob;
 import avg.hijob.backend.services.JobService;
-import com.nimbusds.jose.util.Pair;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +24,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.*;
@@ -279,5 +274,7 @@ public class JobServiceImpl implements JobService {
         // Create and return a Page object with the retrieved jobs
         return new PageImpl<>(jobList, PageRequest.of(pageNo.orElse(0), pageSize.orElse(10)), jobList.size());
     }
+
+
 
 }
