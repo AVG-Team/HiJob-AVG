@@ -1,19 +1,14 @@
-package avg.hijob.backend.entities;
+package avg.hijob.backend.requests;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Data
 @AllArgsConstructor
-@Builder
-@Entity
-public class About {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+@NoArgsConstructor
+public class RequestAbout {
     private String title;
     private String nameCompany;
     private String address;

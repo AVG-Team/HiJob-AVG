@@ -34,6 +34,7 @@ const Recruitment = loadable(() => import("./pages/Recruitment"));
 // ADMIN ROUTE
 const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
 const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
+const About = loadable(() => import("./admin/pages/About"));
 // Users
 const UsersAdmin = loadable(() => import("./admin/pages/Users"));
 const CreateAdmin = loadable(() => import("./admin/pages/Users/create"));
@@ -48,6 +49,14 @@ const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdi
 const SkillsAdmin = loadable(() => import("./admin/pages/Skill"))
 const EditSkill = loadable(() => import("./admin/pages/Skill/components/FormEdit.jsx"))
 const CreateSkill = loadable(() => import("./admin/pages/Skill/components/FormCreate.jsx"))
+//Level
+const LevelAdmin = loadable(() => import("./admin/pages/Level"));
+const EditLevel = loadable(() => import("./admin/pages/Level/components/FormEdit.jsx"));
+const CreateLevel = loadable(() => import("./admin/pages/Level/components/FormCreate.jsx"))
+//JobType
+const JobTypeAdmin = loadable(() => import("./admin/pages/JobType"));
+const EditJobType = loadable(() => import("./admin/pages/JobType/components/FormEdit.jsx"));
+const CreateJobType = loadable(() => import("./admin/pages/JobType/components/FormCreate.jsx"));
 //Roles
 const RolesAdmin = loadable(() => import("./admin/pages/Role"));
 
@@ -171,7 +180,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/about-us"
+                        path="/ve-chung-toi"
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <AboutUs title="Về chúng tôi" />
@@ -228,6 +237,14 @@ function App() {
                             </Suspense>
                         }
                     />
+                    <Route
+                        path="/admin/about"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <About title="Về Trang Web Của Tôi" />
+                            </Suspense>
+                        }
+                    />
                 </Route>
                 <Route element={<LayoutAdmin/>}>
                     {/*Users*/}
@@ -277,7 +294,6 @@ function App() {
                         }
                     />
                 </Route>
-                {/*Jobs*/}
                 {/*Job*/}
                 <Route element={<LayoutAdmin/>}>
                     <Route
@@ -321,6 +337,60 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <CreateSkill title="Thêm Kỹ Năng" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*Level*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/levels"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <LevelAdmin title="Quản Lý Level" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/levels/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditLevel title="Sửa Level" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/levels/create"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CreateLevel title="Thêm Level" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*JobType*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/job-types"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <JobTypeAdmin title="Quản Lý Job Type" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/job-types/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditJobType title="Sửa Job Type" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/job-types/create"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CreateJobType title="Thêm Job Type" />
                             </Suspense>
                         }
                     />

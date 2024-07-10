@@ -32,13 +32,30 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private UserRepository userRepository;
 
+//    @Override
+//    public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q) {
+//        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(9));
+//        if (jobRepository.findAll().isEmpty()) {
+//            throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
+//        }
+//        return jobRepository.getAllJobsQuery(q.orElse(null), pageable);
+//    }
+
     @Override
-    public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q) {
-        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(9));
+    public Page<ResponseJob> getAllJobsWithQuery(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<Integer> salary, Optional<Integer> yearExp) {
+        int pageNumber = pageNo.orElse(0);
+        int size = pageSize.orElse(9);
+        Pageable pageable = PageRequest.of(pageNumber, size);
+
         if (jobRepository.findAll().isEmpty()) {
             throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
         }
-        return jobRepository.getAllJobsQuery(q.orElse(null), pageable);
+
+        Long salaryMain = salary.isPresent() && salary.get() != -1 ? (long) salary.get() * 1000000 : -1L;
+        Integer yearExpMain = yearExp.orElse(-1);
+        String qMain = q.orElse("");
+
+        return jobRepository.getAllJobsQuery(qMain, yearExpMain, salaryMain, pageable);
     }
 
     @Override
@@ -88,7 +105,7 @@ public class JobServiceImpl implements JobService {
 
             return new ResponseJob(job.getId(), job.getTitle(), job.getDescription(), job.getResponsibilities(),
                     job.getRequirements(), job.getBenefits(), job.getRequireOfYear(), job.getSalary(),
-                    job.getCompany().getId(), job.getUser().getId(), job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
+                    job.getCompany().getId(),job.getCompany().getName(), job.getUser().getId(), job.getUser().getFullName() , job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
 
         } catch (Exception ex) {
             throw new NotFoundException("Error creating job", HttpStatus.BAD_REQUEST);
@@ -113,7 +130,7 @@ public class JobServiceImpl implements JobService {
 
             return new ResponseJob(job.getId(), job.getTitle(), job.getDescription(), job.getResponsibilities(),
                     job.getRequirements(), job.getBenefits(), job.getRequireOfYear(), job.getSalary(),
-                    job.getCompany().getId(), job.getUser().getId(), job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
+                    job.getCompany().getId(), job.getCompany().getName() ,job.getUser().getId(), job.getUser().getFullName(), job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
 
         } catch (Exception ex) {
             throw new NotFoundException("Error updating job", HttpStatus.BAD_REQUEST);
@@ -134,7 +151,7 @@ public class JobServiceImpl implements JobService {
 
             return new ResponseJob(job.getId(), job.getTitle(), job.getDescription(), job.getResponsibilities(),
                     job.getRequirements(), job.getBenefits(), job.getRequireOfYear(), job.getSalary(),
-                    job.getCompany().getId(), job.getUser().getId(), job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
+                    job.getCompany().getId(), job.getCompany().getName(),job.getUser().getId(), job.getUser().getFullName(), job.getCreatedAt(), job.getUpdatedAt(), job.getDeletedAt());
 
         } catch (Exception ex) {
             throw new NotFoundException("Error deleting job", HttpStatus.BAD_REQUEST);
