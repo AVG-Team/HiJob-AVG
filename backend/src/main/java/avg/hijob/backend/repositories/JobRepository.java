@@ -18,39 +18,42 @@ import java.util.List;
 public interface JobRepository extends JpaRepository<Job, String> {
 
 
-    @Query(" SELECT new avg.hijob.backend.responses.ResponseJob(j.id,j.title,j.description,j.responsibilities,j.requirements,j.benefits,j.requireOfYear,j.salary,j.company.id,j.user.id,j.createdAt,j.updatedAt,j.deletedAt) " +
+    @Query(" SELECT new avg.hijob.backend.responses.ResponseJob(j.id,j.title,j.description,j.responsibilities,j.requirements,j.benefits,j.requireOfYear,j.salary,j.company.id,j.company.name,j.user.id, j.user.fullName,j.createdAt,j.updatedAt,j.deletedAt) " +
             " FROM Job j " +
             "where j.deletedAt is null")
     Page<ResponseJob> findAllJobs(Pageable pageable);
 
 
-    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id,j.title,j.description,j.responsibilities,j.requirements,j.benefits,j.requireOfYear,j.salary,j.company.id,j.user.id,j.createdAt,j.updatedAt,j.deletedAt) " +
+    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id,j.title,j.description,j.responsibilities,j.requirements,j.benefits,j.requireOfYear,j.salary,j.company.id,j.company.name,j.user.id, j.user.fullName,j.createdAt,j.updatedAt,j.deletedAt) " +
            "FROM Job j " +
             " WHERE ?1 = '' or j.company.id like %?1% and j.deletedAt is null")
     Page<ResponseJob> findAllByCompanyId(String idCompany, Pageable pageable);
 
 
-    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id, j.title, j.description, j.responsibilities, j.requirements, j.benefits, j.requireOfYear, j.salary, j.company.id, j.user.id, j.createdAt, j.updatedAt, j.deletedAt) " +
+    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id, j.title, j.description, j.responsibilities, j.requirements, j.benefits, j.requireOfYear, j.salary, j.company.id,j.company.name, j.user.id, j.user.fullName, j.createdAt, j.updatedAt, j.deletedAt) " +
             "FROM Job j " +
             "WHERE FUNCTION('YEAR', j.createdAt) = FUNCTION('YEAR', ?1) " +
             "AND FUNCTION('MONTH', j.createdAt) = FUNCTION('MONTH', ?1)" +
             "and j.deletedAt is null")
     List<ResponseJob> getJobsCreateToday(Timestamp createdDate);
 
-    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id,j.title,j.description,j.responsibilities,j.requirements,j.benefits,j.requireOfYear,j.salary,j.company.id,j.user.id,j.createdAt,j.updatedAt,j.deletedAt) " +
+    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id,j.title,j.description,j.responsibilities,j.requirements,j.benefits,j.requireOfYear,j.salary,j.company.id,j.company.name,j.user.id, j.user.fullName,j.createdAt,j.updatedAt,j.deletedAt) " +
             "FROM Job j " +
             " WHERE j.id = ?1 and j.deletedAt is null")
     ResponseJob getJobById(String id);
 
-    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id, j.title, j.description, j.responsibilities, j.requirements, j.benefits, j.requireOfYear, j.salary, j.company.id, j.user.id, j.createdAt, j.updatedAt, j.deletedAt) " +
+    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id, j.title, j.description, j.responsibilities, j.requirements, j.benefits, j.requireOfYear, j.salary, j.company.id, j.company.name, j.user.id, j.user.fullName, j.createdAt, j.updatedAt, j.deletedAt) " +
             "FROM Job j " +
             "LEFT JOIN j.company c " +
             "LEFT JOIN j.user u " +
-            "WHERE j.deletedAt is null " +
-            "AND (:q IS NULL OR :q = '' OR j.title LIKE %:q% OR j.description LIKE %:q% OR c.name LIKE %:q% OR u.fullName LIKE %:q%)")
+            "WHERE j.deletedAt IS NULL " +
+            "AND (:q IS NULL OR :q = '' OR j.title LIKE %:q% OR c.name LIKE %:q% OR u.fullName LIKE %:q%) " +
+            "AND (:yearExp IS NULL OR :yearExp = -1 OR CAST(j.requireOfYear AS integer) <= :yearExp) " +
+            "AND (:salary IS NULL OR :salary = -1L OR j.salary <= :salary)")
     Page<ResponseJob> getAllJobsQuery(
             @Param("q") String q,
+            @Param("yearExp") Integer yearExp,
+            @Param("salary") Long salary,
             Pageable pageable
     );
-
 }

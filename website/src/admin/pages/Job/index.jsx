@@ -12,7 +12,9 @@ export default function Index(props) {
     const [query, setQuery] = useState({
         page: 0,
         size: 10,
-        q: ""
+        q: "",
+        salary: -1,
+        yearExp: -1,
     });
     const [totalResults, setTotalResults] = useState(0);
     const [resultsPerPage, setResultsPerPage] = useState(10);
@@ -39,6 +41,8 @@ export default function Index(props) {
             q: urlParams.get('q') || "",
             page: urlParams.get('page') || 0,
             size: urlParams.get('size') || 10,
+            yearExp: urlParams.get('yearExp') || -1,
+            salary: urlParams.get('salary') || -1,
         });
     }, [title]);
 
@@ -47,7 +51,6 @@ export default function Index(props) {
             const response = await jobApi.getJobsQuery(query);
             const data = response.data.content;
             setJobs(data);
-            console.log(response)
             setTotalResults(response.data.totalElements);
             setResultsPerPage(response.data.size);
         } catch (error) {
@@ -89,6 +92,16 @@ export default function Index(props) {
             }, 1000));
         }
     };
+
+    useEffect(() => {
+        const isQueryChanged = Object.keys(query).some(key => key !== 'page' && query[key] !== prevQuery[key]);
+        if (isQueryChanged) {
+            setQuery(prev => ({ ...prev, page: "0" }));
+        } else {
+            getData().then();
+        }
+        setPrevQuery(query);
+    }, [query]);
 
     return (
         <>

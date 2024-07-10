@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import jobApi from "../../../../services/apis/jobApi.js";
 import Breadcrumb from "../../../components/Breadcrumbs/Breadcrumb.jsx";
+import CustomInput from "../../../../components/Forms/Inputs/customColor.jsx";
 
 export default function JobEdit() {
     const { id } = useParams();
@@ -17,6 +18,8 @@ export default function JobEdit() {
         benefits: '',
         requireOfYear: '',
         salary: '',
+        companyName: '',
+        userName: '',
     });
     const [errors, setErrors] = useState({});
     const [createdAt, setCreatedAt] = useState(null);
@@ -35,6 +38,8 @@ export default function JobEdit() {
                     benefits: response.data.benefits || '',
                     requireOfYear: response.data.requireOfYear || '',
                     salary: response.data.salary || '',
+                    companyName: response.data.companyName || '',
+                    userName: response.data.userName || '',
                 });
                 setCreatedAt(response.data.createdAt ? dayjs(response.data.createdAt) : null);
                 setUpdatedAt(response.data.updatedAt ? dayjs(response.data.updatedAt) : null);
@@ -109,7 +114,7 @@ export default function JobEdit() {
                 </div>
                 <form method="post" onSubmit={handleSubmit} className="p-6.5">
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Vị trí</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Tiêu Đề</label>
                         <input
                             className="w-full border border-gray-300 p-2 rounded"
                             type="text"
@@ -120,6 +125,24 @@ export default function JobEdit() {
                             required
                         />
                         {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Công Ty</label>
+                        <CustomInput
+                            disabled
+                            className="w-full"
+                            type="text"
+                            value={formValues.companyName}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-3">Nhà Tuyển Dụng</label>
+                        <CustomInput
+                            disabled
+                            className="w-full"
+                            type="text"
+                            value={formValues.userName}
+                        />
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 mb-3">Mô tả</label>
