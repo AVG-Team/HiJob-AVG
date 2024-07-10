@@ -39,8 +39,11 @@ const UsersAdmin = loadable(() => import("./admin/pages/Users"));
 const CreateAdmin = loadable(() => import("./admin/pages/Users/create"));
 const EditAdmin = loadable(() => import("./admin/pages/Users/edit"));
 //Company
-const CompaniesAdmin = loadable(() => import("./admin/pages/Company"))
-const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"))
+const CompaniesAdmin = loadable(() => import("./admin/pages/Company"));
+const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"));
+//Level
+const LevelAdmin = loadable(() => import("./admin/pages/Level"));/*
+const EditLevel = loadable(() => import("./admin/pages/Level/components/FormEdit.jsx"));*/
 
 function App() {
     useEffect(() => {
@@ -268,7 +271,17 @@ function App() {
                         }
                     />
                 </Route>
-
+                {/*Level*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/levels"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <LevelAdmin title="Quản Lý Level" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
                 {/* PAGE 404 */}
                 <Route
                     path="*"
