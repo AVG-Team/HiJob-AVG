@@ -48,6 +48,8 @@ const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdi
 const SkillsAdmin = loadable(() => import("./admin/pages/Skill"))
 const EditSkill = loadable(() => import("./admin/pages/Skill/components/FormEdit.jsx"))
 const CreateSkill = loadable(() => import("./admin/pages/Skill/components/FormCreate.jsx"))
+//Roles
+const RolesAdmin = loadable(() => import("./admin/pages/Role"));
 
 function App() {
     useEffect(() => {
@@ -319,6 +321,17 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <CreateSkill title="Thêm Kỹ Năng" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*Role*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/roles"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <RolesAdmin title="Quản Lý Vai Trò" />
                             </Suspense>
                         }
                     />
