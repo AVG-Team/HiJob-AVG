@@ -34,9 +34,9 @@ const jobApi = {
         const url = "jobs/keyword";
         return axiosClient.get(url, { params });
     },
-    findJobsByFilter(data){
+    findJobsByFilter(params){
         const url = "jobs/filter";
-        return axiosClient.get(url, { data });
+        return axiosClient.get(url, { params });
     }
 };
 

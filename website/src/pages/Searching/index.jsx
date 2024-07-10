@@ -27,7 +27,8 @@ export default function Searching({results}) {
     const [formData, setFormData] = useState({
         level: "",
         type: "",
-        contract: ""
+        contract: "",
+        skil: ""
     });
 
     const handleInputChange = async (e) => {
@@ -101,25 +102,30 @@ export default function Searching({results}) {
 
 
     useEffect(() => {
-        const fetchJobsByFilter = async () => {
-            try {
-                const response = await jobApi.findJobsByFilter({
-                    jobLevel: formData.level,
-                    jobType: formData.type,
-                    contractType: formData.contract,
-                    pageNo: page,
-                    pageSize: pageSize
-                });
-            
-                setContentOfJobs(response.data.content);
-        
-                setTotal(Math.ceil(response.data.totalElements / response.data.size));
-            } catch (error) {
-                console.log("Failed to fetch contract: ", error);
-            }
-        };
+        const hasData = Object.values(formData).some(value => value !== "");
 
-        fetchJobsByFilter();
+        if (hasData) {
+            console.log(formData.contract, formData.level, formData.skil, formData.type);
+            const fetchJobsByFilter = async () => {
+                try {
+                    const response = await jobApi.findJobsByFilter({
+                        jobLevel: formData.level,
+                        jobType: formData.type,
+                        jobSkill: formData.skil,
+                        contractType: formData.contract,
+                        pageNo: page,
+                        pageSize: pageSize
+                    });
+
+                    setContentOfJobs(response.data.content);
+                    setTotal(Math.ceil(response.data.totalElements / response.data.size));
+                } catch (error) {
+                    console.log("Failed to fetch contract: ", error);
+                }
+            };
+
+            fetchJobsByFilter();
+        }
     }, [formData])
         
     useEffect(() => {
@@ -282,14 +288,6 @@ export default function Searching({results}) {
                                                     <Card key={item.id} name={item.title} />
                                                 ))}
                                             </Spin>
-                                        </div>
-                                        <div className="mt-6">
-                                                <h2 className="text-3xl font-bold">Company Information</h2>
-                                                <Spin spinning={isLoading}>
-                                                    {contentOfCompanies.map((item) => (
-                                                        <Card key={item.id} name={item.name}/>
-                                                    ))}
-                                                </Spin>
                                         </div>
                                         <div className="mx-auto mt-4 text-center sm:max-lg:w[238px]">
                                             <button

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface JobLevelDetailElasticRepository extends ElasticsearchRepository<JobLevelDetail,Long> {
-
     @Query("{\"bool\": {\"must\": [{\"match\": {\"levelName.name\": \"?0\"}}]}}")
-    List<JobLevelDetail> findJobsByLevelName(@Param("levelName") String levelName);
+    List<JobLevelDetail> findJobsByLevelName(@Param("level") String levelName);
+
 }

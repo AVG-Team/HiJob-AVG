@@ -26,6 +26,6 @@ public class JobSkillDetail {
 
     @ManyToOne
     @JoinColumn(name = "skill_id", nullable = false)
-    @Field(name = "skillName", type = FieldType.Nested)
+    @Field(name = "skill", type = FieldType.Nested)
     private Skill skill;
 }

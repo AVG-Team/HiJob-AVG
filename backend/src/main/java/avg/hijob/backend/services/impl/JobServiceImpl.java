@@ -208,19 +208,26 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Page<Job> mappingJobs(Optional<String> jobType, Optional<String> jobSkill, Optional<String> jobLevel,
-                                 Optional<String> contractType, Optional<Integer> pageNo, Optional<Integer> pageSize) {
+    public Page<Job> mappingJobs( String jobSkill,
+                                  String jobLevel,
+                                  String typeName,
+                                  String contractType,
+                                  Optional<Integer> pageNo,
+                                  Optional<Integer> pageSize) {
 
-        // Map to store job IDs and their match count based on search criteria
+       if(jobSkill.isEmpty() &&  jobLevel.isEmpty() && typeName.isEmpty() && contractType.isEmpty()){
+           return null;
+       }
+
         Map<String, Integer> mapJob = new HashMap<>();
 
         // Number of provided criteria
         AtomicInteger criteriaCount = new AtomicInteger(0);
 
         // Check if jobSkill parameter is present
-        if (jobSkill.isPresent()) {
+        if (!jobSkill.isEmpty()) {
             criteriaCount.incrementAndGet();
-            List<JobSkillDetail> jobSkillDetails = jobSkillDetailElasticRepository.findJobsBySkillName(jobSkill.get());
+            List<JobSkillDetail> jobSkillDetails = jobSkillDetailElasticRepository.findJobsBySkillName(jobSkill);
             jobSkillDetails.forEach(item -> {
                 String jobId = item.getJob().getId();
                 mapJob.put(jobId, mapJob.getOrDefault(jobId, 0) + 1);
@@ -228,9 +235,9 @@ public class JobServiceImpl implements JobService {
         }
 
         // Check if jobType parameter is present
-        if (jobType.isPresent()) {
+        if (!typeName.isEmpty()) {
             criteriaCount.incrementAndGet();
-            List<JobTypeDetail> jobTypeDetails = jobTypeDetailElasticRepository.findJobsByTypeName(jobType.get());
+            List<JobTypeDetail> jobTypeDetails = jobTypeDetailElasticRepository.findJobsByJobTypeName(typeName);
             jobTypeDetails.forEach(item -> {
                 String jobId = item.getJob().getId();
                 mapJob.put(jobId, mapJob.getOrDefault(jobId, 0) + 1);
@@ -238,9 +245,9 @@ public class JobServiceImpl implements JobService {
         }
 
         // Check if jobLevel parameter is present
-        if (jobLevel.isPresent()) {
+        if (!jobLevel.isEmpty()) {
             criteriaCount.incrementAndGet();
-            List<JobLevelDetail> jobLevelDetails = jobLevelDetailElasticRepository.findJobsByLevelName(jobLevel.get());
+            List<JobLevelDetail> jobLevelDetails = jobLevelDetailElasticRepository.findJobsByLevelName(jobLevel);
             jobLevelDetails.forEach(item -> {
                 String jobId = item.getJob().getId();
                 mapJob.put(jobId, mapJob.getOrDefault(jobId, 0) + 1);
@@ -248,9 +255,9 @@ public class JobServiceImpl implements JobService {
         }
 
         // Check if contractType parameter is present
-        if (contractType.isPresent()) {
+        if (!contractType.isEmpty()) {
             criteriaCount.incrementAndGet();
-            List<ContractTypeDetail> contractTypeDetails = contractTypeDetailElasticRepository.findJobsByContractName(contractType.get());
+            List<ContractTypeDetail> contractTypeDetails = contractTypeDetailElasticRepository.findJobsByContractName(contractType);
             contractTypeDetails.forEach(item -> {
                 String jobId = item.getJob().getId();
                 mapJob.put(jobId, mapJob.getOrDefault(jobId, 0) + 1);

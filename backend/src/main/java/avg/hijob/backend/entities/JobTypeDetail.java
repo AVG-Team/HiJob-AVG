@@ -26,6 +26,6 @@ public class JobTypeDetail {
 
     @ManyToOne
     @JoinColumn(name = "job_type_id", nullable = false)
-    @Field(name = "jobType", type = FieldType.Nested)
+    @Field(name = "jobTypeName", type = FieldType.Nested)
     private JobType jobType;
 }

@@ -12,6 +12,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface JobTypeDetailElasticRepository extends ElasticsearchRepository<JobTypeDetail, Long> {
-    @Query("{\"bool\": {\"should\": [{\"match\": {\"jobType.name\": \"?0\"}}]}}")
-    List<JobTypeDetail> findJobsByTypeName(@Param("jobType") String typename);
+    @Query("{\"bool\": {\"must\": [{\"match\": {\"jobTypeName.name\": \"?0\"}}]}}")
+    List<JobTypeDetail> findJobsByJobTypeName(@Param("typeName") String jobType);
 }

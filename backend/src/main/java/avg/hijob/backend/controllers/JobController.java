@@ -1,5 +1,8 @@
 package avg.hijob.backend.controllers;
 
+import avg.hijob.backend.repoElastic.JobLevelDetailElasticRepository;
+import avg.hijob.backend.repoElastic.JobSkillDetailElasticRepository;
+import avg.hijob.backend.repoElastic.JobTypeDetailElasticRepository;
 import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.repoElastic.JobElasticRepository;
 import avg.hijob.backend.repositories.JobRepository;
@@ -23,7 +26,9 @@ public class JobController {
 
     private final JobService jobService;
     private final JobRepository jobRepository;
-
+    private final JobLevelDetailElasticRepository jobLevelDetailElasticRepository;
+    private final JobSkillDetailElasticRepository jobSkillDetailElasticRepository;
+    private final JobTypeDetailElasticRepository jobTypeDetailElasticRepository;
     @Autowired
     private JobElasticRepository jobElasticRepository;
 
@@ -46,6 +51,15 @@ public class JobController {
     ){
        Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,  jobElasticRepository.findByTitleContaining(field.orElse(""),pageable));
+    }
+
+    @GetMapping("/elastic")
+    public ResponseEntity<Object> dbJob1(
+            @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
+            @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
+    ){
+        Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,  jobTypeDetailElasticRepository.findAll(pageable));
     }
 
     @GetMapping("/getJobByCompany/{companyId}")
@@ -73,16 +87,18 @@ public class JobController {
 
     }
 
+
+
     @GetMapping("/filter")
     public ResponseEntity<Object> findJobsFilter(
-            @RequestParam(name = "jobSkill", required = false) Optional<String> jobSkill,
-            @RequestParam(name = "jobLevel", required = false) Optional<String> jobLevel,
-            @RequestParam(name = "jobType", required = false) Optional<String> jobType,
-            @RequestParam(name = "contractType", required = false) Optional<String> contractType,
+            @RequestParam(name = "jobSkill",defaultValue = "") String jobSkill,
+            @RequestParam(name = "jobLevel", defaultValue = "") String jobLevel,
+            @RequestParam(name = "jobType",  defaultValue = "") String jobType,
+            @RequestParam(name = "contractType",  defaultValue = "") String contractType,
             @RequestParam(name = "pageNo", defaultValue = "0") Optional<Integer> pageNo,
             @RequestParam(name = "pageSize", defaultValue = "3") Optional<Integer> pageSize
     ) {
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.mappingJobs(jobType, jobSkill, jobLevel, contractType, pageNo, pageSize));
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.mappingJobs( jobSkill,  jobLevel,jobType, contractType, pageNo, pageSize));
     }
     @GetMapping("/getJobCreateToday")
     public ResponseEntity<Object> getJobsCreateToday(

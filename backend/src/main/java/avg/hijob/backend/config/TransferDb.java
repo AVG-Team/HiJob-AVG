@@ -40,6 +40,7 @@ public class TransferDb implements CommandLineRunner {
     private final ContractTypeDetailRepository contractTypeDetailRepository;
     @Override
     public void run(String... args) throws Exception {
+        jobElasticRepository.deleteAll();
         List<Job> jobJpaList = jobRepository.findAll();
         List<Job> jobList = new ArrayList<>();
         for (Job i : jobJpaList) {
@@ -58,7 +59,7 @@ public class TransferDb implements CommandLineRunner {
         }
         jobElasticRepository.saveAll(jobList);
 
-
+        jobLevelDetailElasticRepository.deleteAll();
          List<JobLevelDetail> jobJpaLevelDetails = jobLevelDetailRepository.findAll();
          List<JobLevelDetail> jobLevelDetails = new ArrayList<>();
 
@@ -88,7 +89,7 @@ public class TransferDb implements CommandLineRunner {
             }
             jobLevelDetailElasticRepository.saveAll(jobLevelDetails);
 
-
+            jobSkillDetailElasticRepository.deleteAll();
             List<JobSkillDetail> jobSkillDetailList = jobSkillDetailRepository.findAll();
             List<JobSkillDetail> jobSkillDetailsElastic = new ArrayList<>();
             if(!jobSkillDetailList.isEmpty()){
@@ -116,6 +117,7 @@ public class TransferDb implements CommandLineRunner {
             }
             jobSkillDetailElasticRepository.saveAll(jobSkillDetailsElastic);
 
+            jobTypeDetailRepository.findAll();
             List<JobTypeDetail> jobTypeDetailList = jobTypeDetailRepository.findAll();
             List<JobTypeDetail> jobTypeDetailsElastic = new ArrayList<>();
             if (!jobTypeDetailList.isEmpty()){
@@ -143,6 +145,7 @@ public class TransferDb implements CommandLineRunner {
             }
             JobTypeDetailElasticRepository.saveAll(jobTypeDetailsElastic);
 
+            contractTypeDetailElasticRepository.deleteAll();
             List<ContractTypeDetail> contractTypeDetailList = contractTypeDetailRepository.findAll();
             List<ContractTypeDetail> contractTypeDetailsElastic = new ArrayList<>();
             if(!contractTypeDetailList.isEmpty()){

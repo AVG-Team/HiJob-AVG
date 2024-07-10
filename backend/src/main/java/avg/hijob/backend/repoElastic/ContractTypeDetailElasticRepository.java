@@ -11,6 +11,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ContractTypeDetailElasticRepository extends ElasticsearchRepository<ContractTypeDetail,Long> {
-    @Query("{\"bool\": {\"must\": [{\"match\": {\"contractType.name\": \"?0\"}}]}}")
-    List<ContractTypeDetail> findJobsByContractName(@Param("contracttype") String contractType);
+    @Query("{\"bool\": {\"must\": [{\"match\": {\"contractTypeName.name\": \"?0\"}}]}}")
+    List<ContractTypeDetail> findJobsByContractName(@Param("contractType") String contractType);
 }

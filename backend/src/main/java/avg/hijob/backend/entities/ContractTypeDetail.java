@@ -26,6 +26,6 @@ public class ContractTypeDetail {
 
     @ManyToOne
     @JoinColumn(name = "contract_type_id", nullable = false)
-    @Field(name = "contractType", type = FieldType.Nested)
+    @Field(name = "contractTypeName", type = FieldType.Nested)
     private ContractType contractType;
 }
