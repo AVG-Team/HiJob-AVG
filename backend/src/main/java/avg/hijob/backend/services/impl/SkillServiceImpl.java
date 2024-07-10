@@ -58,11 +58,16 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public ResponseSkill createSkill(RequestSkill requestSkill) {
         try{
-                Skill skill = Skill.builder()
-                        .name(requestSkill.getSkillName())
-                        .build();
-                skillRepository.save(skill);
-                return skillRepository.findByIds(skill.getId());
+            ResponseSkill existingSkill = skillRepository.findByName(requestSkill.getSkillName());
+            if (existingSkill != null) {
+                throw new NotFoundException("Skill already exists", HttpStatus.BAD_REQUEST);
+            }
+
+            Skill skill = Skill.builder()
+                    .name(requestSkill.getSkillName())
+                    .build();
+            skillRepository.save(skill);
+            return skillRepository.findByIds(skill.getId());
         }catch (Exception e){
             System.out.println(e.getMessage());
             throw new NotFoundException("Error creating skill", HttpStatus.BAD_REQUEST);

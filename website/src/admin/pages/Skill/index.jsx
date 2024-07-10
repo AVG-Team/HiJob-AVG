@@ -96,19 +96,23 @@ export default function Index(props) {
             <div>
                 <Breadcrumb pageName="Quản Lý Kỹ Năng" />
             </div>
-            <div className="flex justify-between items-center">
-                <Filter query={query} setQuery={setQuery} handleChange={handleChange}/>
-                <button
-                    className="bg-blue-500 text-white py-2 px-6 rounded"
-                    onClick={handleCreateNew}
-                >
-                    Thêm
-                </button>
+            <div className="flex justify-between items-center mb-4">
+                <div className="flex-grow mr-4">
+                    <Filter query={query} setQuery={setQuery} handleChange={handleChange}/>
+                </div>
+                <div>
+                    <button
+                        className="bg-blue-500 text-white py-2 px-6 rounded"
+                        onClick={handleCreateNew}
+                    >
+                        Thêm
+                    </button>
+                </div>
             </div>
             <div className="mt-4">
                 {skills.length > 0 ? (
                     <TableData skills={skills} setSkills={setSkills} totalResults={totalResults}
-                               resultsPerPage={resultsPerPage} setQuery={setQuery} query={query} />
+                               resultsPerPage={resultsPerPage} setQuery={setQuery} query={query}/>
                 ) : (
                     <div className="mt-4">Loading....</div>
                 )}

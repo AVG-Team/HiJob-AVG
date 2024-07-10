@@ -36,4 +36,8 @@ public interface SkillRepository extends JpaRepository<Skill,Long> {
             "FROM Skill s " +
             "WHERE s.id = ?1")
     ResponseSkill findByIds(Integer id);
+
+    @Query("SELECT new avg.hijob.backend.responses.ResponseSkill(s.id, s.name) " +
+            "FROM Skill s WHERE s.name = :name")
+    ResponseSkill findByName(@Param("name") String name);
 }

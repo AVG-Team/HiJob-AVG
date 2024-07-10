@@ -37,11 +37,11 @@ export default function CreateSkillForm() {
 
         try {
             await skillApi.createSkill(formValues);
-            toast.success('Skill created successfully');
+            toast.success('Thêm kỹ năng thành công');
             navigate('/admin/skills');
         } catch (error) {
             console.error('Error creating skill:', error);
-            toast.error('Failed to create skill');
+            toast.error('Thêm kỹ năng thất bại');
         }
     };
 
