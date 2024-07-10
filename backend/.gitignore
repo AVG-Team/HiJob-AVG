@@ -31,8 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/resources/static/banner-url/
-/src/main/resources/static/certificate-url/
-/src/main/resources/static/cover-letter/
-/src/main/resources/static/cv/
-/src/main/resources/static/logo-url/
+/src/main/resources/static/banner-url/**
+/src/main/resources/static/certificate-url/**
+/src/main/resources/static/cover-letter/**
+/src/main/resources/static/cv/**
+/src/main/resources/static/logo-url/**
