@@ -38,7 +38,7 @@ public class RecruitmentController {
     }
 
     @PostMapping("/createRecruitment")
-    public ResponseEntity<Object> createRecruitment(@RequestBody RequestRecruitment requestRecruitment) {
+    public ResponseEntity<Object> createRecruitment(@ModelAttribute RequestRecruitment requestRecruitment) {
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, recruitmentService.createRecruitment(requestRecruitment));
     }
 

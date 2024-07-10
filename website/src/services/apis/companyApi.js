@@ -19,7 +19,11 @@ const companyApi = {
     },
     createCompany(data) {
         const url = `/companies/createCompany`;
-        return axiosClient.post(url, { data });
+        return axiosClient.post(url, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
     },
     updateCompany(id, data) {
         const url = `/companies/updateCompany/${id}`;
