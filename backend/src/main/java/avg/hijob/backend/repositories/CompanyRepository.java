@@ -3,6 +3,7 @@ package avg.hijob.backend.repositories;
 import avg.hijob.backend.entities.Company;
 import avg.hijob.backend.entities.User;
 import avg.hijob.backend.responses.ResponseCompany;
+import avg.hijob.backend.responses.dashboard.ResponseTop5Company;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,7 +37,8 @@ public interface CompanyRepository extends JpaRepository<Company,String> {
             "WHERE c.deletedAt is null")
     List<ResponseCompany> getTop5Company();
 
-    @Query("SELECT new avg.hijob.backend.responses.ResponseCompany(c.id, c.name, c.taxCode, c.field, c.address, c.province, c.registration_certificate, c.about, c.linkGoogleMap, c.user.id,c.logo,c.banner,c.benefit, c.createdAt, c.updatedAt, c.deletedAt, c.user.fullName) " +
+//    Dũng Custom
+    @Query("SELECT new avg.hijob.backend.responses.ResponseCompany(c.id, c.name, c.taxCode, c.field, c.address, c.province, c.registration_certificate, c.about, c.linkGoogleMap, c.user.id, c.logo,c.banner,c.benefit, c.createdAt, c.updatedAt, c.deletedAt, c.user.fullName) " +
             "FROM Company c " +
             "LEFT JOIN c.user e " +
             "WHERE c.deletedAt is null " +
@@ -48,4 +50,11 @@ public interface CompanyRepository extends JpaRepository<Company,String> {
             Pageable pageable
     );
 
+    @Query("SELECT new avg.hijob.backend.responses.dashboard.ResponseTop5Company(c.id, c.name, c.field, c.user.fullName, COUNT(cf.id)) " +
+            "FROM Company c " +
+            "LEFT JOIN CompanyFollow cf ON c.id = cf.company.id " +
+            "WHERE c.deletedAt is null " +
+            "GROUP BY c.id, c.name, c.field, c.user.fullName " +
+            "ORDER BY COUNT(cf.id) DESC")
+    List<ResponseTop5Company> getTop5CompanyFollow(Pageable pageable);
 }
