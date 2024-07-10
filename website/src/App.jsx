@@ -38,6 +38,9 @@ const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
 const UsersAdmin = loadable(() => import("./admin/pages/Users"));
 const CreateAdmin = loadable(() => import("./admin/pages/Users/create"));
 const EditAdmin = loadable(() => import("./admin/pages/Users/edit"));
+// Jobs
+const JobsAdmin = loadable(() => import("./admin/pages/Job"))
+const EditJob = loadable(() => import("./admin/pages/Job/components/FormEdit.jsx"))
 //Company
 const CompaniesAdmin = loadable(() => import("./admin/pages/Company"))
 const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"))
@@ -272,6 +275,27 @@ function App() {
                         }
                     />
                 </Route>
+                {/*Jobs*/}
+                {/*Job*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/jobs"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <JobsAdmin title="Quản Lý Công Việc" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/jobs/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditJob title="Chỉnh Sửa Công Việc" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+
                 {/*Skill*/}
                 <Route element={<LayoutAdmin/>}>
                     <Route
