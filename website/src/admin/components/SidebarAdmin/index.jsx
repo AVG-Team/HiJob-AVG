@@ -11,7 +11,8 @@ import {
     MilitaryTechOutlined,
     TypeSpecimenOutlined,
     SettingsOutlined,
-    LogoutOutlined
+    LogoutOutlined,
+    EngineeringOutlined
 } from '@mui/icons-material';
 
 export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
@@ -168,6 +169,17 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                 >
                                     <DevicesOutlined/>
                                     <p>Quản Lý Kỹ Năng</p>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/admin/roles"
+                                    className={`group hover:bg-graydark relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out ${
+                                        pathname.includes('roles') && 'bg-graydark'
+                                    }`}
+                                >
+                                    <EngineeringOutlined/>
+                                    <p>Quản Lý Vai Trò</p>
                                 </NavLink>
                             </li>
                             <li>

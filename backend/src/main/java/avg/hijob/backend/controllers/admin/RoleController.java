@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/admin/roles")
 @RequiredArgsConstructor
@@ -20,5 +22,10 @@ public class RoleController {
     @GetMapping("")
     public ResponseEntity<?> findAllRoles() {
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,roleService.findAllRoles());
+    }
+
+    @GetMapping("/getRoles")
+    public ResponseEntity<Object> getAllRole(Optional<Integer> page, Optional<Integer> size, Optional<String> q) {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, roleService.getAllRole(size,page,q));
     }
 }
