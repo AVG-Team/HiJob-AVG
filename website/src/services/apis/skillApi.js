@@ -11,7 +11,7 @@ const skillApi = {
     },
     createSkill(data) {
         console.log(data)
-        const url = `/skill/create`;
+        const url = `/skill/createSkill`;
         return axiosClient.post(url, data);
     },
     updateSkill(id, data) {
