@@ -34,6 +34,7 @@ const Recruitment = loadable(() => import("./pages/Recruitment"));
 // ADMIN ROUTE
 const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
 const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
+const About = loadable(() => import("./admin/pages/About"));
 // Users
 const UsersAdmin = loadable(() => import("./admin/pages/Users"));
 const CreateAdmin = loadable(() => import("./admin/pages/Users/create"));
@@ -177,7 +178,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/about-us"
+                        path="/ve-chung-toi"
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <AboutUs title="Về chúng tôi" />
@@ -231,6 +232,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <Dashboard title="Admin" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/about"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <About title="Về Trang Web Của Tôi" />
                             </Suspense>
                         }
                     />
