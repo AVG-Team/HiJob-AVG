@@ -40,6 +40,10 @@ public class Company {
     @JoinColumn(nullable = false, name = "employer_id")
     private User user;
 
+    private String logo;
+    private String banner;
+    private String benefit;
+
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = false)
     private Set<CompanyFollow> followers = new HashSet<>();
 

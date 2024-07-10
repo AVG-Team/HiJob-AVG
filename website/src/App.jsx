@@ -41,6 +41,10 @@ const EditAdmin = loadable(() => import("./admin/pages/Users/edit"));
 //Company
 const CompaniesAdmin = loadable(() => import("./admin/pages/Company"))
 const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"))
+//Skills
+const SkillsAdmin = loadable(() => import("./admin/pages/Skill"))
+const EditSkill = loadable(() => import("./admin/pages/Skill/components/FormEdit.jsx"))
+const CreateSkill = loadable(() => import("./admin/pages/Skill/components/FormCreate.jsx"))
 
 function App() {
     useEffect(() => {
@@ -268,7 +272,33 @@ function App() {
                         }
                     />
                 </Route>
-
+                {/*Skill*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/skills"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <SkillsAdmin title="Quản Lý Kỹ Năng" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/skills/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditSkill title="Sửa Kỹ Năng" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/skills/create"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CreateSkill title="Thêm Kỹ Năng" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
                 {/* PAGE 404 */}
                 <Route
                     path="*"
