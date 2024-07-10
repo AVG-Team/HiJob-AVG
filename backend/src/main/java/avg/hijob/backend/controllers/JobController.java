@@ -28,8 +28,8 @@ public class JobController {
     }*/
 
     @GetMapping("")
-    public ResponseEntity<Object> getAllJobs(Optional<Integer> page, Optional<Integer> size, Optional<String> q){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobs(size, page,q));
+    public ResponseEntity<Object> getAllJobs(Optional<Integer> page, Optional<Integer> size, Optional<String> q, Optional<Integer> salary, Optional<Integer> yearExp){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobsWithQuery(size, page,q, salary, yearExp));
     }
 
     @GetMapping("/getJobByCompany/{companyId}")

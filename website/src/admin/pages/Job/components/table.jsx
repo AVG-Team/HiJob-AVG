@@ -12,8 +12,15 @@ import { toast } from 'react-toastify';
 import jobApi from '../../../../services/apis/jobApi';
 import Pagination from '../../../components/pagination.jsx';
 
+function formatNumber(num) {
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'm'; // Chuyển đổi sang triệu
+    } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'k'; // Chuyển đổi sang nghìn
+    }
+    return num; // Nếu số nhỏ hơn 1000, giữ nguyên
+}
 export default function JobTableData({jobs, setJobs, query, setQuery, totalResults, resultsPerPage }) {
-
     const handleDelete = (jobId) => async (event) => {
         event.preventDefault();
         if (!jobId) {
@@ -41,15 +48,13 @@ export default function JobTableData({jobs, setJobs, query, setQuery, totalResul
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">#</TableCell>
-                        <TableCell align="center">Vị trí</TableCell>
-                        <TableCell align="center">Trách nhiệm</TableCell>
+                        <TableCell align="center">Tiêu đề</TableCell>
                         <TableCell align="center">Yêu cầu</TableCell>
-                        <TableCell align="center">Lợi ích</TableCell>
                         <TableCell align="center">Số năm KN</TableCell>
                         <TableCell align="center">Lương</TableCell>
                         <TableCell align="center">Công ty</TableCell>
+                        <TableCell align="center">Nhà Tuyển Dụng</TableCell>
                         <TableCell align="center">Ngày tạo</TableCell>
-                        <TableCell align="center">Ngày sửa</TableCell>
                         <TableCell align="center">Hành động</TableCell>
                     </TableRow>
                 </TableHead>
@@ -61,14 +66,12 @@ export default function JobTableData({jobs, setJobs, query, setQuery, totalResul
                                     {index + 1}
                                 </TableCell>
                                 <TableCell align="center">{job.title}</TableCell>
-                                <TableCell align="center">{job.responsibilities}</TableCell>
                                 <TableCell align="center">{job.requirements}</TableCell>
-                                <TableCell align="center">{job.benefits}</TableCell>
                                 <TableCell align="center">{job.requireOfYear}</TableCell>
-                                <TableCell align="center">{job.salary}</TableCell>
-                                <TableCell align="center">{job.company ? job.company.name : 'N/A'}</TableCell>
-                                <TableCell align="center">{new Date(job.createdAt).toLocaleDateString()}</TableCell>
-                                <TableCell align="center">{new Date(job.updatedAt).toLocaleDateString()}</TableCell>
+                                <TableCell align="center">{formatNumber(job.salary)}</TableCell>
+                                <TableCell align="center">{job.companyName}</TableCell>
+                                <TableCell align="center">{job.userName}</TableCell>
+                                <TableCell align="center">{new Date(job.createdAt).toLocaleDateString('en-GB')}</TableCell>
                                 <TableCell align="center">
                                     <Link to={`/admin/jobs/edit/${job.id}`}>
                                         <EditOutlined className="hover:text-primary" />

@@ -18,6 +18,6 @@ public class Level {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL , orphanRemoval = true)
     private Set<JobLevelDetail> jobs = new HashSet<>();
 }
