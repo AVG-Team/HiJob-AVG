@@ -46,6 +46,10 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Job> jobs = new HashSet<>();
 
+    private String logo;
+    private String banner;
+    private String benefit;
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp createdAt;

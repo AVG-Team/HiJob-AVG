@@ -1,33 +1,33 @@
-import { Suspense, useEffect } from "react";
-import loadable from "@loadable/component";
-import AuthLayout from "./layouts/AuthLayout";
-import BasicLayout from "./layouts/BasicLayout";
-import LayoutNotSearch from "./layouts/LayoutNotSearch";
-import BlankLayout from "~/layouts/Admin/BlankLayout.jsx";
-import { CircularProgress } from "@mui/material";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import loadable from "@loadable/component";
+import { Suspense, useEffect } from "react";
+import AuthLayout from "./layouts/AuthLayout";
+import BasicLayout from "./layouts/BasicLayout";
+import { CircularProgress } from "@mui/material";
+import LayoutNotSearch from "./layouts/LayoutNotSearch";
 import AuthRoute from "./components/Route/AuthRoute.jsx";
+import BlankLayout from "~/layouts/Admin/BlankLayout.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const Home = loadable(() => import("./pages/Home"));
-const Register = loadable(() => import("./pages/Auth/Register"));
-const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
-const ChangePassword = loadable(() => import("./pages/Auth/ForgotPassword/ChangePassword"));
+const Profile = loadable(() => import("./pages/Profile"));
+const AboutUs = loadable(() => import("./pages/AboutUs"));
+const Login = loadable(() => import("./pages/Auth/Login"));
+const ManageCV = loadable(() => import("./pages/ManageCV"));
 const Notify = loadable(() => import("./pages/Auth/Notify"));
 const Logout = loadable(() => import("./pages/Auth/Logout"));
-const Login = loadable(() => import("./pages/Auth/Login"));
+const ManageJob = loadable(() => import("./pages/ManageJob"));
 const JobDetail = loadable(() => import("./pages/JobDetail"));
 const Confirm = loadable(() => import("./pages/Auth/Confirm"));
 const JobApplied = loadable(() => import("./pages/JobApplied"));
-const JobFollowing = loadable(() => import("./pages/JobFollowing"));
-const ManageCV = loadable(() => import("./pages/ManageCV"));
-const ManageJob = loadable(() => import("./pages/ManageJob"));
-const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
-const Profile = loadable(() => import("./pages/Profile"));
-const AboutUs = loadable(() => import("./pages/AboutUs"));
-const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
+const Register = loadable(() => import("./pages/Auth/Register"));
 const Recruitment = loadable(() => import("./pages/Recruitment"));
+const JobFollowing = loadable(() => import("./pages/JobFollowing"));
+const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
+const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
+const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
+const ChangePassword = loadable(() => import("./pages/Auth/ForgotPassword/ChangePassword"));
 // ADMIN ROUTE
 const LoginAdmin = loadable(() => import("./pages/Admin/Auth"));
 
@@ -143,10 +143,10 @@ function App() {
                         }
                     />
                     <Route
-                        path="/cong-ty"
+                        path="/cong-ty/:id"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <CompanyDetail title="Công ty" />
+                                <CompanyDetail title="Công ty đang xem" />
                             </Suspense>
                         }
                     />
