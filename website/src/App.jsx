@@ -56,6 +56,8 @@ const CreateLevel = loadable(() => import("./admin/pages/Level/components/FormCr
 const JobTypeAdmin = loadable(() => import("./admin/pages/JobType"));
 const EditJobType = loadable(() => import("./admin/pages/JobType/components/FormEdit.jsx"));
 const CreateJobType = loadable(() => import("./admin/pages/JobType/components/FormCreate.jsx"));
+//Recruitment
+const RecruitmentAdmin = loadable(() => import("./admin/pages/Recruitment"));
 
 function App() {
     useEffect(() => {
@@ -380,6 +382,17 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <CreateJobType title="Thêm Job Type" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*Recruitment*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/recruitments"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <RecruitmentAdmin title="Quản Lý Đơn Ứng Tuyển" />
                             </Suspense>
                         }
                     />

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../../assets/img/HIJOB-Landscape.png';
-import {GroupOutlined, BusinessOutlined, DashboardOutlined, WorkOutlined, DevicesOutlined, MilitaryTechOutlined, TypeSpecimenOutlined} from '@mui/icons-material';
+import {GroupOutlined, BusinessOutlined, DashboardOutlined, WorkOutlined, DevicesOutlined, MilitaryTechOutlined, TypeSpecimenOutlined, TaskOutlined} from '@mui/icons-material';
 
 export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
     const location = useLocation();
@@ -180,6 +180,17 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                 >
                                     <TypeSpecimenOutlined/>
                                     <p>Quản Lý Loại Công Việc</p>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/admin/recruitments"
+                                    className={`group hover:bg-graydark relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out ${
+                                        pathname.includes('recruitments') && 'bg-graydark'
+                                    }`}
+                                >
+                                    <TaskOutlined/>
+                                    <p>Quản Lý Đơn Ứng Tuyển</p>
                                 </NavLink>
                             </li>
                             {/* <!-- Menu Item Users --> */}
