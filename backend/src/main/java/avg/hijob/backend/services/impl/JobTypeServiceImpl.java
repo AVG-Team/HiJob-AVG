@@ -77,6 +77,11 @@ public class JobTypeServiceImpl implements JobTypeService {
     @Override
     public ResponseJobType updateJobType(Long id, RequestJobType requestJobType) {
         try{
+            ResponseJobType existingJobType = jobTypeRepository.findByName(requestJobType.getTypeName());
+            if (existingJobType != null) {
+                throw new NotFoundException("Job Type already exists", HttpStatus.BAD_REQUEST);
+            }
+
             JobType jobType = jobTypeRepository.findById(id).get();
             jobType.setName(requestJobType.getTypeName());
             jobTypeRepository.save(jobType);

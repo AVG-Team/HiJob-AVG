@@ -72,6 +72,11 @@ public class LevelServiceImpl implements LevelService {
     @Override
     public ResponseLevel updateLevel(Long id, RequestLevel requestLevel) {
         try{
+            ResponseLevel existingLevel = levelRepository.findByName(requestLevel.getLevelName());
+            if (existingLevel != null) {
+                throw new NotFoundException("Level already exists", HttpStatus.BAD_REQUEST);
+            }
+
             Level level = levelRepository.findById(id).get();
             level.setName(requestLevel.getLevelName());
             levelRepository.save(level);

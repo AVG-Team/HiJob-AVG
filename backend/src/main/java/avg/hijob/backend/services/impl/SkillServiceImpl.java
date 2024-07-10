@@ -77,6 +77,11 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public ResponseSkill updateSkill(Long id, RequestSkill requestSkill) {
         try{
+            ResponseSkill existingSkill = skillRepository.findByName(requestSkill.getSkillName());
+            if (existingSkill != null) {
+                throw new NotFoundException("Skill already exists", HttpStatus.BAD_REQUEST);
+            }
+
                 Skill skill = skillRepository.findById(id).get();
                 skill.setName(requestSkill.getSkillName());
                 skillRepository.save(skill);
