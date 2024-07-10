@@ -311,17 +311,6 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                                             Quản Lý Nhà Tuyển Dụng
                                                         </NavLink>
                                                     </li>
-                                                    <li>
-                                                        <NavLink
-                                                            to="/admin/jobs"
-                                                            className={({isActive}) =>
-                                                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium duration-300 ease-in-out hover:text-white ' +
-                                                                (isActive && '!text-white')
-                                                            }
-                                                        >
-                                                            Quản Lý Công Việc
-                                                        </NavLink>
-                                                    </li>
                                                 </ul>
                                             </div>
                                             {/* <!-- Dropdown Menu End --> */}
