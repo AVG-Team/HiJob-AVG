@@ -70,7 +70,7 @@ export default function Form({ levels, types, contracts, skills }) {
             };
             console.log(formData.level);
             const levelResponse = await jobLevelApi.create(level);
-            console.log("level" + levelResponse);
+            console.log("level" + levelResponse.data);
 
             console.log(formData.type);
             const type = {
@@ -87,13 +87,11 @@ export default function Form({ levels, types, contracts, skills }) {
             const contractResponse = await contractTypeApi.create(contract);
             console.log("contract" + contractResponse.data);
 
-            const skills = selected.map((item) => ({
-                jobId: jobId,
-                skillId: item.value,
-            }));
-
-            for (let i = 0; i < skills.length; i++) {
-                const skillResponse = await jobSkillApi.create(skills[i]);
+            for (const skill of selected) {
+                const skillResponse = await jobSkillApi.create({
+                    jobId: jobId,
+                    skillId: skill.value,
+                });
                 console.log("skill" + skillResponse.data);
             }
 

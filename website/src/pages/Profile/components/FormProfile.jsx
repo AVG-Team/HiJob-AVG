@@ -181,7 +181,7 @@ const FormProfile = ({ userInfo }) => {
     return (
         <form method="post" onSubmit={handleSubmit}>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Họ và tên</label>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Họ và tên</label>
                 <CustomInput
                     error={!!errors.fullName}
                     className="w-full"
@@ -209,7 +209,7 @@ const FormProfile = ({ userInfo }) => {
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Số điện thoại</label>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Số điện thoại</label>
                 <CustomInput
                     error={!!errors.phone}
                     className="w-full"
@@ -224,7 +224,7 @@ const FormProfile = ({ userInfo }) => {
             </div>
             <div className="mb-4 md:grid md:grid-cols-3 gap-x-5">
                 <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">Địa chỉ</label>
+                    <label className="block mb-3 text-sm font-medium text-gray-700">Địa chỉ</label>
                     <CustomInput
                         error={!!errors.address}
                         className="w-full"
@@ -251,7 +251,7 @@ const FormProfile = ({ userInfo }) => {
                             onChange={handleChangeProvince}
                             renderValue={(selected) => {
                                 if (selected === "" || selected === null || selected === undefined) {
-                                    return <em style={{opacity: "50%"}}>Chọn tỉnh thành</em>;
+                                    return <em style={{ opacity: "50%" }}>Chọn tỉnh thành</em>;
                                 }
 
                                 return selected;
@@ -272,7 +272,7 @@ const FormProfile = ({ userInfo }) => {
 
             <div className="mb-4 md:grid md:grid-cols-3 gap-x-5">
                 <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">Vị trí công việc</label>
+                    <label className="block mb-3 text-sm font-medium text-gray-700">Vị trí công việc</label>
                     <Select
                         displayEmpty
                         error={!!errors.jobPosition}
@@ -282,7 +282,7 @@ const FormProfile = ({ userInfo }) => {
                         onChange={handleChangeJobPosition}
                         renderValue={(selected) => {
                             if (selected === "" || selected === null || selected === undefined) {
-                                return <em style={{opacity: "50%"}}>Chọn vị trí công việc</em>;
+                                return <em style={{ opacity: "50%" }}>Chọn vị trí công việc</em>;
                             }
 
                             return selected;
@@ -299,7 +299,9 @@ const FormProfile = ({ userInfo }) => {
                     </Select>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3 mt-4 md:mt-0">Số năm kinh nghiệm</label>
+                    <label className="block mt-4 mb-3 text-sm font-medium text-gray-700 md:mt-0">
+                        Số năm kinh nghiệm
+                    </label>
                     <CustomInput
                         error={!!errors.yearExperience}
                         className="w-full"
@@ -314,9 +316,14 @@ const FormProfile = ({ userInfo }) => {
                 </div>
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Kỹ năng</label>
-                <SelectMulti listData={skills} data={formData.skills} textPlaceholder="Nhập kỹ năng của bạn"
-                             formData={formData} setFormData={setFormData}/>
+                <label className="block mb-3 text-sm font-medium text-gray-700">Kỹ năng</label>
+                <SelectMulti
+                    listData={skills}
+                    data={formData.skills}
+                    textPlaceholder="Nhập kỹ năng của bạn"
+                    formData={formData}
+                    setFormData={setFormData}
+                />
             </div>
 
             <div className="mb-4">
@@ -344,16 +351,20 @@ const FormProfile = ({ userInfo }) => {
                     value={formData.socialNetwork2}
                     onChange={handleChange}
                     placeholder="Nhập link Linkedin"
-
                 />
             </div>
             <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-3"
-                >Tải CV :
-                    <a className="text-primary cursor-pointer ml-1"
-                       href={formData?.coverLetter != null ? FilesUrl + formData?.coverLetter : ""}
-                       download target="_blank"
-                    > {formData?.coverLetter}</a>
+                <label className="block mb-3 text-sm font-medium text-gray-700">
+                    Tải CV :
+                    <a
+                        className="ml-1 cursor-pointer text-primary"
+                        href={formData?.coverLetter != null ? FilesUrl + formData?.coverLetter : ""}
+                        download
+                        target="_blank"
+                    >
+                        {" "}
+                        {formData?.coverLetter}
+                    </a>
                 </label>
                 <InputFileUpload name="coverLetter" coverLetter={coverLetter} setCoverLetter={setCoverLetter} />
             </div>

@@ -26,6 +26,7 @@ const Recruitment = loadable(() => import("./pages/Recruitment"));
 const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
+const RegisterCompany = loadable(() => import("./pages/RegisterCompany"));
 const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
 const ChangePassword = loadable(() => import("./pages/Auth/ForgotPassword/ChangePassword"));
 // ADMIN ROUTE
@@ -147,6 +148,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <CompanyDetail title="Công ty đang xem" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/dang-ky-cong-ty"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <RegisterCompany title="Đăng ký công ty" />
                             </Suspense>
                         }
                     />
