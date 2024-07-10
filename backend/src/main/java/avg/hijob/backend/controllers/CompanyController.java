@@ -38,6 +38,7 @@ public class CompanyController {
     public ResponseEntity<Object> getTop5Companies(){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.getTop5Companies());
     }
+
     @PostMapping("/createCompany")
     public ResponseEntity<Object> create(@RequestBody RequestCompany requestCompany){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.createCompany(requestCompany));

@@ -10,7 +10,8 @@ import java.util.Optional;
 
 public interface JobService {
 
-    Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q);
+//    Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q);
+    public Page<ResponseJob> getAllJobsWithQuery(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<Integer> salary, Optional<Integer> yearExp);
     Page<ResponseJob> getAllJobsByCompany(Optional<String> id, Optional<Integer> pageSize, Optional<Integer> pageNo);
     List<ResponseJob> getJobsCreateToday(Timestamp createdDate);
     ResponseJob getJobById(String id);

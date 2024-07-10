@@ -18,6 +18,11 @@ public interface LevelRepository extends JpaRepository<Level,Long> {
             "from Level l")
     List<ResponseLevel> findAllLevels();
 
+    @Query("SELECT l.name, COUNT(jl.id) " +
+            "FROM Level l LEFT JOIN JobLevelDetail jl ON l.id = jl.level.id " +
+            "GROUP BY l.name")
+    List<Object[]> countLevelsWithJobLevelDetail();
+
     @Query("SELECT new avg.hijob.backend.responses.ResponseLevel(l.id, l.name) " +
             "FROM Level l " +
             "WHERE (:q IS NULL OR :q = '' OR l.name LIKE %:q%)")

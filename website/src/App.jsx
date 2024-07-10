@@ -38,9 +38,16 @@ const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
 const UsersAdmin = loadable(() => import("./admin/pages/Users"));
 const CreateAdmin = loadable(() => import("./admin/pages/Users/create"));
 const EditAdmin = loadable(() => import("./admin/pages/Users/edit"));
+// Jobs
+const JobsAdmin = loadable(() => import("./admin/pages/Job"))
+const EditJob = loadable(() => import("./admin/pages/Job/components/FormEdit.jsx"))
 //Company
-const CompaniesAdmin = loadable(() => import("./admin/pages/Company"));
-const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"));
+const CompaniesAdmin = loadable(() => import("./admin/pages/Company"))
+const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"))
+//Skills
+const SkillsAdmin = loadable(() => import("./admin/pages/Skill"))
+const EditSkill = loadable(() => import("./admin/pages/Skill/components/FormEdit.jsx"))
+const CreateSkill = loadable(() => import("./admin/pages/Skill/components/FormCreate.jsx"))
 //Level
 const LevelAdmin = loadable(() => import("./admin/pages/Level"));
 const EditLevel = loadable(() => import("./admin/pages/Level/components/FormEdit.jsx"));
@@ -268,6 +275,53 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <FormEdit title="Chỉnh Sửa Công Ty" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*Job*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/jobs"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <JobsAdmin title="Quản Lý Công Việc" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/jobs/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditJob title="Chỉnh Sửa Công Việc" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+
+                {/*Skill*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/skills"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <SkillsAdmin title="Quản Lý Kỹ Năng" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/skills/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditSkill title="Sửa Kỹ Năng" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/skills/create"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CreateSkill title="Thêm Kỹ Năng" />
                             </Suspense>
                         }
                     />

@@ -8,6 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,4 +36,10 @@ public interface UserRepository extends JpaRepository<User, String> {
                            @Param("role") Integer role,
                            @Param("age") Integer year,
                            Pageable pageable);
+
+    @Query("SELECT u.role.id, u.createdAt, COUNT(u) " +
+            "FROM User u " +
+            "WHERE u.role.id IN (1, 2) AND u.createdAt >= :startDate AND u.createdAt < :endDate " +
+            "GROUP BY u.role.id, u.createdAt")
+    List<Object[]> countUsersByRoleAndDateRange(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
 }
