@@ -1,5 +1,6 @@
 package avg.hijob.backend.services;
 
+import avg.hijob.backend.responses.MessageResponse;
 import avg.hijob.backend.responses.ResponseJobFollow;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface JobFollowService {
     ResponseJobFollow findJobFollowByUserIdAndJobId(String userId, String jobId);
     ResponseJobFollow createJobFollow(String userId, String jobId);
     ResponseJobFollow findJobFollowById(Long id);
-    void deleteJobFollowById(Long id);
+    MessageResponse deleteJobFollowById(String userId, String jobId);
 }

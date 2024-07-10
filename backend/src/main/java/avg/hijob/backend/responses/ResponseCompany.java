@@ -1,21 +1,15 @@
 package avg.hijob.backend.responses;
 
-import avg.hijob.backend.entities.CompanyFollow;
-import avg.hijob.backend.entities.Job;
-import avg.hijob.backend.entities.User;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Data
+@Builder
 public class ResponseCompany {
     private String id;
     private String name;
@@ -27,7 +21,11 @@ public class ResponseCompany {
     private String about;
     private String linkGoogleMap;
     private String employer_id;
-    private Timestamp createdAt; // CamelCase for consistency
-    private Timestamp updatedAt; // CamelCase for consistency
-    private Timestamp deletedAt; // CamelCase for consistency
+    private String logo;
+    private String banner;
+    private String benefit;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+    private Timestamp deletedAt;
+
 }

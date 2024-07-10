@@ -1,17 +1,14 @@
 package avg.hijob.backend.controllers;
 
-import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.requests.RequestCompany;
 import avg.hijob.backend.responses.ResponseHandler;
 import avg.hijob.backend.services.CompanyService;
-import avg.hijob.backend.services.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,7 +25,7 @@ public class CompanyController {
     }
 
     @GetMapping("/getCompanyById/{id}")
-    public ResponseEntity<Object> getCompanyById(@PathVariable String id){
+    public ResponseEntity<Object> getCompanyById(@PathVariable  String id){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.getCompanyById(id));
     }
 
@@ -42,7 +39,7 @@ public class CompanyController {
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.getTop5Companies());
     }
     @PostMapping("/createCompany")
-    public ResponseEntity<Object> create(@RequestBody RequestCompany requestCompany){
+    public ResponseEntity<Object> create(@ModelAttribute RequestCompany requestCompany){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.createCompany(requestCompany));
     }
 
@@ -55,7 +52,5 @@ public class CompanyController {
     public ResponseEntity<Object> delete(@PathVariable String id){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.deleteCompany(id));
     }
-
-
 
 }

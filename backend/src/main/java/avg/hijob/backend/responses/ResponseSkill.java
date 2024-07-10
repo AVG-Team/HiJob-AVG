@@ -10,6 +10,4 @@ import lombok.*;
 public class ResponseSkill {
     private int id;
     private String skillName;
-
-
 }

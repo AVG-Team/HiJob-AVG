@@ -1,9 +1,8 @@
 package avg.hijob.backend.controllers;
 
-
+import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.repoElastic.JobElasticRepository;
 import avg.hijob.backend.repositories.JobRepository;
-import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.responses.ResponseHandler;
 import avg.hijob.backend.services.JobService;
 import lombok.RequiredArgsConstructor;
@@ -45,10 +44,34 @@ public class JobController {
             @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
             @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
     ){
-        Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,  jobElasticRepository.findByTitleContaining(field.orElse(""),pageable));
+       Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
+       return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,  jobElasticRepository.findByTitleContaining(field.orElse(""),pageable));
     }
 
+    @GetMapping("/getJobByCompany/{companyId}")
+    public ResponseEntity<Object> getAllJobs(
+            @PathVariable Optional<String> companyId,
+            @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
+            @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
+    ){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobsByCompany(companyId,pageSize,pageNo) );
+    }
+
+    @PutMapping("/updateJob/{id}")
+    public ResponseEntity<Object> update(
+            @PathVariable String id,
+            @RequestBody RequestJob requestJob
+    ){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.updateJob(id,requestJob) );
+    }
+
+    @PutMapping("/deleteJob/{id}")
+    public ResponseEntity<Object> delete(
+            @PathVariable String id
+    ){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.deleteJob(id) );
+
+    }
 
     @GetMapping("/filter")
     public ResponseEntity<Object> findJobsFilter(
@@ -82,20 +105,6 @@ public class JobController {
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.createJob(requestJob) );
     }
 
-    @PutMapping("/updateJob/{id}")
-    public ResponseEntity<Object> update(
-            @PathVariable String id,
-            @RequestBody RequestJob requestJob
-    ){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.updateJob(id,requestJob) );
-    }
-
-    @PutMapping("/deleteJob/{id}")
-    public ResponseEntity<Object> delete(
-            @PathVariable String id
-    ){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.deleteJob(id) );
-    }
 
 
 }

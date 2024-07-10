@@ -19,7 +19,7 @@ const jobApi = {
     },
     createJob(data) {
         const url = `/jobs/createJob`;
-        return axiosClient.post(url, { data });
+        return axiosClient.post(url, data);
     },
     updateJob(id, data) {
         const url = `/jobs/updateJob/${id}`;

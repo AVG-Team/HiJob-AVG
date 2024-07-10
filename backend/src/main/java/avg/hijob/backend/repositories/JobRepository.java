@@ -1,6 +1,7 @@
 package avg.hijob.backend.repositories;
 
 import avg.hijob.backend.entities.Job;
+import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.responses.ResponseJob;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,6 @@ public interface JobRepository extends JpaRepository<Job, String> {
            "FROM Job j " +
             " WHERE ?1 = '' or j.company.id like %?1% and j.deletedAt is null")
     Page<ResponseJob> findAllByCompanyId(String idCompany, Pageable pageable);
-
 
 
     @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id, j.title, j.description, j.responsibilities, j.requirements, j.benefits, j.requireOfYear, j.salary, j.company.id, j.user.id, j.createdAt, j.updatedAt, j.deletedAt) " +

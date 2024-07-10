@@ -5,6 +5,7 @@ import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.JobFollowRepository;
 import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.repositories.UserRepository;
+import avg.hijob.backend.responses.MessageResponse;
 import avg.hijob.backend.responses.ResponseJobFollow;
 import avg.hijob.backend.services.JobFollowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,10 +89,12 @@ public class JobFollowServiceImpl implements JobFollowService {
     }
 
     @Override
-    public void deleteJobFollowById(Long id) {
-        if(jobFollowRepository.findJobFollowById(id) == null){
-            throw new NotFoundException("No job follow found", HttpStatus.NOT_FOUND);
+    public MessageResponse deleteJobFollowById(String userId, String jobId) {
+        if(jobFollowRepository.findJobFollowByUserIdAndJobId(userId,jobId) == null){
+            return new  MessageResponse(HttpStatus.NOT_FOUND,"No job follow found");
         }
-        jobFollowRepository.deleteById(id);
+        ResponseJobFollow jobFollow = jobFollowRepository.findJobFollowByUserIdAndJobId(userId,jobId);
+        jobFollowRepository.deleteById(jobFollow.getId());
+        return new MessageResponse(HttpStatus.OK,"Job follow deleted successfully");
     }
 }
