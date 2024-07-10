@@ -59,6 +59,8 @@ const EditJobType = loadable(() => import("./admin/pages/JobType/components/Form
 const CreateJobType = loadable(() => import("./admin/pages/JobType/components/FormCreate.jsx"));
 //Roles
 const RolesAdmin = loadable(() => import("./admin/pages/Role"));
+//Recruitment
+const RecruitmentAdmin = loadable(() => import("./admin/pages/Recruitment"));
 
 function App() {
     useEffect(() => {
@@ -402,6 +404,17 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <RolesAdmin title="Quản Lý Vai Trò" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*Recruitment*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/recruitments"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <RecruitmentAdmin title="Quản Lý Đơn Ứng Tuyển" />
                             </Suspense>
                         }
                     />
