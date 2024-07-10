@@ -9,7 +9,8 @@ import LayoutNotSearch from "./layouts/LayoutNotSearch";
 import AuthRoute from "./components/Route/AuthRoute.jsx";
 import BlankLayout from "~/layouts/Admin/BlankLayout.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Page404 from './components/Page404/index.jsx';
+import Page404 from "./components/Page404/index.jsx";
+import SearchLayout from "./layouts/SearchLayout";
 
 const Home = loadable(() => import("./pages/Home"));
 const Profile = loadable(() => import("./pages/Profile"));
@@ -24,6 +25,7 @@ const Confirm = loadable(() => import("./pages/Auth/Confirm"));
 const JobApplied = loadable(() => import("./pages/JobApplied"));
 const Register = loadable(() => import("./pages/Auth/Register"));
 const Recruitment = loadable(() => import("./pages/Recruitment"));
+const SearchingPage = loadable(() => import("./pages/Searching"));
 const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
@@ -51,6 +53,16 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <Home title="HomePage" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                <Route element={<SearchLayout />}>
+                    <Route
+                        path="/searching-page"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <SearchingPage title="Tìm Kiếm Việc Làm" />
                             </Suspense>
                         }
                     />

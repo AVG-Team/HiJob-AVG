@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import Detail from "./components/Detail.jsx";

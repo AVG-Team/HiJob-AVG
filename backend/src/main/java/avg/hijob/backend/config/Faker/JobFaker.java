@@ -21,10 +21,12 @@ public class JobFaker implements CommandLineRunner {
     private final CompanyRepository companyRepository;
     private final UserRepository userRepository;
 
+
     public JobFaker(JobRepository jobRepository, CompanyRepository companyRepository, UserRepository userRepository) {
         this.jobRepository = jobRepository;
         this.companyRepository = companyRepository;
         this.userRepository = userRepository;
+
         this.faker = new Faker();
     }
 
@@ -54,9 +56,11 @@ public class JobFaker implements CommandLineRunner {
 
                 }
                 index++;
-                jobRepository.saveAll(jobs);
+                jobRepository.saveAllAndFlush(jobs);
             }
         }
+
+
 
     }
 }

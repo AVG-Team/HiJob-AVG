@@ -13,9 +13,9 @@ const companyApi = {
         const url = `/companies/getCompanyByUser/${userId}`;
         return axiosClient.get(url, { userId });
     },
-    getCompanies() {
+    getCompanies(params) {
         const url = `/companies`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     },
     createCompany(data) {
         const url = `/companies/createCompany`;

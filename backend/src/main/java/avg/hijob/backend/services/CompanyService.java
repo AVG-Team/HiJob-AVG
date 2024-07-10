@@ -18,5 +18,4 @@ public interface CompanyService {
     public MessageResponse createCompany(RequestCompany requestCompany);
     public MessageResponse updateCompany(String id, RequestCompany requestCompany);
     public ResponseCompany deleteCompany(String id);
-
 }

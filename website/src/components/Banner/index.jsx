@@ -1,8 +1,34 @@
 import Lottie from "lottie-react";
+import React, { useEffect, useState,useRef } from "react";
 import Hero from "../../assets/img/hero-lottie.json";
+import jobApi from "../../services/apis/jobApi";
+import{ AutoComplete }from "antd";
 
-export default function Banner() {
-    return (
+export default function Banner({onSearchResults}) {
+    const [page, setPage] = useState(0);
+    const [pageSize, setPageSize] = useState(3);
+    const [keyword, setKeyword] = useState("");
+    const inputRef = useRef(null);
+    const handleSearchClick = async () => {
+        const inputValue = inputRef.current.value;
+        setKeyword(inputValue);
+        await fetchJobsData(inputValue);
+    };
+
+    const fetchJobsData = async (keyword) => {
+        try {
+            const response = await jobApi.findJobsByTitle({
+                field: keyword,
+                pageNo: page,
+                pageSize: pageSize
+            });
+            onSearchResults(response.data.content);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+  return (
         <div className="pt-8 bg-gradient-to-b from-white to-primary-200">
             <div className="container flex flex-col flex-wrap items-center px-3 mx-auto md:flex-row">
                 <div
@@ -27,12 +53,13 @@ export default function Banner() {
                                 <input
                                     type="text"
                                     id="job"
+                                    ref={inputRef}
                                     placeholder="Nhập từ khóa công việc bạn muốn tìm kiếm..."
                                     className="w-full p-3 border rounded-lg focus:border-primary-500 focus:outline-none focus:shadow-lg"
                                 />
                             </div>
                             <div className="flex items-center justify-center col-span-1">
-                                <button className="px-8 py-3 font-bold text-white uppercase rounded-lg shadow-lg bg-primary lg:mx-0 hover:bg-primary-600 hover:shadow-lg">
+                                <button onClick={handleSearchClick} id="buttonSearch" className="px-8 py-3 font-bold text-white uppercase rounded-lg shadow-lg bg-primary lg:mx-0 hover:bg-primary-600 hover:shadow-lg">
                                     tìm việc
                                 </button>
                             </div>

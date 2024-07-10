@@ -9,7 +9,7 @@ export default function Contact({ company }) {
         <div className="flex items-center justify-center w-full mt-5">
             <div className="w-full max-w-4xl p-6 text-gray-600 bg-white rounded shadow-lg lg:rounded-lg">
                 <h1 className="mb-2 text-xl font-bold">Thông tin liên hệ</h1>
-                <hr className="my-4" />
+                <hr className="my-4"/>
                 <div className="flex mb-6 space-x-4">
                     <div>
                         <p className="font-semibold">Website</p>

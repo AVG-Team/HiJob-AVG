@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import FlagIcon from "@mui/icons-material/Flag";
-import GroupsIcon from "@mui/icons-material/Groups";
 import BusinessIcon from "@mui/icons-material/Business";
+import GroupsIcon from "@mui/icons-material/Groups";
+import FlagIcon from "@mui/icons-material/Flag";
 
 AboutComp.propTypes = {
     company: PropTypes.object,

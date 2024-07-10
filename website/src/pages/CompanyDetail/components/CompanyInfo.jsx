@@ -30,7 +30,7 @@ export default function CompanyInfo({ company, jobs }) {
                             <h2 className="text-lg font-bold sm:text-xl">{company.name}</h2>
                             <p className="mt-2 mb-1 text-sm text-gray-500">Chọn chúng tôi là sự lựa chọn đúng đắn</p>
                             <div className="flex items-center justify-center sm:justify-start">
-                                <FolderIcon fontSize="small" className="text-primary-200" />
+                                <FolderIcon fontSize="small" className="text-primary-200"/>
                                 <p className="ml-1 text-sm sm:text-md">{countJobOpen} vị trí tuyển dụng</p>
                             </div>
                         </div>

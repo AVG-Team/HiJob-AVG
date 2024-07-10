@@ -4,8 +4,10 @@ import avg.hijob.backend.entities.Company;
 import avg.hijob.backend.entities.Job;
 import avg.hijob.backend.entities.User;
 import avg.hijob.backend.exceptions.BadRequestException;
+import avg.hijob.backend.entities.*;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.CompanyRepository;
+import avg.hijob.backend.repoElastic.*;
 import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.requests.RequestJob;
@@ -16,19 +18,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
 
     @Autowired
@@ -39,6 +44,16 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private final JobSkillDetailElasticRepository jobSkillDetailElasticRepository;
+
+    private final JobTypeDetailElasticRepository jobTypeDetailElasticRepository;
+
+    private final JobLevelDetailElasticRepository jobLevelDetailElasticRepository;
+
+    private final ContractTypeDetailElasticRepository contractTypeDetailElasticRepository;
+
+    private final JobElasticRepository jobElasticRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(JobService.class);
 
@@ -180,4 +195,86 @@ public class JobServiceImpl implements JobService {
             throw new NotFoundException("Error deleting job", HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    @Override
+    public Page<ResponseJob> getAllJobs(Optional<String> id, Optional<Integer> pageSize, Optional<Integer> pageNo) {
+        return null;
+    }
+
+    @Override
+    public Page<Job> mappingJobs( String jobSkill,
+                                  String jobLevel,
+                                  String typeName,
+                                  String contractType,
+                                  Optional<Integer> pageNo,
+                                  Optional<Integer> pageSize) {
+
+       if(jobSkill.isEmpty() &&  jobLevel.isEmpty() && typeName.isEmpty() && contractType.isEmpty()){
+           return null;
+       }
+
+        Map<String, Integer> mapJob = new HashMap<>();
+
+        // Number of provided criteria
+        AtomicInteger criteriaCount = new AtomicInteger(0);
+
+        // Check if jobSkill parameter is present
+        if (!jobSkill.isEmpty()) {
+            criteriaCount.incrementAndGet();
+            List<JobSkillDetail> jobSkillDetails = jobSkillDetailElasticRepository.findJobsBySkillName(jobSkill);
+            jobSkillDetails.forEach(item -> {
+                String jobId = item.getJob().getId();
+                mapJob.put(jobId, mapJob.getOrDefault(jobId, 0) + 1);
+            });
+        }
+
+        // Check if jobType parameter is present
+        if (!typeName.isEmpty()) {
+            criteriaCount.incrementAndGet();
+            List<JobTypeDetail> jobTypeDetails = jobTypeDetailElasticRepository.findJobsByJobTypeName(typeName);
+            jobTypeDetails.forEach(item -> {
+                String jobId = item.getJob().getId();
+                mapJob.put(jobId, mapJob.getOrDefault(jobId, 0) + 1);
+            });
+        }
+
+        // Check if jobLevel parameter is present
+        if (!jobLevel.isEmpty()) {
+            criteriaCount.incrementAndGet();
+            List<JobLevelDetail> jobLevelDetails = jobLevelDetailElasticRepository.findJobsByLevelName(jobLevel);
+            jobLevelDetails.forEach(item -> {
+                String jobId = item.getJob().getId();
+                mapJob.put(jobId, mapJob.getOrDefault(jobId, 0) + 1);
+            });
+        }
+
+        // Check if contractType parameter is present
+        if (!contractType.isEmpty()) {
+            criteriaCount.incrementAndGet();
+            List<ContractTypeDetail> contractTypeDetails = contractTypeDetailElasticRepository.findJobsByContractName(contractType);
+            contractTypeDetails.forEach(item -> {
+                String jobId = item.getJob().getId();
+                mapJob.put(jobId, mapJob.getOrDefault(jobId, 0) + 1);
+            });
+        }
+
+        // Filter job IDs that match all provided search criteria
+        List<String> filteredJobIds = mapJob.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() >= criteriaCount.get()) // Check if the job matches all the provided criteria
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        // Retrieve jobs based on filtered job IDs
+        Iterable<Job> jobIterable = jobElasticRepository.findAllById(filteredJobIds);
+        List<Job> jobList = new ArrayList<>();
+        jobIterable.forEach(jobList::add);
+
+        // Create and return a Page object with the retrieved jobs
+        return new PageImpl<>(jobList, PageRequest.of(pageNo.orElse(0), pageSize.orElse(10)), jobList.size());
+    }
+
+
+
 }
