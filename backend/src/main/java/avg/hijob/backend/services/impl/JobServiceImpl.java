@@ -31,6 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
 
     @Autowired
@@ -42,15 +43,6 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo) {
-    Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
-        if(jobRepository.findAll().isEmpty()) {
-            throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
-        }
-        return jobRepository.findAllJobs(pageable);
-    }
-
     private final JobSkillDetailElasticRepository jobSkillDetailElasticRepository;
 
     private final JobTypeDetailElasticRepository jobTypeDetailElasticRepository;
@@ -61,6 +53,17 @@ public class JobServiceImpl implements JobService {
 
     private final JobElasticRepository jobElasticRepository;
 
+    @Override
+    public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo) {
+    Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
+        if(jobRepository.findAll().isEmpty()) {
+            throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
+        }
+        return jobRepository.findAllJobs(pageable);
+    }
+
+
+
 
     @Override
     public Page<ResponseJob> getAllJobsByCompany(Optional<String> companyId, Optional<Integer> pageSize, Optional<Integer> pageNo) {
@@ -69,8 +72,12 @@ public class JobServiceImpl implements JobService {
             throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
         }
         return jobRepository.findAllByCompanyId(companyId.orElse(""),pageable);
-        return jobRepository.findAllOrCompanyId(companyId.orElse(""),pageable);
 
+    }
+
+    @Override
+    public Page<ResponseJob> getAllJobs(Optional<String> id, Optional<Integer> pageSize, Optional<Integer> pageNo) {
+        return null;
     }
 
     @Override
@@ -202,8 +209,6 @@ public class JobServiceImpl implements JobService {
             job.setBenefits(requestJob.getBenefits());
             job.setRequireOfYear(requestJob.getRequireOfYear());
             job.setSalary(requestJob.getSalary());
-            job.setCompany(companyRepository.getReferenceById(requestJob.getCompanyId()));
-            job.setUser(userRepository.getReferenceById(requestJob.getUserId()));
             jobRepository.save(job);
 
             return new ResponseJob(job.getId(),job.getTitle(),job.getDescription(),job.getResponsibilities(),

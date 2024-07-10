@@ -29,6 +29,15 @@ const jobApi = {
         const url = `/jobs/deleteJob/${id}`;
         return axiosClient.put(url, { id });
     },
+
+    findJobsByTitle(params){
+        const url = "jobs/keyword";
+        return axiosClient.get(url, { params });
+    },
+    findJobsByFilter(data){
+        const url = "jobs/filter";
+        return axiosClient.get(url, { data });
+    }
 };
 
 export default jobApi;

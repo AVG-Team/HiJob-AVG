@@ -17,7 +17,7 @@
     "@mui/icons-material": "^5.15.20",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.20",
-    "antd": "^5.18.3",
+    "antd": "^5.19.1",
     "aos": "^2.3.4",
     "axios": "^1.7.2",
     "js-cookie": "^3.0.5",
@@ -32,7 +32,7 @@
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
     "slick-carousel": "^1.8.1",
-    "vite": "^5.3.1"
+    "vite": "^5.3.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

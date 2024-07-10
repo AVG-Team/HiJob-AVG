@@ -1,96 +1,35 @@
 import Lottie from "lottie-react";
+import React, { useEffect, useState,useRef } from "react";
 import Hero from "../../assets/img/hero-lottie.json";
-import React, { useEffect, useState } from "react";
-import { AutoComplete } from 'antd';
-import jobService from "../../services/apis/JobService/JobService";
-import CompanyService from"../../services/apis/CompanyService/CompanyService";
-    
-export default function Banner() {
-    const [page, setPage] = useState(1); 
+import jobApi from "../../services/apis/jobApi";
+import{ AutoComplete }from "antd";
+export default function Banner({onSearchResults}) {
+    const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(3);
-    const [total, setTotal] = useState(0);
-    const [contentOfJobs, setContentOfJobs] = useState([]);
-    const [contentOfCompanies, setContentOfCompanies] = useState([]);
-    const [options, setOptions] = useState([]);
-    const [type, setType] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [keyword, setKeyword] = useState("");  
+    const inputRef = useRef(null);
+    const handleSearchClick = async () => {
+        const inputValue = inputRef.current.value; 
+        setKeyword(inputValue);
+        await fetchJobsData(inputValue);
+    };
 
-    useEffect(() => {
-        setIsLoading(false);
-        const fetchJobsData = async () => {
-            try {
-                const { content, totalElements, size } = await jobService.getAllByPage({
-                    type,
-                    pageNo: page,
-                    pageSize,
-                });
-                console.log(content);
-                setContentOfJobs(content);
-                setIsLoading(false);
-                setTotal(Math.ceil(totalElements / size));
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                
-            }
-        };
-        const fetchCompaniesData = async () => {
-            try {
-                const { content, totalElements, size } = await CompanyService.getAllByPage({
-                    type,
-                    pageNo: page,
-                    pageSize,
-                });
-                console.log(content);
-                setContentOfCompanies(content);
-                setTotal(Math.ceil(totalElements / size));
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        Promise.all([fetchJobsData(), fetchCompaniesData()])
-      .then(() => setIsLoading(true))
-      .catch((error) => console.error("Error fetching data:", error));
-    }, [type, page, pageSize]);
+    const fetchJobsData = async (keyword) => {
+        try {
+            const response = await jobApi.findJobsByTitle({ 
+                field: keyword, 
+                pageNo: page, 
+                pageSize: pageSize 
+            });
+            onSearchResults(response.data.content); 
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
 
-    useEffect(() => {
-        // Combine jobs and companies data into options
-        const combinedOptions = [
-            ...contentOfJobs.map(job => ({ label: job.title, value: job.id })),
-            ...contentOfCompanies.map(company => ({ label: company.name, value: company.id }))
-        ];
-        setOptions(combinedOptions);
-    }, [contentOfJobs, contentOfCompanies]);
-    
-    return (
-        // <div className="px-4 pt-12 pb-20 bg-orange-50">
-        //     <div className="container px-4 mx-auto sm:px-6 lg:px-24">
-        //         <h2 className="text-2xl font-bold">
-        //             Tìm kiếm <span className="p-2 text-white bg-primary">Tester</span>
-        //         </h2>
-        //         <div className="flex flex-col mt-4 sm:flex-row">
-        //             <input
-        //                 type="text"
-        //                 placeholder="Tìm kiếm theo các Kỹ năng, Vị trí, Công ty,..."
-        //                 className="w-full lg:w-[90%] p-4 border border-primary focus:border-primary-500  lg:rounded-l-md  focus:outline-none focus:shadow-lg"
-        //             />
-        //             <button className="p-2 text-white lg:p-4 bg-primary rounded-b-md sm:rounded-r-md sm:rounded-b-none hover:bg-primary-600 hover:shadow-lg">
-        //                 Tìm kiếm
-        //             </button>
-        //         </div>
-        //         <div className="flex flex-wrap items-center justify-start mt-4 space-x-2">
-        //             <p className="text-sm">Từ khoá đề xuất :</p>
-        //             {["Java", "C++", "JavaScript", "UI/UX", "C#"].map((keyword) => (
-        //                 <button
-        //                     key={keyword}
-        //                     className="px-3 py-1 m-1 bg-gray-200 border border-gray-300 rounded-md hover:bg-gray-300 hover:shadow-md "
-        //                 >
-        //                     {keyword}
-        //                 </button>
-        //             ))}
-        //         </div>
-        //     </div>
-        // </div>
-        <div className="pt-14 bg-gradient-to-b from-white to-primary-200">
+       
+  return (
+        <div className="pt-8 bg-gradient-to-b from-white to-primary-200">
             <div className="container flex flex-col flex-wrap items-center px-3 mx-auto md:flex-row">
                 <div
                     data-aos="fade-left"
@@ -111,18 +50,16 @@ export default function Banner() {
                                 {/* <label htmlFor="job" className="block px-4 text-sm font-bold uppercase text-primary">
                                     Công Việc
                                 </label> */}
-                                {/* <input
+                                <input
                                     type="text"
-                                    id="job"
+                                    id="job"  
+                                    ref={inputRef}
                                     placeholder="Nhập từ khóa công việc bạn muốn tìm kiếm..."
                                     className="w-full p-3 border rounded-lg focus:border-primary-500 focus:outline-none focus:shadow-lg"
-                                /> */}
-                                <AutoComplete id="job" options={options.slice(0,5)} 
-                                    placeholder="Nhập từ khóa công việc bạn muốn tìm kiếm..."
-                                    className="w-full h-[48px] border rounded-lg focus:border-primary-500 focus:outline-none focus:shadow-lg"></AutoComplete>
+                                />
                             </div>
                             <div className="flex items-center justify-center col-span-1">
-                                <button className="px-8 py-3 font-bold text-white uppercase rounded-lg shadow-lg bg-primary lg:mx-0 hover:bg-primary-600 hover:shadow-lg">
+                                <button onClick={handleSearchClick} id="buttonSearch" className="px-8 py-3 font-bold text-white uppercase rounded-lg shadow-lg bg-primary lg:mx-0 hover:bg-primary-600 hover:shadow-lg">
                                     tìm việc
                                 </button>
                             </div>
@@ -131,7 +68,7 @@ export default function Banner() {
                             <p className="text-sm opacity-75">Từ khoá đề xuất :</p>
                             {["Java", "C++", "JavaScript", "UI/UX", "C#"].map((keyword) => (
                                 <button
-                                    key={keyword}
+                                    key={keyword}              
                                     className="px-2 py-1 mt-1 text-sm text-white rounded-md bg-primary hover:bg-primary-600 hover:shadow-lg"
                                 >
                                     {keyword}

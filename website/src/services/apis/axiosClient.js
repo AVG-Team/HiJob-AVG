@@ -1,9 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { StorageKeys } from "../key/keys";
+import { StorageKeys } from "../key/keys.js";
 
+const API_BASE_URL = "http://localhost:8080/api/";
 const axiosClient = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: API_BASE_URL,
     headers: {
         "Content-Type": "application/json",
     },
@@ -28,7 +29,7 @@ axiosClient.interceptors.response.use(
     function (response) {
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
-        return response.data.data || response.data;
+        return response.data || response.data.data ;
     },
     function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
@@ -36,7 +37,6 @@ axiosClient.interceptors.response.use(
         console.log("Response error: ", error);
 
         if (error.response) {
-            // Server trả về lỗi
             const status = error.response.status;
             const data = error.response.data;
 

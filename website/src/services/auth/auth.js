@@ -11,7 +11,7 @@ export const getUserInfo = () => {
 
 export const checkAuth = () => {
     return !!Cookies.get(StorageKeys.ACCESS_TOKEN);
-}
+};
 
 export const setToken = (token, name, role) => {
     const decodedToken = jwtDecode(token);

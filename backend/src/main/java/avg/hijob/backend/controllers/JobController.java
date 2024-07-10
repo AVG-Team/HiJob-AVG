@@ -1,16 +1,13 @@
 package avg.hijob.backend.controllers;
 
-import avg.hijob.backend.requests.RequestJob;
-import avg.hijob.backend.entities.Job;
-import avg.hijob.backend.entities.JobLevelDetail;
-import avg.hijob.backend.repoElastic.*;
-import avg.hijob.backend.repositories.JobLevelDetailRepository;
+
+import avg.hijob.backend.repoElastic.JobElasticRepository;
 import avg.hijob.backend.repositories.JobRepository;
+import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.responses.ResponseHandler;
 import avg.hijob.backend.services.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,6 +23,10 @@ import java.util.Optional;
 public class JobController {
 
     private final JobService jobService;
+    private final JobRepository jobRepository;
+
+    @Autowired
+    private JobElasticRepository jobElasticRepository;
 
     @GetMapping("")
     public ResponseEntity<Object> getAllJobs(
@@ -34,42 +35,32 @@ public class JobController {
     ){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobs(pageSize,pageNo) );
     }
-    private final JobRepository jobRepository;
-
-
-    @Autowired
-    private JobElasticRepository jobElasticRepository;
-
-    @GetMapping("/all")
-
-
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobRepository.findAllCus(PageRequest.of(pageNo.orElseThrow(), pageSize.orElseThrow())) );
-    }
 
 
 
-   @GetMapping("/elastic/all")
+
+   @GetMapping("/keyword")
     public ResponseEntity<Object> dbJob(
             @RequestParam(name ="field",value = "") Optional<String> field,
             @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
             @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
     ){
         Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,  jobElasticRepository.findAll(pageable));
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,  jobElasticRepository.findByTitleContaining(field.orElse(""),pageable));
     }
 
 
-    @GetMapping
+    @GetMapping("/filter")
     public ResponseEntity<Object> findJobsFilter(
-            @RequestParam(name ="jobSkill",value = "") Optional<String> jobSkill,
-            @RequestParam(name ="jobLevel",value = "") Optional<String> jobLevel,
-            @RequestParam(name ="jobType",value = "") Optional<String> jobType,
-            @RequestParam(name ="contractType",value = "") Optional<String> contractType,
-            @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
-            @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
-    ){
+            @RequestParam(name = "jobSkill", required = false) Optional<String> jobSkill,
+            @RequestParam(name = "jobLevel", required = false) Optional<String> jobLevel,
+            @RequestParam(name = "jobType", required = false) Optional<String> jobType,
+            @RequestParam(name = "contractType", required = false) Optional<String> contractType,
+            @RequestParam(name = "pageNo", defaultValue = "0") Optional<Integer> pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "3") Optional<Integer> pageSize
+    ) {
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.mappingJobs(jobType, jobSkill, jobLevel, contractType, pageNo, pageSize));
-
+    }
     @GetMapping("/getJobCreateToday")
     public ResponseEntity<Object> getJobsCreateToday(
             @RequestParam(name = "createdDate", value="createdDate") String createdDate
@@ -80,8 +71,7 @@ public class JobController {
 
     @GetMapping("/getJobById/{id}")
     public ResponseEntity<Object> getJobById(
-            @PathVariable String id
-    ){
+            @PathVariable String id){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getJobById(id) );
     }
 
@@ -106,5 +96,6 @@ public class JobController {
     ){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.deleteJob(id) );
     }
+
 
 }

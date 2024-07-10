@@ -1,11 +1,15 @@
 import Card from "../../components/Card";
 import React, { useEffect, useState } from "react";
 import { Spin } from "antd";
-import jobService from "../../services/apis/JobService/JobService";
-import CompanyService from "../../services/apis/CompanyService/CompanyService";
+import jobApi from "../../services/apis/jobApi";
+import levelApi from "../../services/apis/levelApi";
+import contractApi from "../../services/apis/contractApi";
+import typeApi from "../../services/apis/typeApi";
+import skillApi from "../../services/apis/skillApi";
+import companyApi from "../../services/apis/companyApi";
 
-export default function Searching() {
-    const [page, setPage] = useState(1);
+export default function Searching({results}) {
+    const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(3);
     const [total, setTotal] = useState(0);
     const [contentOfJobs, setContentOfJobs] = useState([]);
@@ -13,6 +17,30 @@ export default function Searching() {
     const [type, setType] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [tab, setTab] = useState(0);
+    const [types, setTypes] = useState([]);
+    const [levels, setLevels] = useState([]);
+    const [contracts, setContracts] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [jobKeyword, setJobKeyword] = useState('');
+    const [timer, setTimer] = useState(null);
+    const [selected, setSelected] = useState([]);
+    const [formData, setFormData] = useState({
+        level: "",
+        type: "",
+        contract: ""
+    });
+
+    const handleInputChange = async (e) => {
+        const { id, value } = e.target;
+        
+        await setFormData((prevData) => ({
+            ...prevData,
+            [id]: value,
+        }));
+    
+      
+    };
+
 
     const handleShowMore = () => {
         setPageSize(pageSize + 3);
@@ -23,18 +51,85 @@ export default function Searching() {
     };
 
     useEffect(() => {
+        const fetchSkill = async () => {
+            try {
+                const responseSkill = await skillApi.getAllSkills();
+                setSkills(responseSkill.data);
+            } catch (error) {
+                console.log("Failed to fetch skill: ", error);1
+            }
+        };
+        fetchSkill();
+    }, []);
+
+    useEffect(() => {
+        const fetchType = async () => {
+            try {
+                const responseType = await typeApi.getAllType();
+                setTypes(responseType.data);
+            } catch (error) {
+                console.log("Failed to fetch type: ", error);
+            }
+        };
+
+        fetchType();
+    }, []);
+
+    useEffect(() => {
+        const fetchLevel = async () => {
+            try {
+                const responseLevel = await levelApi.getAllLevel();
+                setLevels(responseLevel.data);
+            } catch (error) {
+                console.log("Failed to fetch level: ", error);
+            }
+        };
+        fetchLevel();
+    }, []);
+
+    useEffect(() => {
+        const fetchContract = async () => {
+            try {
+                const response = await contractApi.getAllContract();
+                setContracts(response.data);
+            } catch (error) {
+                console.log("Failed to fetch contract: ", error);
+            }
+        };
+        fetchContract();
+    }, []);
+
+
+    useEffect(() => {
+        const fetchJobsByFilter = async () => {
+            try {
+                const response = await jobApi.findJobsByFilter({
+                    jobLevel: formData.level,
+                    jobType: formData.type,
+                    contractType: formData.contract,
+                    pageNo: page,
+                    pageSize: pageSize
+                });
+            
+                setContentOfJobs(response.data.content);
+        
+                setTotal(Math.ceil(response.data.totalElements / response.data.size));
+            } catch (error) {
+                console.log("Failed to fetch contract: ", error);
+            }
+        };
+
+        fetchJobsByFilter();
+    }, [formData])
+        
+    useEffect(() => {
         setIsLoading(true);
         const fetchJobsData = async () => {
             try {
-                const { content, totalElements, size } = await jobService.getAllByPage({
-                    type,
-                    pageNo: page,
-                    pageSize,
-                });
-                console.log(content);
-                setContentOfJobs(content);
+                const response = await jobApi.getAllJobs({ pageNo: page, pageSize: pageSize });
+                setContentOfJobs(response.data.content);
+                setTotal(Math.ceil(response.data.totalElements/ response.data.size));
                 setIsLoading(false);
-                setTotal(Math.ceil(totalElements / size));
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -42,15 +137,10 @@ export default function Searching() {
 
         const fetchCompaniesData = async () => {
             try {
-                const { content, totalElements, size } = await CompanyService.getAllByPage({
-                    type,
-                    pageNo: page,
-                    pageSize,
-                });
-                console.log(content);
-                setContentOfCompanies(content);
+                const response= await companyApi.getCompanies({pageNo:page,pageSize: pageSize});
+                setContentOfCompanies(response.data.content);
+                setTotal(Math.ceil(response.data.totalElements/ response.data.size));
                 setIsLoading(false);
-                setTotal(Math.ceil(totalElements / size));
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -64,6 +154,12 @@ export default function Searching() {
         }
     }, [type, page, pageSize]);
 
+    useEffect(() => {
+        console.log(results);
+        setContentOfJobs(results);
+      
+        
+    }, [results]);
     return (
         <div>
             <div className="py-8 ml-6 mr-6 mx-4">
@@ -104,6 +200,65 @@ export default function Searching() {
                             </div>
                         </div>
                     </div>
+                    <div className="grid grid-cols-4 gap-4 mb-4">
+                        <div className="col-span-1">
+                            <label className="block text-sm font-medium text-gray-700" htmlFor="type">
+                                Loại Hình Làm Việc
+                            </label>
+                            <select
+                                id="type"
+                                value={formData.type}
+                                onChange={handleInputChange}
+                                
+                                className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                                required
+                            >
+                                <option value={0}>Chọn loại hình làm việc</option>
+                                {types.map((type) => (
+                                    <option key={type.id} value={type.typeName}>
+                                        {type.typeName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="col-span-1">
+                            <label className="block text-sm font-medium text-gray-700" htmlFor="contract">
+                                Loại Hợp Đồng
+                            </label>
+                            <select
+                                id="contract"
+                                value={formData.contract}
+                                onChange={handleInputChange}
+                                className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                            >
+                                <option value={0}>Chọn loại hợp đồng</option>
+                                {contracts.map((contract) => (
+                                    <option key={contract.id} value={contract.typeName}>
+                                        {contract.typeName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="col-span-1">
+                            <label className="block text-sm font-medium text-gray-700" htmlFor="level">
+                                Loại Cấp Bậc
+                            </label>
+                            <select
+                                id="level"
+                                value={formData.level}
+                                onChange={handleInputChange}
+                                className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
+                            >
+                                <option value={0}>Chọn loại cấp bậc</option>
+                                {levels.map((level) => (
+                                    <option key={level.id} value={level.levelName}>
+                                        {level.levelName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        
+                    </div>
                     {tab === 0 && (
                         <div className="bg-gray-light py-8 flex justify-center">
                             <div className="container">
@@ -121,18 +276,27 @@ export default function Searching() {
                                                 </span>
                                             </h1>
                                         </div>
-                                        <Spin spinning={isLoading}>
-                                            {contentOfJobs.map((item) => (
-                                                <Card key={item.id} name={item.title} />
-                                            ))}
-                                        </Spin>
+                                        <div>
+                                            <Spin spinning={isLoading}>
+                                                {contentOfJobs.map((item) => (
+                                                    <Card key={item.id} name={item.title} />
+                                                ))}
+                                            </Spin>
+                                        </div>
+                                        <div className="mt-6">
+                                                <h2 className="text-3xl font-bold">Company Information</h2>
+                                                <Spin spinning={isLoading}>
+                                                    {contentOfCompanies.map((item) => (
+                                                        <Card key={item.id} name={item.name}/>
+                                                    ))}
+                                                </Spin>
+                                        </div>
                                         <div className="mx-auto mt-4 text-center sm:max-lg:w[238px]">
                                             <button
                                                 className="inline-flex items-center justify-center border border-solid text-primary-600 text-md bg-transparent rounded w-full h-9
                                                  border-primary font-semibold px-4 lg:text-base lg:px-6 lg:gap-3 transition-all"
                                                 type="button"
-                                                onClick={handleShowMore}
-                                            >
+                                                onClick={handleShowMore}>
                                                 Show more
                                             </button>
                                         </div>
@@ -322,7 +486,7 @@ export default function Searching() {
                                         </div>
                                         <Spin spinning={isLoading}>
                                             {contentOfCompanies.map((item) => (
-                                                <Card key={item.id} name={item.title}/>
+                                                <Card key={item.id} name={item.name}/>
                                             ))}
                                         </Spin>
                                         <div className="mx-auto mt-4 text-center sm:max-lg:w[238px]">

@@ -56,7 +56,7 @@ public class JobFaker implements CommandLineRunner {
 
                 }
                 index++;
-                jobRepository.saveAll(jobs);
+                jobRepository.saveAllAndFlush(jobs);
             }
         }
 

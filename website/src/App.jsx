@@ -3,15 +3,24 @@ import loadable from "@loadable/component";
 import AuthLayout from "./layouts/AuthLayout";
 import BasicLayout from "./layouts/BasicLayout";
 import LayoutNotSearch from "./layouts/LayoutNotSearch";
+import BlankLayout from "~/layouts/Admin/BlankLayout.jsx";
 import { CircularProgress } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import AuthRoute from "./components/Route/AuthRoute.jsx";
+import Page404 from './components/Page404/index.jsx';
+import SearchLayout from  "./layouts/SearchLayout";
 
 const Home = loadable(() => import("./pages/Home"));
-const Logout = loadable(() => import("./pages/Logout"));
-const Login = loadable(() => import("./pages/Login"));
+const Register = loadable(() => import("./pages/Auth/Register"));
+const ForgotPassword = loadable(() => import("./pages/Auth/ForgotPassword"));
+const ChangePassword = loadable(() => import("./pages/Auth/ForgotPassword/ChangePassword"));
+const Notify = loadable(() => import("./pages/Auth/Notify"));
+const Logout = loadable(() => import("./pages/Auth/Logout"));
+const Login = loadable(() => import("./pages/Auth/Login"));
 const JobDetail = loadable(() => import("./pages/JobDetail"));
+const Confirm = loadable(() => import("./pages/Auth/Confirm"));
 const JobApplied = loadable(() => import("./pages/JobApplied"));
 const JobFollowing = loadable(() => import("./pages/JobFollowing"));
 const ManageCV = loadable(() => import("./pages/ManageCV"));
@@ -20,6 +29,10 @@ const CompanyDetail = loadable(() => import("./pages/CompanyDetail"));
 const Profile = loadable(() => import("./pages/Profile"));
 const AboutUs = loadable(() => import("./pages/AboutUs"));
 const PrivacyPolicy = loadable(() => import("./pages/PrivacyPolicy"));
+const Recruitment = loadable(() => import("./pages/Recruitment"));
+const SearchingPage = loadable(()=> import("./pages/Searching"));
+// ADMIN ROUTE
+const LoginAdmin = loadable(() => import("./pages/Admin/Auth"));
 
 function App() {
     useEffect(() => {
@@ -31,13 +44,26 @@ function App() {
             <Routes>
                 <Route element={<AuthLayout />}>
                     <Route path="/logout" element={<Logout />} />
+                    <Route path="/admin/logout" element={<Logout />} />
                 </Route>
                 <Route element={<BasicLayout />}>
                     <Route
                         index
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <Home title="Trang Chủ" />
+                                <Home title="HomePage" />
+                            </Suspense>
+                        }
+                    />
+                
+                </Route>
+                <Route element={<SearchLayout />}>
+                   
+                    <Route
+                        path="/searching-page"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <SearchingPage title="Tìm Kiếm Việc Làm" />
                             </Suspense>
                         }
                     />
@@ -52,10 +78,10 @@ function App() {
                         }
                     />
                     <Route
-                        path="/viec-lam"
+                        path="/viec-lam/:id"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <JobDetail title="Job Detail" />
+                                <JobDetail title="Việc Làm Đang Xem" />
                             </Suspense>
                         }
                     />
@@ -92,18 +118,50 @@ function App() {
                         }
                     />
                     <Route
-                        path="/cong-ty"
+                        path="/register"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <CompanyDetail title="Công ty" />
+                                <Register title="Register" />
                             </Suspense>
                         }
                     />
                     <Route
-                        path="/cv"
+                        path="/forgot-password"
                         element={
                             <Suspense fallback={<CircularProgress />}>
-                                <Profile title="Hồ sơ CV" />
+                                <ForgotPassword title="Forgot Password" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/change-password"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <ChangePassword title="Change Password" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/notify"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <Notify title="Notification" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/oauth2/redirect"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <Confirm title="Redirect..." />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/cong-ty"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CompanyDetail title="Công ty" />
                             </Suspense>
                         }
                     />
@@ -123,7 +181,49 @@ function App() {
                             </Suspense>
                         }
                     />
+                    <Route
+                        path="/tuyen-dung"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <Recruitment title="Tuyển dụng" />
+                            </Suspense>
+                        }
+                    />
                 </Route>
+                <Route element={<AuthRoute />}>
+                    <Route element={<LayoutNotSearch />}>
+                        <Route
+                            path="/thong-tin-ca-nhan"
+                            element={
+                                <Suspense fallback={<CircularProgress />}>
+                                    <Profile title="Thông Tin Cá Nhân" />
+                                </Suspense>
+                            }
+                        />
+                    </Route>
+                </Route>
+
+                {/* ADMIN */}
+                <Route element={<BlankLayout />}>
+                    <Route
+                        path="/admin/login"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <LoginAdmin title="Login Admin" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+
+                {/* PAGE 404 */}
+                <Route
+                    path="*"
+                    element={
+                        <Suspense fallback={<CircularProgress />}>
+                            <Page404 />
+                        </Suspense>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );
