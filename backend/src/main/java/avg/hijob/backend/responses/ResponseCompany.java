@@ -25,6 +25,9 @@ public class ResponseCompany {
     private String about;
     private String linkGoogleMap;
     private String employer_id;
+    private String logo;
+    private String banner;
+    private String benefit;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private Timestamp deletedAt;

@@ -2,6 +2,7 @@ package avg.hijob.backend.responses;
 
 import lombok.*;
 
+@Data
 @Getter
 @Setter
 @Builder

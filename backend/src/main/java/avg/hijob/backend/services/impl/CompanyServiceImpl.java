@@ -108,7 +108,10 @@ public class CompanyServiceImpl implements CompanyService {
                   company.setProvince(requestCompany.getProvince());
                   company.setRegistration_certificate(requestCompany.getRegistration_certificate());
                   company.setAbout(requestCompany.getAbout());
+                  company.setBenefit(requestCompany.getBenefit());
                   company.setLinkGoogleMap(requestCompany.getLinkGoogleMap());
+                  company.setLogo(requestCompany.getLogo());
+                  company.setBanner(requestCompany.getBanner());
                   companyRepository.save(company);
                   return companyRepository.getCompanyById(company.getId());
               }

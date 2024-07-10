@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TableData from "./components/table.jsx";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb.jsx";
-import jobApi from "../../../services/apis/jobApi.js";
 import { toast } from "react-toastify";
-import Filter from "./components/filter.jsx";
+import skillsApi from "../../../services/apis/skillApi.js";
+import Filter from "../Skill/components/filter.jsx";
 
 export default function Index(props) {
-    const [jobs, setJobs] = useState([]);
+    const [skills, setSkills] = useState([]);
     const [query, setQuery] = useState({
         page: 0,
         size: 10,
-        q: ""
+        q: "",
     });
     const [totalResults, setTotalResults] = useState(0);
     const [resultsPerPage, setResultsPerPage] = useState(10);
@@ -43,46 +43,48 @@ export default function Index(props) {
 
     const getData = async () => {
         try {
-            const response = await jobApi.getJobsQuery(query);
+            const response = await skillsApi.getAllSkill(query);
             const data = response.data.content;
-            setJobs(data);
-            console.log(response)
+            setSkills(data);
             setTotalResults(response.data.totalElements);
             setResultsPerPage(response.data.size);
         } catch (error) {
-            console.error('Error fetching jobs:', error);
-            toast.error("Error fetching jobs")
-            setJobs([]);
+            console.error('Error fetching skills:', error);
+            toast.error("Error fetching skills");
+            setSkills([]);
         }
     };
 
     useEffect(() => {
         const isQueryChanged = Object.keys(query).some(key => key !== 'page' && query[key] !== prevQuery[key]);
         if (isQueryChanged) {
-            setQuery(prev => ({ ...prev, page: "0" }));
+            setQuery(prev => ({ ...prev, page: 0 }));
         } else {
-            getData().then();
+            getData();
         }
         setPrevQuery(query);
     }, [query]);
 
-    const handleChange = async (event) => {
+    const navigate = useNavigate();
+
+    const handleCreateNew = () => {
+        navigate('/admin/skills/create');
+    };
+
+    const handleChange = (event) => {
         const value = event.target.value || '';
         const name = event.target.name;
-
         if (typingTimeout) {
             clearTimeout(typingTimeout);
         }
 
         if (value !== undefined && value !== '') {
-            await setQuery({ ...query, [name]: value });
-
+            setQuery(prev => ({ ...prev, [name]: value }));
             setTypingTimeout(setTimeout(() => {
                 pushUrl(name, value);
             }, 1000));
         } else {
-            await setQuery({ ...query, [name]: '' });
-
+            setQuery(prev => ({ ...prev, [name]: '' }));
             setTypingTimeout(setTimeout(() => {
                 pushUrl(name, '');
             }, 1000));
@@ -92,12 +94,21 @@ export default function Index(props) {
     return (
         <>
             <div>
-                <Breadcrumb pageName="Quản Lý Công Việc" />
+                <Breadcrumb pageName="Quản Lý Kỹ Năng" />
             </div>
-            <Filter query={query} setQuery={setQuery} handleChange={handleChange} />
+            <div className="flex justify-between items-center">
+                <Filter query={query} setQuery={setQuery} handleChange={handleChange}/>
+                <button
+                    className="bg-blue-500 text-white py-2 px-6 rounded"
+                    onClick={handleCreateNew}
+                >
+                    Thêm
+                </button>
+            </div>
             <div className="mt-4">
-                {jobs.length > 0 ? (
-                    <TableData jobs={jobs} setJobs={setJobs} totalResults={totalResults} resultsPerPage={resultsPerPage} setQuery={setQuery} query={query} />
+                {skills.length > 0 ? (
+                    <TableData skills={skills} setSkills={setSkills} totalResults={totalResults}
+                               resultsPerPage={resultsPerPage} setQuery={setQuery} query={query} />
                 ) : (
                     <div className="mt-4">Loading....</div>
                 )}
