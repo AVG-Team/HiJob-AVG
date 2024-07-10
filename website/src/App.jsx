@@ -48,6 +48,10 @@ const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdi
 const SkillsAdmin = loadable(() => import("./admin/pages/Skill"))
 const EditSkill = loadable(() => import("./admin/pages/Skill/components/FormEdit.jsx"))
 const CreateSkill = loadable(() => import("./admin/pages/Skill/components/FormCreate.jsx"))
+//Level
+const LevelAdmin = loadable(() => import("./admin/pages/Level"));
+const EditLevel = loadable(() => import("./admin/pages/Level/components/FormEdit.jsx"));
+const CreateLevel = loadable(() => import("./admin/pages/Level/components/FormCreate.jsx"))
 
 function App() {
     useEffect(() => {
@@ -275,7 +279,6 @@ function App() {
                         }
                     />
                 </Route>
-                {/*Jobs*/}
                 {/*Job*/}
                 <Route element={<LayoutAdmin/>}>
                     <Route
@@ -319,6 +322,33 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <CreateSkill title="Thêm Kỹ Năng" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*Level*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/levels"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <LevelAdmin title="Quản Lý Level" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/levels/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditLevel title="Sửa Level" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/levels/create"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CreateLevel title="Thêm Level" />
                             </Suspense>
                         }
                     />
