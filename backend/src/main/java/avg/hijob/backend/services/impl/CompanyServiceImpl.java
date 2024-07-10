@@ -1,7 +1,6 @@
 package avg.hijob.backend.services.impl;
 
 import avg.hijob.backend.entities.Company;
-import avg.hijob.backend.entities.User;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.CompanyRepository;
 import avg.hijob.backend.repositories.JobRepository;
@@ -9,7 +8,6 @@ import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.requests.RequestCompany;
 import avg.hijob.backend.responses.ResponseCompany;
 import avg.hijob.backend.services.CompanyService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +29,6 @@ public class CompanyServiceImpl implements CompanyService {
     private UserRepository userRepository;
     @Autowired
     private JobRepository jobRepository;
-
 
     @Override
     public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<String> province) {

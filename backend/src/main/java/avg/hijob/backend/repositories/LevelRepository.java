@@ -14,4 +14,9 @@ public interface LevelRepository extends JpaRepository<Level,Long> {
     @Query("Select new avg.hijob.backend.responses.ResponseLevel(l.id,l.name) " +
             "from Level l")
     List<ResponseLevel> findAllLevels();
+
+    @Query("SELECT l.name, COUNT(jl.id) " +
+            "FROM Level l LEFT JOIN JobLevelDetail jl ON l.id = jl.level.id " +
+            "GROUP BY l.name")
+    List<Object[]> countLevelsWithJobLevelDetail();
 }

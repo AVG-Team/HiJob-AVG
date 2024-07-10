@@ -63,14 +63,15 @@ const Header = ({sidebarOpen, setSidebarOpen}) => {
                 </div>
 
                 <div className="hidden sm:block w-[30%]">
-                    <form action="https://formbold.com/s/unique_form_id" method="POST">
+                    <form onSubmit={(e) => e.preventDefault()}>
                         <div className="relative">
                             <CustomInput
+                                disabled
                                 id="standard-basic"
                                 variant="standard"
                                 type="text"
                                 placeholder="Type to search..."
-                                className="!w-full"
+                                className="!w-full opacity-0"
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
