@@ -134,7 +134,7 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                         pathname.includes('companies') && 'bg-graydark'
                                     }`}
                                 >
-                                    <BusinessOutlined />
+                                    <BusinessOutlined/>
                                     <p>Quản Lý Công Ty</p>
                                 </NavLink>
                             </li>
@@ -145,7 +145,7 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                         pathname.includes('companies') && 'bg-graydark'
                                     }`}
                                 >
-                                    <WorkOutlined />
+                                    <WorkOutlined/>
                                     <p>Quản Lý Công Việc</p>
                                 </NavLink>
                             </li>
