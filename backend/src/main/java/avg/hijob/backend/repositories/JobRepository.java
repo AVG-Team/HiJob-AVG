@@ -39,7 +39,4 @@ public interface JobRepository extends JpaRepository<Job, String> {
             "FROM Job j " +
             " WHERE j.id = ?1 and j.deletedAt is null")
     ResponseJob getJobById(String id);
-
-
-
 }

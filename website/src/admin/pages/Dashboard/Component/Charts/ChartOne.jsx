@@ -1,121 +1,143 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const options = {
-    legend: {
-        show: false,
-        position: 'top',
-        horizontalAlign: 'left',
-    },
-    colors: ['#3C50E0', '#80CAEE'],
-    chart: {
-        fontFamily: 'NotoSans-Regular',
-        height: 335,
-        type: 'area',
-        dropShadow: {
-            enabled: true,
-            color: '#623CEA14',
-            top: 10,
-            blur: 4,
-            left: 0,
-            opacity: 0.1,
-        },
-        toolbar: {
-            show: false,
-        },
-    },
-    responsive: [
-        {
-            breakpoint: 1024,
-            options: {
-                chart: {
-                    height: 300,
-                },
-            },
-        },
-        {
-            breakpoint: 1366,
-            options: {
-                chart: {
-                    height: 350,
-                },
-            },
-        },
-    ],
-    stroke: {
-        width: [2, 2],
-        curve: 'straight',
-    },
-    grid: {
-        xaxis: {
-            lines: {
-                show: true,
-            },
-        },
-        yaxis: {
-            lines: {
-                show: true,
-            },
-        },
-    },
-    dataLabels: {
-        enabled: false,
-    },
-    markers: {
-        size: 4,
-        colors: '#fff',
-        strokeColors: ['#3056D3', '#80CAEE'],
-        strokeWidth: 3,
-        strokeOpacity: 0.9,
-        strokeDashArray: 0,
-        fillOpacity: 1,
-        discrete: [],
-        hover: {
-            size: undefined,
-            sizeOffset: 5,
-        },
-    },
-    xaxis: {
-        type: 'category',
-        categories: [
-            'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
-        ],
-        axisBorder: {
-            show: false,
-        },
-        axisTicks: {
-            show: false,
-        },
-    },
-    yaxis: {
-        title: {
-            style: {
-                fontSize: '0px',
-            },
-        },
-        min: 0,
-        max: 100,
-    },
-};
-
-export default function ChartOne() {
+export default function ChartOne({data, max, typeParams, setTypeParams}) {
     const [state, setState] = useState({
         series: [
             {
-                name: 'Product One',
-                data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+                name: 'Người Dùng',
+                data: [],
             },
             {
-                name: 'Product Two',
-                data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
+                name: 'Nhà Tuyền Dụng',
+                data: [],
             },
         ],
     });
 
-    const handleReset = () => {
-        setState((prevState) => ({
-            ...prevState,
-        }));
+    useEffect(() => {
+        // Cập nhật series với dữ liệu mới khi props data thay đổi
+        if (data && data.role1 && data.role2) {
+            setState({
+                series: [
+                    {
+                        name: 'Người Dùng',
+                        data: data.role1,
+                    },
+                    {
+                        name: 'Nhà Tuyền Dụng',
+                        data: data.role2,
+                    },
+                ],
+            });
+        }
+    }, [data]);
+
+    const [formattedDate, setFormattedDate] = useState('');
+
+    useEffect(() => {
+        const currentDate = new Date();
+        const month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+        const year = currentDate.getFullYear();
+        const formattedDateTmp = `${month.toString().padStart(2, '0')}-${year}`;
+        setFormattedDate(formattedDateTmp);
+    }, []);
+
+    const options = {
+        legend: {
+            show: false,
+            position: 'top',
+            horizontalAlign: 'left',
+        },
+        colors: ['#3C50E0', '#80CAEE'],
+        chart: {
+            fontFamily: 'NotoSans-Regular',
+            height: 335,
+            type: 'area',
+            dropShadow: {
+                enabled: true,
+                color: '#623CEA14',
+                top: 10,
+                blur: 4,
+                left: 0,
+                opacity: 0.1,
+            },
+            toolbar: {
+                show: false,
+            },
+        },
+        responsive: [
+            {
+                breakpoint: 1024,
+                options: {
+                    chart: {
+                        height: 300,
+                    },
+                },
+            },
+            {
+                breakpoint: 1366,
+                options: {
+                    chart: {
+                        height: 350,
+                    },
+                },
+            },
+        ],
+        stroke: {
+            width: [2, 2],
+            curve: 'straight',
+        },
+        grid: {
+            xaxis: {
+                lines: {
+                    show: true,
+                },
+            },
+            yaxis: {
+                lines: {
+                    show: true,
+                },
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        markers: {
+            size: 4,
+            colors: '#fff',
+            strokeColors: ['#3056D3', '#80CAEE'],
+            strokeWidth: 3,
+            strokeOpacity: 0.9,
+            strokeDashArray: 0,
+            fillOpacity: 1,
+            discrete: [],
+            hover: {
+                size: undefined,
+                sizeOffset: 5,
+            },
+        },
+        xaxis: {
+            type: 'category',
+            categories: [
+                'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+            ],
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+        },
+        yaxis: {
+            title: {
+                style: {
+                    fontSize: '0px',
+                },
+            },
+            min: 0,
+            max: max,
+        },
     };
 
     return (
@@ -127,8 +149,8 @@ export default function ChartOne() {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-[#3C50E0]"></span>
             </span>
                         <div className="w-full">
-                            <p className="font-semibold text-[#3C50E0]">Total Revenue</p>
-                            <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+                            <p className="font-semibold text-[#3C50E0]">Người Dùng</p>
+                            <p className="text-sm font-medium">01-2024 -> {formattedDate}</p>
                         </div>
                     </div>
                     <div className="flex min-w-47.5">
@@ -136,21 +158,15 @@ export default function ChartOne() {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-[#80CAEE]"></span>
             </span>
                         <div className="w-full">
-                            <p className="font-semibold text-[#80CAEE]">Total Sales</p>
-                            <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+                            <p className="font-semibold text-[#80CAEE]">Nhà Tuyển Dụng</p>
+                            <p className="text-sm font-medium">01-2024 -> {formattedDate}</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex w-full max-w-45 justify-end">
                     <div className="inline-flex items-center rounded-md bg-whiter p-1.5">
-                        <button className="rounded bg-white py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card">
-                            Day
-                        </button>
                         <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card">
-                            Week
-                        </button>
-                        <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-card">
-                            Month
+                            Tháng
                         </button>
                     </div>
                 </div>
