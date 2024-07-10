@@ -53,6 +53,11 @@ public class LevelServiceImpl implements LevelService {
     @Override
     public ResponseLevel createLevel(RequestLevel requestLevel) {
         try{
+            ResponseLevel existingLevel = levelRepository.findByName(requestLevel.getLevelName());
+            if (existingLevel != null) {
+                throw new NotFoundException("Level already exists", HttpStatus.BAD_REQUEST);
+            }
+
             Level level = Level.builder()
                     .name(requestLevel.getLevelName())
                     .build();
@@ -81,7 +86,8 @@ public class LevelServiceImpl implements LevelService {
         try{
             if(levelRepository.findById(id).isEmpty()){
                 throw new NotFoundException("Level not found", HttpStatus.NOT_FOUND);
-            }else{
+            }
+            else{
                 Level level = levelRepository.findById(id).get();
                 levelRepository.deleteById(id);
                 return levelRepository.findByIds(level.getId());

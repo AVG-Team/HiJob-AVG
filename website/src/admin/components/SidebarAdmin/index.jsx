@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../../assets/img/HIJOB-Landscape.png';
-import {GroupOutlined, BusinessOutlined} from '@mui/icons-material';
+import {GroupOutlined, BusinessOutlined, MilitaryTechOutlined} from '@mui/icons-material';
 
 export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
     const location = useLocation();
@@ -200,7 +200,7 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                         pathname.includes('users') && 'bg-graydark'
                                     }`}
                                 >
-                                    <GroupOutlined />
+                                    <GroupOutlined/>
                                     <p>Quản Lý Người Dùng</p>
                                 </NavLink>
                             </li>
@@ -328,8 +328,19 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                         pathname.includes('companies') && 'bg-graydark'
                                     }`}
                                 >
-                                    <BusinessOutlined />
+                                    <BusinessOutlined/>
                                     <p>Quản Lý Công Ty</p>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/admin/levels"
+                                    className={`group hover:bg-graydark relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out ${
+                                        pathname.includes('levels') && 'bg-graydark'
+                                    }`}
+                                >
+                                    <MilitaryTechOutlined/>
+                                    <p>Quản Lý Level</p>
                                 </NavLink>
                             </li>
                             {/* <!-- Menu Item Users --> */}

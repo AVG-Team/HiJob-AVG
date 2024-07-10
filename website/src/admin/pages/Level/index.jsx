@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import levelApi from '../../../services/apis/levelApi';
-import TableData from './components/table';
+import levelApi from '../../../services/apis/levelApi.js';
+import TableData from './components/table.jsx';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-/*import Filter from './components/Filter';*/
+import Filter from './components/filter.jsx';
 
-export default function Index (props) {
+export default function Index(props) {
     const [levels, setLevels] = useState([]);
     const [query, setQuery] = useState({
         page: 0,
@@ -96,14 +96,18 @@ export default function Index (props) {
             <div>
                 <Breadcrumb pageName="Quản Lý Level" />
             </div>
-            <div className="flex justify-between items-center">
-                {/*<Filter query={query} setQuery={setQuery} handleChange={handleChange} />*/}
-                <button
-                    className="bg-blue-500 text-white py-2 px-6 rounded"
-                    onClick={handleCreateNew}
-                >
-                    Thêm
-                </button>
+            <div className="flex justify-between items-center mb-4">
+                <div className="flex-grow mr-4">
+                    <Filter query={query} setQuery={setQuery} handleChange={handleChange}/>
+                </div>
+                <div>
+                    <button
+                        className="bg-blue-500 text-white py-2 px-6 rounded"
+                        onClick={handleCreateNew}
+                    >
+                        Thêm
+                    </button>
+                </div>
             </div>
             <div className="mt-4">
                 {levels.length > 0 ? (

@@ -30,4 +30,8 @@ public interface LevelRepository extends JpaRepository<Level,Long> {
             "FROM Level l " +
             "WHERE l.id = ?1")
     ResponseLevel findByIds(Integer id);
+
+    @Query("SELECT new avg.hijob.backend.responses.ResponseLevel(l.id, l.name) " +
+            "FROM Level l WHERE l.name = :name")
+    ResponseLevel findByName(@Param("name") String name);
 }

@@ -51,7 +51,7 @@ export default function LevelTableData ({ levels, setLevels, query, setQuery, to
                                 <TableCell align="center" component="th" scope="row">
                                     {index + 1}
                                 </TableCell>
-                                <TableCell align="center">{level.name}</TableCell>
+                                <TableCell align="center">{level.levelName}</TableCell>
                                 <TableCell align="center">
                                     <Link to={`/admin/levels/edit/${level.id}`}>
                                         <EditOutlined className="hover:text-primary" />

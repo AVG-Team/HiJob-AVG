@@ -42,8 +42,9 @@ const EditAdmin = loadable(() => import("./admin/pages/Users/edit"));
 const CompaniesAdmin = loadable(() => import("./admin/pages/Company"));
 const FormEdit = loadable(() => import("./admin/pages/Company/components/FormEdit.jsx"));
 //Level
-const LevelAdmin = loadable(() => import("./admin/pages/Level"));/*
-const EditLevel = loadable(() => import("./admin/pages/Level/components/FormEdit.jsx"));*/
+const LevelAdmin = loadable(() => import("./admin/pages/Level"));
+const EditLevel = loadable(() => import("./admin/pages/Level/components/FormEdit.jsx"));
+const CreateLevel = loadable(() => import("./admin/pages/Level/components/FormCreate.jsx"))
 
 function App() {
     useEffect(() => {
@@ -278,6 +279,22 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <LevelAdmin title="Quản Lý Level" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/levels/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditLevel title="Sửa Level" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/levels/create"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CreateLevel title="Thêm Level" />
                             </Suspense>
                         }
                     />

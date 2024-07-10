@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/level")
@@ -19,9 +20,8 @@ public class LevelController {
     private final LevelService levelService;
 
     @GetMapping("")
-    public ResponseEntity<Object> findAllLevels() {
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,levelService.findAllLevels());
-
+    public ResponseEntity<Object> findAllLevels(Optional<Integer> page, Optional<Integer> size, Optional<String> q) {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,levelService.getAllLevel(size,page,q));
     }
 
     @GetMapping("/getLevelById/{id}")
