@@ -1,37 +1,42 @@
-import React, {useEffect, useState} from 'react';
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
+import { styled } from "@mui/material/styles";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
+const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
     height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
+    overflow: "hidden",
+    position: "absolute",
     bottom: 0,
     left: 0,
-    whiteSpace: 'nowrap',
+    whiteSpace: "nowrap",
     width: 1,
 });
 
-const InputFileUpload = ({ name, coverLetter, setCoverLetter }) => {
-    const [fileName, setFileName] = useState(coverLetter.name || '');
+const InputFileUpload = ({ name, input, setInput }) => {
+    const [fileName, setFileName] = useState(input.name || "");
 
+    InputFileUpload.propTypes = {
+        name: PropTypes.string,
+        input: PropTypes.object,
+        setInput: PropTypes.func,
+    };
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
             setFileName(selectedFile.name);
-            setCoverLetter(selectedFile);
+            setInput(selectedFile);
         }
     };
 
-    useEffect(() => {
-    }, [coverLetter]);
+    useEffect(() => {}, [input]);
 
     const handleRemoveFile = () => {
-        setFileName('');
-        setCoverLetter(null);
+        setFileName("");
+        setInput(null);
     };
 
     return (
@@ -53,13 +58,8 @@ const InputFileUpload = ({ name, coverLetter, setCoverLetter }) => {
             </Button>
             {fileName ? (
                 <>
-                    <span className="text-gray-500 my-4">{fileName}</span>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={handleRemoveFile}
-                        className="mt-4"
-                    >
+                    <span className="my-4 text-gray-500">{fileName}</span>
+                    <Button variant="contained" color="error" onClick={handleRemoveFile} className="mt-4">
                         Remove File
                     </Button>
                 </>

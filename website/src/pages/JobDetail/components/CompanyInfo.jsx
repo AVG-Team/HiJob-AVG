@@ -16,7 +16,7 @@ CompanyInfo.propTypes = {
 };
 
 export default function CompanyInfo({ job, company, currentUser, isAuth }) {
-    const [iconFollow, setIconFollow] = useState(false);
+    const [iconFollow, setIconFollow] = useState();
 
     const handleChangeFollow = async () => {
         try {
@@ -27,6 +27,7 @@ export default function CompanyInfo({ job, company, currentUser, isAuth }) {
                 await jobFollowApi.createJobFollow(userId, jobId);
                 console.log("Job followed successfully");
             } else {
+                console.log("Unfollowing job...");
                 await jobFollowApi.deleteJobFollow(userId, jobId);
                 console.log("Job unfollowed successfully");
             }
@@ -42,8 +43,15 @@ export default function CompanyInfo({ job, company, currentUser, isAuth }) {
                 const jobId = job.id;
                 const userId = currentUser.id;
                 const response = await jobFollowApi.getJobFollowByUserIdAndJobId(userId, jobId);
+                console.log(job.id, currentUser.id);
+                console.log(response);
+                if (response.data) {
+                    console.log("Job followed");
+                    setIconFollow(true);
+                } else {
+                    setIconFollow(false);
+                }
 
-                setIconFollow(response.data ? true : false);
                 console.log("Fetched job follow status successfully");
             } catch (error) {
                 console.log("Failed to fetch job follow status: ", error);
@@ -51,6 +59,7 @@ export default function CompanyInfo({ job, company, currentUser, isAuth }) {
         };
 
         if (job.id && currentUser.id) {
+            console.log("Fetching job follow status...");
             fetchJobFollowStatus();
         }
     }, [job.id, currentUser.id]);

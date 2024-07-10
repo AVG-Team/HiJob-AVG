@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import companyApi from "../../../services/apis/companyApi";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import { Link } from "react-router-dom";
 
 function CustomNextArrow(props) {
     const { className, style, onClick } = props;
@@ -118,17 +119,19 @@ export default function FeaturedComp() {
                     <Slider {...settings}>
                         {companies.map((company) => (
                             <div key={company.id} className="p-5">
-                                <div className="p-6 px-12 bg-white rounded-lg shadow-lg h-36">
-                                    <div className="flex flex-col items-center">
-                                        <img
-                                            src={`https://via.placeholder.com/40?text=${company.name}`}
-                                            alt={company.name}
-                                            className="h-14 w-14"
-                                        />
-                                        <p className="mt-2 text-lg font-bold text-primary">{company.name}</p>
-                                        {/* <p className="text-sm text-blue-500">{company.about}</p> */}
+                                <Link to={`/cong-ty/${company.id}`} className="w-full">
+                                    <div className="p-6 px-12 bg-white rounded-lg shadow-lg h-36">
+                                        <div className="flex flex-col items-center">
+                                            <img
+                                                src={`https://via.placeholder.com/40?text=${company.name}`}
+                                                alt={company.name}
+                                                className="h-14 w-14"
+                                            />
+                                            <p className="mt-2 text-lg font-bold text-primary">{company.name}</p>
+                                            {/* <p className="text-sm text-blue-500">{company.about}</p> */}
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         ))}
                     </Slider>

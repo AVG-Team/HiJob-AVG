@@ -83,8 +83,6 @@ export default function JobDetail(props) {
                     id,
                     responseUser.data.id,
                 );
-                console.log(id, responseUser.data.id);
-                console.log(responseRecruitment.data);
                 if (responseRecruitment.data) {
                     setApplied(true);
                 } else {
@@ -95,7 +93,7 @@ export default function JobDetail(props) {
             }
         };
         fetchData();
-    }, [id, isAuth]);
+    }, []);
 
     const { title } = props;
     useEffect(() => {

@@ -39,10 +39,9 @@ public class JobFollowController {
         return  ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobFollowService.findJobFollowById(id));
     }
 
-    @PostMapping("/delete/{id}")
-    public ResponseEntity<Object> deleteJobFollowById(@PathVariable Long id) {
-        jobFollowService.deleteJobFollowById(id);
-        return  ResponseHandler.responseBuilder("Complete", HttpStatus.OK);
+    @DeleteMapping("/delete/{userId}/{jobId}")
+    public ResponseEntity<Object> deleteJobFollowById(@PathVariable String userId, @PathVariable String jobId) {
+        return  ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobFollowService.deleteJobFollowById(userId, jobId));
     }
 
     @PostMapping("/create/{userId}/{jobId}")

@@ -1,6 +1,9 @@
 package avg.hijob.backend.services.impl;
 
+import avg.hijob.backend.entities.Company;
 import avg.hijob.backend.entities.Job;
+import avg.hijob.backend.entities.User;
+import avg.hijob.backend.exceptions.BadRequestException;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.CompanyRepository;
 import avg.hijob.backend.repositories.JobRepository;
@@ -9,6 +12,8 @@ import avg.hijob.backend.requests.RequestJob;
 import avg.hijob.backend.responses.ResponseJob;
 import avg.hijob.backend.services.JobService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +39,8 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(JobService.class);
 
     @Override
     public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo) {
@@ -76,7 +83,14 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public ResponseJob createJob(RequestJob requestJob) {
-        try{
+        try {
+            // Fetch company and user entities
+            Company company = companyRepository.findById(requestJob.getCompanyId())
+                    .orElseThrow(() -> new NotFoundException("Company not found", HttpStatus.NOT_FOUND));
+            User user = userRepository.findById(requestJob.getUserId())
+                    .orElseThrow(() -> new NotFoundException("User not found", HttpStatus.NOT_FOUND));
+
+            // Create job entity
             Job job = Job.builder()
                     .title(requestJob.getTitle())
                     .description(requestJob.getDescription())
@@ -85,17 +99,37 @@ public class JobServiceImpl implements JobService {
                     .benefits(requestJob.getBenefits())
                     .requireOfYear(requestJob.getRequireOfYear())
                     .salary(requestJob.getSalary())
-                    .company(companyRepository.getReferenceById(requestJob.getCompanyId()))
-                    .user(userRepository.getReferenceById(requestJob.getUserId()))
+                    .company(company)
+                    .user(user)
                     .build();
+
+            // Save job entity to the repository
             jobRepository.save(job);
 
-            return new ResponseJob(job.getId(),job.getTitle(),job.getDescription(),job.getResponsibilities(),
-                    job.getRequirements(),job.getBenefits(),job.getRequireOfYear(),job.getSalary(),
-                    job.getCompany().getId(),job.getUser().getId(),job.getCreatedAt(),job.getUpdatedAt(),job.getDeletedAt());
+            // Return response job object
+            return new ResponseJob(
+                    job.getId(),
+                    job.getTitle(),
+                    job.getDescription(),
+                    job.getResponsibilities(),
+                    job.getRequirements(),
+                    job.getBenefits(),
+                    job.getRequireOfYear(),
+                    job.getSalary(),
+                    job.getCompany().getId(),
+                    job.getUser().getId(),
+                    job.getCreatedAt(),
+                    job.getUpdatedAt(),
+                    job.getDeletedAt()
+            );
 
-        }catch (Exception ex) {
-            throw new NotFoundException("Error creating job", HttpStatus.BAD_REQUEST);
+        } catch (NotFoundException e) {
+            logger.error("NotFoundException: {}", e.getMessage());
+            throw e;
+        } catch (Exception ex) {
+            // Handle other exceptions and log them
+            logger.error("Exception: {}", ex.getMessage(), ex);
+            throw new BadRequestException("Error creating job", HttpStatus.BAD_REQUEST);
         }
     }
 

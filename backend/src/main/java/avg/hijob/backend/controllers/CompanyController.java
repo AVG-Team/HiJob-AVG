@@ -39,7 +39,7 @@ public class CompanyController {
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.getTop5Companies());
     }
     @PostMapping("/createCompany")
-    public ResponseEntity<Object> create(@RequestBody RequestCompany requestCompany){
+    public ResponseEntity<Object> create(@ModelAttribute RequestCompany requestCompany){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.createCompany(requestCompany));
     }
 
