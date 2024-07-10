@@ -34,6 +34,7 @@ const Recruitment = loadable(() => import("./pages/Recruitment"));
 // ADMIN ROUTE
 const LoginAdmin = loadable(() => import("./admin/pages/Auth"));
 const Dashboard = loadable(() => import("./admin/pages/Dashboard"));
+const About = loadable(() => import("./admin/pages/About"));
 // Users
 const UsersAdmin = loadable(() => import("./admin/pages/Users"));
 const CreateAdmin = loadable(() => import("./admin/pages/Users/create"));
@@ -56,6 +57,8 @@ const CreateLevel = loadable(() => import("./admin/pages/Level/components/FormCr
 const JobTypeAdmin = loadable(() => import("./admin/pages/JobType"));
 const EditJobType = loadable(() => import("./admin/pages/JobType/components/FormEdit.jsx"));
 const CreateJobType = loadable(() => import("./admin/pages/JobType/components/FormCreate.jsx"));
+//Roles
+const RolesAdmin = loadable(() => import("./admin/pages/Role"));
 //Recruitment
 const RecruitmentAdmin = loadable(() => import("./admin/pages/Recruitment"));
 
@@ -179,7 +182,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/about-us"
+                        path="/ve-chung-toi"
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <AboutUs title="Về chúng tôi" />
@@ -233,6 +236,14 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <Dashboard title="Admin" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/about"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <About title="Về Trang Web Của Tôi" />
                             </Suspense>
                         }
                     />
@@ -382,6 +393,17 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <CreateJobType title="Thêm Job Type" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*Role*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/roles"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <RolesAdmin title="Quản Lý Vai Trò" />
                             </Suspense>
                         }
                     />
