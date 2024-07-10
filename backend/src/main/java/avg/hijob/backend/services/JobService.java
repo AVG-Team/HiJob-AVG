@@ -10,12 +10,11 @@ import java.util.Optional;
 
 public interface JobService {
 
-    public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo);
-    public Page<ResponseJob> getAllJobsByCompany(Optional<String> id, Optional<Integer> pageSize, Optional<Integer> pageNo);
-    public List<ResponseJob> getJobsCreateToday(Timestamp createdDate);
-    public ResponseJob getJobById(String id);
-    public ResponseJob createJob(RequestJob requestJob);
-    public ResponseJob updateJob(String id, RequestJob requestJob);
-    public ResponseJob deleteJob(String id);
-
+    Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q);
+    Page<ResponseJob> getAllJobsByCompany(Optional<String> id, Optional<Integer> pageSize, Optional<Integer> pageNo);
+    List<ResponseJob> getJobsCreateToday(Timestamp createdDate);
+    ResponseJob getJobById(String id);
+    ResponseJob createJob(RequestJob requestJob);
+    ResponseJob updateJob(String id, RequestJob requestJob);
+    ResponseJob deleteJob(String id);
 }

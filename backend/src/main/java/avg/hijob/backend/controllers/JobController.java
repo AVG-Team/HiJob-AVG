@@ -18,58 +18,63 @@ public class JobController {
 
     private final JobService jobService;
 
-    @GetMapping("")
+    /*@GetMapping("")
     public ResponseEntity<Object> getAllJobs(
-            @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
-            @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
-    ){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobs(pageSize,pageNo) );
+            @RequestParam(name = "pageNo", value = "pageNo") Optional<Integer> pageNo,
+            @RequestParam(name = "pageSize", value = "pageSize") Optional<Integer> pageSize,
+            @RequestParam(name = "q", value = "q", required = false) Optional<String> q
+    ) {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobs(pageSize, pageNo, q));
+    }*/
+
+    @GetMapping("")
+    public ResponseEntity<Object> getAllJobs(Optional<Integer> page, Optional<Integer> size, Optional<String> q){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobs(size, page,q));
     }
 
     @GetMapping("/getJobByCompany/{companyId}")
-    public ResponseEntity<Object> getAllJobs(
+    public ResponseEntity<Object> getAllJobsByCompany(
             @PathVariable Optional<String> companyId,
-            @RequestParam(name = "pageNo", value="pageNo") Optional<Integer> pageNo,
-            @RequestParam(name = "pageSize", value="pageSize") Optional<Integer> pageSize
-    ){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobsByCompany(companyId,pageSize,pageNo) );
+            @RequestParam(name = "pageNo", value = "pageNo") Optional<Integer> pageNo,
+            @RequestParam(name = "pageSize", value = "pageSize") Optional<Integer> pageSize
+    ) {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getAllJobsByCompany(companyId, pageSize, pageNo));
     }
 
     @GetMapping("/getJobCreateToday")
     public ResponseEntity<Object> getJobsCreateToday(
-            @RequestParam(name = "createdDate", value="createdDate") String createdDate
-    ){
+            @RequestParam(name = "createdDate", value = "createdDate") String createdDate
+    ) {
         Timestamp timeStamp = Timestamp.valueOf(createdDate);
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getJobsCreateToday(timeStamp) );
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getJobsCreateToday(timeStamp));
     }
 
     @GetMapping("/getJobById/{id}")
     public ResponseEntity<Object> getJobById(
             @PathVariable String id
-    ){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getJobById(id) );
+    ) {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.getJobById(id));
     }
 
     @PostMapping("/createJob")
     public ResponseEntity<Object> create(
             @RequestBody RequestJob requestJob
-            ){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.createJob(requestJob) );
+    ) {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.createJob(requestJob));
     }
 
     @PutMapping("/updateJob/{id}")
     public ResponseEntity<Object> update(
             @PathVariable String id,
             @RequestBody RequestJob requestJob
-    ){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.updateJob(id,requestJob) );
+    ) {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.updateJob(id, requestJob));
     }
 
     @PutMapping("/deleteJob/{id}")
     public ResponseEntity<Object> delete(
             @PathVariable String id
-    ){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,jobService.deleteJob(id) );
+    ) {
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, jobService.deleteJob(id));
     }
-
 }

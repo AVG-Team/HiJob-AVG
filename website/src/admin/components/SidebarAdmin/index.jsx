@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../../assets/img/HIJOB-Landscape.png';
-import {GroupOutlined, BusinessOutlined, DashboardOutlined} from '@mui/icons-material';
+import {GroupOutlined, BusinessOutlined, DashboardOutlined, WorkOutlined} from '@mui/icons-material';
 
 export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
     const location = useLocation();
@@ -136,6 +136,15 @@ export default function SidebarAdmin ({ sidebarOpen, setSidebarOpen }) {
                                 >
                                     <BusinessOutlined />
                                     <p>Quản Lý Công Ty</p>
+                                </NavLink>
+                                <NavLink
+                                    to="/admin/jobs"
+                                    className={`group hover:bg-graydark relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out ${
+                                        pathname.includes('companies') && 'bg-graydark'
+                                    }`}
+                                >
+                                    <WorkOutlined />
+                                    <p>Quản Lý Công Việc</p>
                                 </NavLink>
                             </li>
                             {/* <!-- Menu Item Users --> */}

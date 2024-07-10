@@ -1,11 +1,13 @@
 package avg.hijob.backend.repositories;
 
 import avg.hijob.backend.entities.Job;
+import avg.hijob.backend.responses.ResponseCompany;
 import avg.hijob.backend.responses.ResponseJob;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -39,4 +41,16 @@ public interface JobRepository extends JpaRepository<Job, String> {
             "FROM Job j " +
             " WHERE j.id = ?1 and j.deletedAt is null")
     ResponseJob getJobById(String id);
+
+    @Query("SELECT new avg.hijob.backend.responses.ResponseJob(j.id, j.title, j.description, j.responsibilities, j.requirements, j.benefits, j.requireOfYear, j.salary, j.company.id, j.user.id, j.createdAt, j.updatedAt, j.deletedAt) " +
+            "FROM Job j " +
+            "LEFT JOIN j.company c " +
+            "LEFT JOIN j.user u " +
+            "WHERE j.deletedAt is null " +
+            "AND (:q IS NULL OR :q = '' OR j.title LIKE %:q% OR j.description LIKE %:q% OR c.name LIKE %:q% OR u.fullName LIKE %:q%)")
+    Page<ResponseJob> getAllJobsQuery(
+            @Param("q") String q,
+            Pageable pageable
+    );
+
 }
