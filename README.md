@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <a href="#tinh-nang-chinh">Tính năng chính</a> •
+  <a href="#tinh-nang-chinh">Tính năng chính</a>•
   <a href="#cach-su-dung">Cách sử dụng</a> •
   <a href="#tai-xuong">Tải xuống</a> •
   <a href="#nguon">Nguồn</a> •
@@ -32,29 +32,29 @@
 </p>
 
 ![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
-
+<span id="tinh-nang-chinh"></span>
 ## Tính năng chính
 
 * Đăng nhập
- 
+
 * Đăng ký
- 
+
 * Tìm kiếm việc làm
- 
+
 * Ứng tuyển
- 
+
 * Theo dõi việc làm
- 
+
 * Quản lý thông tin
 
 * Tuyển dụng
- 
-* Quản lý đơn ứng tuyển 
- 
+
+* Quản lý đơn ứng tuyển
+
 * Quản trị hệ thống
- 
 
 
+<span id="cach-su-dung"></span>
 ## Cách sử dụng
 To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
@@ -74,14 +74,14 @@ $ npm run dev
 
 > **Note**
 > Trước tiên phải chạy phần Backend
-> 
+>
 
-
+<span id="tai-xuong"></span>
 ## Tải xuống
 
 Chưa cập nhật
 
-
+<span id="nguon"></span>
 ## Nguồn
 
 This software uses the following open source packages:
@@ -93,7 +93,7 @@ This software uses the following open source packages:
 - [Ealastic Search](https://www.elastic.co/elasticsearch)
 - [Google Recaptcha](https://developers.google.com/recaptcha/)
 
-
+<span id="giay-phep"></span>
 ## License
 
 MIT
