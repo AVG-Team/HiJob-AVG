@@ -52,6 +52,10 @@ const CreateSkill = loadable(() => import("./admin/pages/Skill/components/FormCr
 const LevelAdmin = loadable(() => import("./admin/pages/Level"));
 const EditLevel = loadable(() => import("./admin/pages/Level/components/FormEdit.jsx"));
 const CreateLevel = loadable(() => import("./admin/pages/Level/components/FormCreate.jsx"))
+//JobType
+const JobTypeAdmin = loadable(() => import("./admin/pages/JobType"));
+const EditJobType = loadable(() => import("./admin/pages/JobType/components/FormEdit.jsx"));
+const CreateJobType = loadable(() => import("./admin/pages/JobType/components/FormCreate.jsx"));
 
 function App() {
     useEffect(() => {
@@ -349,6 +353,33 @@ function App() {
                         element={
                             <Suspense fallback={<CircularProgress />}>
                                 <CreateLevel title="Thêm Level" />
+                            </Suspense>
+                        }
+                    />
+                </Route>
+                {/*JobType*/}
+                <Route element={<LayoutAdmin/>}>
+                    <Route
+                        path="/admin/job-types"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <JobTypeAdmin title="Quản Lý Job Type" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/job-types/edit/:id"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <EditJobType title="Sửa Job Type" />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/admin/job-types/create"
+                        element={
+                            <Suspense fallback={<CircularProgress />}>
+                                <CreateJobType title="Thêm Job Type" />
                             </Suspense>
                         }
                     />
