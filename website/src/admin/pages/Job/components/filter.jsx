@@ -62,12 +62,6 @@ export default function Filter({query, setQuery, handleChange}) {
                         <MenuItem value="30">
                             Trên 30 Triệu
                         </MenuItem>
-                        <MenuItem value="62">
-                            62k
-                        </MenuItem>
-                        <MenuItem value="100">
-                            100k
-                        </MenuItem>
                     </Select>
                 </FormControl>
             </div>
@@ -85,8 +79,6 @@ export default function Filter({query, setQuery, handleChange}) {
                                 return <em style={{opacity: "50%"}}>Chọn Kinh Nghiệm</em>;
                             } else if (selected === 0) {
                                 return "0 cần kinh nghiệm";
-                            } else if (selected === 11) {
-                                return "Trên 10 năm";
                             }
 
                             return selected + " Năm";
@@ -103,9 +95,6 @@ export default function Filter({query, setQuery, handleChange}) {
                                 {`Dưới ${i+1} năm`}
                             </MenuItem>
                         ))}
-                        <MenuItem value="11">
-                            Trên 10 năm
-                        </MenuItem>
                     </Select>
                 </FormControl>
             </div>
