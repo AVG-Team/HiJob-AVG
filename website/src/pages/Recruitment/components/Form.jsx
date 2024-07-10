@@ -68,6 +68,7 @@ export default function Form({ levels, types, contracts, skills }) {
                 jobId: jobId,
                 levelId: formData.level,
             };
+            console.log(formData.level);
             const levelResponse = await jobLevelApi.create(level);
             console.log("level" + levelResponse);
 

@@ -6,17 +6,15 @@ import Contact from "./components/Contact.jsx";
 import jobApi from "../../services/apis/jobApi.js";
 import AboutComp from "./components/AboutComp.jsx";
 import CompanyInfo from "./components/CompanyInfo.jsx";
-import Assignment from "../../assets/img/assignment.json";
 import companyApi from "../../services/apis/companyApi.js";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 CompanyDetail.propTypes = {
     title: PropTypes.string,
 };
 
 export default function CompanyDetail(props) {
-    const [company, setCompany] = useState({});
     const [jobs, setJobs] = useState([]);
+    const [company, setCompany] = useState({});
     const { title } = props;
 
     const { id } = useParams();
@@ -55,12 +53,6 @@ export default function CompanyDetail(props) {
                         <Detail company={company} jobs={jobs} />
                     </div>
                     <div className="py-2 mb-5 lg:col-span-1">
-                        <div className="w-full mt-2">
-                            <button className="w-full py-6 font-bold text-white rounded-xl bg-secondary hover:bg-secondary-400 hover:shadow-lg">
-                                <BookmarkBorderIcon animationData={Assignment} className="w-12 mr-4 sm:w-20" />
-                                Theo dõi
-                            </button>
-                        </div>
                         <AboutComp company={company} />
                         <Contact company={company} />
                     </div>
