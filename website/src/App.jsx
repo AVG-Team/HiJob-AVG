@@ -9,6 +9,7 @@ import LayoutNotSearch from "./layouts/LayoutNotSearch";
 import AuthRoute from "./components/Route/AuthRoute.jsx";
 import BlankLayout from "~/layouts/Admin/BlankLayout.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Page404 from './components/Page404/index.jsx';
 
 const Home = loadable(() => import("./pages/Home"));
 const Profile = loadable(() => import("./pages/Profile"));
@@ -208,6 +209,16 @@ function App() {
                         }
                     />
                 </Route>
+
+                {/* PAGE 404 */}
+                <Route
+                    path="*"
+                    element={
+                        <Suspense fallback={<CircularProgress />}>
+                            <Page404 />
+                        </Suspense>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );
