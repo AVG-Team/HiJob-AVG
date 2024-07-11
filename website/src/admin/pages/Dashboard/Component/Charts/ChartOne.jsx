@@ -150,7 +150,7 @@ export default function ChartOne({data, max, typeParams, setTypeParams}) {
             </span>
                         <div className="w-full">
                             <p className="font-semibold text-[#3C50E0]">Người Dùng</p>
-                            <p className="text-sm font-medium">01-2024 -> {formattedDate}</p>
+                            <p className="text-sm font-medium">01-2024 - {formattedDate}</p>
                         </div>
                     </div>
                     <div className="flex min-w-47.5">
@@ -159,7 +159,7 @@ export default function ChartOne({data, max, typeParams, setTypeParams}) {
             </span>
                         <div className="w-full">
                             <p className="font-semibold text-[#80CAEE]">Nhà Tuyển Dụng</p>
-                            <p className="text-sm font-medium">01-2024 -> {formattedDate}</p>
+                            <p className="text-sm font-medium">01-2024 - {formattedDate}</p>
                         </div>
                     </div>
                 </div>
