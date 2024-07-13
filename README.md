@@ -31,7 +31,7 @@
   <a href="#giay-phep">Giấy phép</a>
 </p>
 
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
+![screenshot](.github/homepage.jpg)
 <span id="tinh-nang-chinh"></span>
 ## Tính năng chính
 
