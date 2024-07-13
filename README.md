@@ -36,23 +36,26 @@
 ## Tính năng chính
 
 * Đăng nhập
-
+![img.png](.github/dangnhap.png)
 * Đăng ký
-
+![img.png](.github/dangki.png)
 * Tìm kiếm việc làm
-
+![img_1.png](.github/timkiemvieclam.png)
 * Ứng tuyển
-
+![img.png](.github/img.png)
 * Theo dõi việc làm
-
+![img_1.png](.github/img_1.png)
 * Quản lý thông tin
-
+![img_2.png](.github/img_2.png)
+![img_3.png](.github/img_3.png)
+![img_4.png](.github/img_4.png)
+![img_5.png](.github/img_5.png)
 * Tuyển dụng
-
+![img_6.png](.github/img_6.png)
 * Quản lý đơn ứng tuyển
-
+![img_7.png](.github/img_7.png)
 * Quản trị hệ thống
-
+![img_8.png](.github/img_8.png)
 
 <span id="cach-su-dung"></span>
 ## Cách sử dụng
