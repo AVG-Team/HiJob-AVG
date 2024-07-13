@@ -35,14 +35,13 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private FileService fileService;
 
-
     @Override
-    public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo) {
-        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(9));
-        if(companyRepository.findAll().isEmpty()){
+    public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<String> province) {
+        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(12));
+        if(companyRepository.findAll().isEmpty()) {
             throw new NotFoundException("No companies found", HttpStatus.NOT_FOUND);
         }
-        return companyRepository.getAllCompanies(pageable);
+        return companyRepository.getAllCompaniesQuery(q.orElse(null), province.orElse(null), pageable);
     }
 
     @Override
@@ -174,7 +173,7 @@ public class CompanyServiceImpl implements CompanyService {
             }
 
         }catch (Exception e){
-            throw new NotFoundException("Error creating company", HttpStatus.BAD_REQUEST);
+            throw new NotFoundException("Error deleting company", HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -17,7 +17,12 @@ const companyApi = {
         const url = `/companies`;
         return axiosClient.get(url, { params });
     },
+    getCompaniesQuery(params) {
+        const url = `/companies`;
+        return axiosClient.get(url, {params});
+    },
     createCompany(data) {
+        console.log(data)
         const url = `/companies/createCompany`;
         return axiosClient.post(url, data, {
             headers: {
@@ -27,7 +32,7 @@ const companyApi = {
     },
     updateCompany(id, data) {
         const url = `/companies/updateCompany/${id}`;
-        return axiosClient.put(url, { id, data });
+        return axiosClient.put(url, data);
     },
     deleteCompany(id) {
         const url = `/companies/deleteCompany/${id}`;

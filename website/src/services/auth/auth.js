@@ -13,7 +13,13 @@ export const checkAuth = () => {
     return !!Cookies.get(StorageKeys.ACCESS_TOKEN);
 };
 
-export const setToken = (token, name, role) => {
+export const checkAdmin = () => {
+    console.log("role: " + localStorage.getItem(StorageKeys.USER_ROLE) === "ADMIN")
+    console.log("token : " + !!Cookies.get(StorageKeys.ACCESS_TOKEN))
+    return !!Cookies.get(StorageKeys.ACCESS_TOKEN) && localStorage.getItem(StorageKeys.USER_ROLE) === "ADMIN";
+}
+
+export const setToken = (token, name , role) => {
     const decodedToken = jwtDecode(token);
     const expirationTime = decodedToken.exp * 1000;
 

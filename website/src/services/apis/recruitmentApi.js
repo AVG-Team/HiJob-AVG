@@ -17,6 +17,22 @@ const recruitmentApi = {
         const url = `/recruitment/getRecruitmentByUserId/${userId}`;
         return axiosClient.get(url, { userId });
     },
+    getRecruitmentQuery(params) {
+        const url = `/recruitment`;
+        return axiosClient.get(url, {params});
+    },
+    getRecruitmentById(id) {
+        const url = `/recruitment/getRecruitmentById/${id}`;
+        return axiosClient.get(url, { id });
+    },
+    updateRecruitment(id, data) {
+        const url = `/recruitment/updateRecruitment/${id}`;
+        return axiosClient.put(url, data);
+    },
+    deleteRecruitment(id) {
+        const url = `/recruitment/deleteRecruitment/${id}`;
+        return axiosClient.put(url, { id });
+    },
 };
 
 export default recruitmentApi;

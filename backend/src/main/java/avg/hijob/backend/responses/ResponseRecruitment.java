@@ -19,4 +19,6 @@ public class ResponseRecruitment {
     private String coverLetter;
     private Timestamp appliedAt;
     private Timestamp deletedAt;
+    private String user_name;
+    private String job_name;
 }

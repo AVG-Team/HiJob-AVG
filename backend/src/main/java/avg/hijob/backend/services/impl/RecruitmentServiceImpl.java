@@ -1,23 +1,32 @@
 package avg.hijob.backend.services.impl;
 
+import avg.hijob.backend.entities.Company;
 import avg.hijob.backend.entities.Recruitment;
 import avg.hijob.backend.entities.User;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.repositories.RecruitmentRepository;
 import avg.hijob.backend.repositories.UserRepository;
+import avg.hijob.backend.requests.RequestCompany;
 import avg.hijob.backend.requests.RequestRecruitment;
 import avg.hijob.backend.responses.FileUploadResponse;
+import avg.hijob.backend.responses.ResponseCompany;
 import avg.hijob.backend.responses.ResponseRecruitment;
 import avg.hijob.backend.services.FileService;
 import avg.hijob.backend.services.RecruitmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecruitmentServiceImpl implements RecruitmentService {
@@ -31,6 +40,15 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
     @Autowired
     private FileService fileService;
+
+    @Override
+    public Page<ResponseRecruitment> getAllRecruitments(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q) {
+        Pageable pageable = PageRequest.of(pageNo.orElse(0), pageSize.orElse(12));
+        if(recruitmentRepository.findAll().isEmpty()) {
+            throw new NotFoundException("No recruitments found", HttpStatus.NOT_FOUND);
+        }
+        return recruitmentRepository.getAllRecruitmentsQuery(q.orElse(null), pageable);
+    }
 
     @Override
     public List<ResponseRecruitment> getRecruitmentByUserId(String userId) {
@@ -92,8 +110,40 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     }
 
     @Override
-    public ResponseRecruitment deleteRecruitment(String recruitmentId) {
-        return null;
+    public ResponseRecruitment updateRecruitment(String id, RequestRecruitment requestRecruitment) {
+        try{
+            if(recruitmentRepository.findById(id).isEmpty()){
+                throw new NotFoundException("Recruitment not found", HttpStatus.NOT_FOUND);
+            }else{
+                Recruitment recruitment = recruitmentRepository.findById(id).get();
+                recruitment.setStatus(requestRecruitment.getStatus());
+                recruitment.setCv(requestRecruitment.getCv());
+                recruitment.setCoverLetter(requestRecruitment.getCoverLetter());
+                recruitmentRepository.save(recruitment);
+                return recruitmentRepository.getRecruitmentById(recruitment.getId());
+            }
+
+        }catch (Exception e){
+            throw new NotFoundException("Error creating recruitment", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseRecruitment deleteRecruitment(String id) {
+        try{
+            if(recruitmentRepository.findById(id).isEmpty()){
+                throw new NotFoundException("Recruitment not found", HttpStatus.NOT_FOUND);
+            }else{
+                Timestamp dateNow = Timestamp.from(Instant.now());
+                Recruitment recruitment = recruitmentRepository.findById(id).get();
+                recruitment.setDeletedAt(dateNow);
+                recruitmentRepository.save(recruitment);
+                return recruitmentRepository.getRecruitmentById(recruitment.getId());
+            }
+
+        }catch (Exception e){
+            throw new NotFoundException("Error deleting recruitment", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
