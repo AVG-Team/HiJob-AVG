@@ -9,7 +9,7 @@ import ApplyModal from "./components/ApplyModal";
 import CompanyInfo from "./components/CompanyInfo";
 import jobTypeApi from "../../services/apis/jobTypeApi";
 import companyApi from "../../services/apis/companyApi";
-import jobSkillApi from "../../services/apis/jobSkillApi";
+import jobSkillApi from "../../services/apis/jobSkillApi.js";
 import jobLevelApi from "../../services/apis/jobLevelApi";
 import contractTypeApi from "../../services/apis/contractTypeApi";
 import { checkAuth, getUserInfo } from "../../services/auth/auth.js";
@@ -83,8 +83,6 @@ export default function JobDetail(props) {
                     id,
                     responseUser.data.id,
                 );
-                console.log(id, responseUser.data.id);
-                console.log(responseRecruitment.data);
                 if (responseRecruitment.data) {
                     setApplied(true);
                 } else {
@@ -95,7 +93,7 @@ export default function JobDetail(props) {
             }
         };
         fetchData();
-    }, [id, isAuth]);
+    }, []);
 
     const { title } = props;
     useEffect(() => {

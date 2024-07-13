@@ -83,21 +83,30 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
     @Override
     public ResponseRecruitment createRecruitment(RequestRecruitment requestRecruitment) {
-      try{
-          Recruitment recruitment = Recruitment.builder()
-                  .user(userRepository.findById(requestRecruitment.getUserId()).get())
-                  .job(jobRepository.findById(requestRecruitment.getJobId()).get())
-                  .cv(requestRecruitment.getCv())
-                  .coverLetter(requestRecruitment.getCoverLetter())
-                  .status(requestRecruitment.getStatus())
-                  .build();
-          recruitmentRepository.save(recruitment);
+//      try{
+          System.out.println(requestRecruitment.toString());
+          String cv = fileService.savaFileStatic(requestRecruitment.getCv(), "cv");
+          String coverLetter = fileService.savaFileStatic(requestRecruitment.getCoverLetter(),"cover-letter");
+          if(cv.isEmpty() || coverLetter.isEmpty()) {
+              throw new NotFoundException("Upload Failed", HttpStatus.NOT_FOUND);
+          }
+          else{
+              Recruitment recruitment = Recruitment.builder()
+                      .user(userRepository.findById(requestRecruitment.getUserId()).get())
+                      .job(jobRepository.findById(requestRecruitment.getJobId()).get())
+                      .cv(cv)
+                      .coverLetter(coverLetter)
+                      .status(requestRecruitment.getStatus())
+                      .build();
+              recruitmentRepository.save(recruitment);
 
-          return recruitmentRepository.getRecruitmentById(recruitment.getId());
-
-      }catch (Exception e) {
-          throw new NotFoundException("Error", HttpStatus.NOT_FOUND);
-      }
+              return new ResponseRecruitment(recruitment.getId(), recruitment.getUser().getId(),
+                      recruitment.getJob().getId(),recruitment.getStatus(), recruitment.getCv(),
+                      recruitment.getCoverLetter(),  recruitment.getAppliedAt(), recruitment.getDeletedAt());
+          }
+//      }catch (Exception e) {
+//          throw new NotFoundException("Error", HttpStatus.NOT_FOUND);
+//      }
     }
 
     @Override

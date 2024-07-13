@@ -8,21 +8,9 @@ const mainLinks = [
     {
         id: 2,
         label: "Công Ty",
-        href: "/",
-        submenu: [
-            {
-                id: 21,
-                label: "Company 1",
-                href: "/company1",
-                submenu: [
-                    { id: 211, label: "Submenu 1", href: "/company1/sub1" },
-                    { id: 212, label: "Submenu 2", href: "/company1/sub2" },
-                ],
-            },
-            { id: 22, label: "Company 2", href: "/company2", submenu: [] },
-        ],
+        href: "/cong-ty",
     },
-    { id: 3, label: "Tin Tức", href: "/", submenu: [] },
+    { id: 3, label: "Tạo Công Ty", href: "/", submenu: [] },
 ];
 
 export default function Navbar() {
@@ -112,34 +100,6 @@ export default function Navbar() {
                                 >
                                     {link.label}
                                 </a>
-                                {link.submenu.length > 0 && (
-                                    <ul className="absolute left-0 hidden mt-2 bg-white shadow-md submenu">
-                                        {link.submenu.map((submenu) => (
-                                            <li key={submenu.id} className="relative dropdown">
-                                                <a
-                                                    className="block px-4 py-2 text-black whitespace-no-wrap hover:bg-gray-200"
-                                                    href={submenu.href}
-                                                >
-                                                    {submenu.label}
-                                                </a>
-                                                {submenu.submenu && submenu.submenu.length > 0 && (
-                                                    <ul className="absolute top-0 hidden mt-2 bg-white shadow-md left-full submenu">
-                                                        {submenu.submenu.map((subsubmenu) => (
-                                                            <li key={subsubmenu.id}>
-                                                                <a
-                                                                    className="block px-4 py-2 text-black whitespace-no-wrap hover:bg-gray-200"
-                                                                    href={subsubmenu.href}
-                                                                >
-                                                                    {subsubmenu.label}
-                                                                </a>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
                             </li>
                         ))}
                     </ul>

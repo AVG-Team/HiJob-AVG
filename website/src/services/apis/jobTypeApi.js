@@ -25,6 +25,10 @@ const jobTypeApi = {
         const url = `/jobTypeDetail/deleteJobType/${id}`;
         return axiosClient.put(url, { id });
     },
+    create(data) {
+        const url = "/jobTypeDetail/create";
+        return axiosClient.post(url, data);
+    },
 };
 
 export default jobTypeApi;

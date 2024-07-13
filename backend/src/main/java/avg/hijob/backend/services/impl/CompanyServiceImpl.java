@@ -6,8 +6,11 @@ import avg.hijob.backend.repositories.CompanyRepository;
 import avg.hijob.backend.repositories.JobRepository;
 import avg.hijob.backend.repositories.UserRepository;
 import avg.hijob.backend.requests.RequestCompany;
+import avg.hijob.backend.responses.MessageResponse;
 import avg.hijob.backend.responses.ResponseCompany;
 import avg.hijob.backend.services.CompanyService;
+import avg.hijob.backend.services.FileService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +32,8 @@ public class CompanyServiceImpl implements CompanyService {
     private UserRepository userRepository;
     @Autowired
     private JobRepository jobRepository;
+    @Autowired
+    private FileService fileService;
 
     @Override
     public Page<ResponseCompany> getAllCompanies(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<String> province) {
@@ -66,55 +71,88 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public ResponseCompany createCompany(RequestCompany requestCompany) {
+    public MessageResponse createCompany(RequestCompany requestCompany) {
+//        try{
         System.out.println(requestCompany.toString());
+            if(companyRepository.existsByUser(userRepository.getReferenceById(requestCompany.getEmployer_id()))){
+                throw new NotFoundException("Company already exists", HttpStatus.BAD_REQUEST);
+            }else{
+                System.out.println("133");
+                System.out.println(requestCompany.toString());
+                String certiFile = fileService.savaFileStatic(requestCompany.getRegistration_certificate(), "certificate-url");
+                String logoFile = fileService.savaFileStatic(requestCompany.getLogo(), "logo-url");
+                String bannerFile = fileService.savaFileStatic(requestCompany.getBanner(), "banner-url");
+                if(certiFile.isEmpty() || logoFile.isEmpty() || bannerFile.isEmpty()){
+                    return MessageResponse.builder()
+                            .message("Error Upload File Please Try Again")
+                            .type(HttpStatus.BAD_REQUEST)
+                            .build();
+                }else{
+                    System.out.println("11");
+                    System.out.println(requestCompany.toString());
+                    Company company = Company.builder()
+                            .name(requestCompany.getName())
+                            .taxCode(requestCompany.getTaxCode())
+                            .field(requestCompany.getField())
+                            .address(requestCompany.getAddress())
+                            .province(requestCompany.getProvince())
+                            .registration_certificate(certiFile)
+                            .about(requestCompany.getAbout())
+                            .linkGoogleMap(requestCompany.getLinkGoogleMap())
+                            .user(userRepository.getReferenceById(requestCompany.getEmployer_id()))
+                            .logo(logoFile)
+                            .banner(bannerFile)
+                            .build();
+                    companyRepository.save(company);
+                    return MessageResponse.builder()
+                            .message("Request Successfully")
+                            .type(HttpStatus.OK)
+                            .build();
+                }
 
+            }
+//        }catch (Exception e){
+//            throw new NotFoundException("Error creating company", HttpStatus.BAD_REQUEST);
+//        }
+    }
+
+    @Override
+    public MessageResponse updateCompany(String id, RequestCompany requestCompany) {
         try{
             if(companyRepository.existsByUser(userRepository.getReferenceById(requestCompany.getEmployer_id()))){
                 throw new NotFoundException("Company already exists", HttpStatus.BAD_REQUEST);
             }else{
-                Company company = Company.builder()
-                        .name(requestCompany.getName())
-                        .taxCode(requestCompany.getTaxCode())
-                        .field(requestCompany.getField())
-                        .address(requestCompany.getAddress())
-                        .province(requestCompany.getProvince())
-                        .registration_certificate(requestCompany.getRegistration_certificate())
-                        .about(requestCompany.getAbout())
-                        .linkGoogleMap(requestCompany.getLinkGoogleMap())
-                        .user(userRepository.getReferenceById(requestCompany.getEmployer_id()))
-                        .build();
-                System.out.println(company.toString());
-                companyRepository.save(company);
-                return companyRepository.getCompanyById(company.getId());
-            }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            throw new NotFoundException("Error creating company", HttpStatus.BAD_REQUEST);
-        }
-    }
 
-    @Override
-    public ResponseCompany updateCompany(String id, RequestCompany requestCompany) {
-        try{
-              if(companyRepository.findById(id).isEmpty()){
-                throw new NotFoundException("Company not found", HttpStatus.NOT_FOUND);
-              }else{
-                  Company company = companyRepository.findById(id).get();
-                  company.setName(requestCompany.getName());
-                  company.setTaxCode(requestCompany.getTaxCode());
-                  company.setField(requestCompany.getField());
-                  company.setAddress(requestCompany.getAddress());
-                  company.setProvince(requestCompany.getProvince());
-                  company.setRegistration_certificate(requestCompany.getRegistration_certificate());
-                  company.setAbout(requestCompany.getAbout());
-                  company.setBenefit(requestCompany.getBenefit());
-                  company.setLinkGoogleMap(requestCompany.getLinkGoogleMap());
-                  company.setLogo(requestCompany.getLogo());
-                  company.setBanner(requestCompany.getBanner());
-                  companyRepository.save(company);
-                  return companyRepository.getCompanyById(company.getId());
-              }
+                String certiFile = fileService.savaFileStatic(requestCompany.getRegistration_certificate(), "certificate-url");
+                String logoFile = fileService.savaFileStatic(requestCompany.getLogo(), "logo-url");
+                String bannerFile = fileService.savaFileStatic(requestCompany.getBanner(), "banner-url");
+                if(certiFile.isEmpty() || logoFile.isEmpty() || bannerFile.isEmpty()){
+                    return MessageResponse.builder()
+                            .message("Error Upload File Please Try Again")
+                            .type(HttpStatus.BAD_REQUEST)
+                            .build();
+                }else{
+
+                    Company company = Company.builder()
+                            .name(requestCompany.getName())
+                            .taxCode(requestCompany.getTaxCode())
+                            .field(requestCompany.getField())
+                            .address(requestCompany.getAddress())
+                            .province(requestCompany.getProvince())
+                            .registration_certificate(certiFile)
+                            .about(requestCompany.getAbout())
+                            .linkGoogleMap(requestCompany.getLinkGoogleMap())
+                            .logo(logoFile)
+                            .banner(bannerFile)
+                            .build();
+                    companyRepository.save(company);
+                    return MessageResponse.builder()
+                            .message("Request Successfully")
+                            .type(HttpStatus.OK)
+                            .build();
+                }
+
+            }
 
         }catch (Exception e){
             throw new NotFoundException("Error creating company", HttpStatus.BAD_REQUEST);

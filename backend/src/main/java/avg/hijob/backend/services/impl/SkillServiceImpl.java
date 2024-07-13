@@ -2,6 +2,7 @@ package avg.hijob.backend.services.impl;
 
 import avg.hijob.backend.entities.Company;
 import avg.hijob.backend.entities.Skill;
+import avg.hijob.backend.entities.Skill;
 import avg.hijob.backend.exceptions.NotFoundException;
 import avg.hijob.backend.repositories.SkillRepository;
 import avg.hijob.backend.requests.RequestCompany;
@@ -9,6 +10,9 @@ import avg.hijob.backend.requests.RequestSkill;
 import avg.hijob.backend.responses.ResponseCompany;
 import avg.hijob.backend.responses.ResponseSkill;
 import avg.hijob.backend.services.SkillService;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
 public class SkillServiceImpl implements SkillService {
 
     @Autowired

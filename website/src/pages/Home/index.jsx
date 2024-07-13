@@ -5,15 +5,16 @@ import FeaturedComp from "./components/FeaturedComp";
 import JobByCategory from "./components/JobByCategory";
 import FeaturedJobToday from "./components/FeaturedJobToday";
 
+Home.propTypes = {
+    title: PropTypes.string,
+};
+
 export default function Home(props) {
     const { title } = props;
     useEffect(() => {
         document.title = title ? `${title}` : "Page Does Not Exist";
     }, [title]);
 
-    Home.propTypes = {
-        title: PropTypes.string,
-    };
     return (
         <main>
             <JobByCategory />

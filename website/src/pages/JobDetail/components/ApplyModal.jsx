@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import CloseIcon from "@mui/icons-material/Close";
 import recruitmentApi from "../../../services/apis/recruitmentApi";
+import InputFileUpload from "../../../components/Forms/Inputs/InputFileUpload";
 
 ApplicationModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -16,8 +17,8 @@ export default function ApplicationModal({ currentUser, job, company, isOpen, on
     const [fullName, setFullName] = useState(currentUser.fullName);
     const [email, setEmail] = useState(currentUser.email);
     const [phone, setPhone] = useState(currentUser.phone);
-    const [selectedCV, setSelectedCV] = useState(null);
-    const [introduction, setIntroduction] = useState("");
+    const [coverLetter, setCoverLetter] = useState({});
+    const [cv, setCV] = useState({});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,6 +27,8 @@ export default function ApplicationModal({ currentUser, job, company, isOpen, on
                 userId: currentUser.id,
                 jobId: job.id,
                 status: 1,
+                cv: cv,
+                coverLetter: coverLetter,
             };
 
             const response = await recruitmentApi.applyJob(data);
@@ -97,49 +100,24 @@ export default function ApplicationModal({ currentUser, job, company, isOpen, on
                                 onChange={(e) => setPhone(e.target.value)}
                             />
                         </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700" htmlFor="cv">
-                                CV của bạn
-                            </label>
-                            <input
-                                type="file"
-                                id="cv"
-                                className="block w-full p-2 mt-1 rounded-md shadow-sm focus:border-primary-500 focus:outline-none focus:shadow-lg"
-                                onChange={(e) => setSelectedCV(e.target.files[0])}
-                            />
-                            <div className="mt-2">
-                                <label className="block mb-4 text-sm font-medium text-gray-700">CV hiện tại:</label>
-                                <ul className="pl-0 list-none">
-                                    <li className="mb-4">
-                                        <label className="flex items-center space-x-2">
-                                            <input
-                                                type="radio"
-                                                name="cvOption"
-                                                value="1"
-                                                checked={selectedCV === "1"}
-                                                onChange={() => setSelectedCV("1")}
-                                                className="p-2 form-radio"
-                                            />
-                                            <span>
-                                                CV_Nguyen_Mai_Bao_Huy_Java_Internship (Tải lên từ máy tính 03:02
-                                                07/06/2024)
-                                            </span>
-                                        </label>
-                                    </li>
-                                </ul>
+                        <div className="grid grid-cols-2">
+                            <div className="mb-4">
+                                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="cv">
+                                    CV của bạn
+                                </label>
+                                <InputFileUpload id="cv" name="cv" input={cv} setInput={setCV} />
                             </div>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700" htmlFor="introduction">
-                                Đoạn giới thiệu bản thân hoặc link portfolio
-                            </label>
-                            <textarea
-                                id="introduction"
-                                rows="5"
-                                className="block w-full p-2 mt-1 rounded-md shadow-sm bg-slate-200 focus:border-primary-500 focus:outline-none focus:shadow-lg"
-                                value={introduction}
-                                onChange={(e) => setIntroduction(e.target.value)}
-                            />
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700" htmlFor="coverLetter">
+                                    Cover letter
+                                </label>
+                                <InputFileUpload
+                                    id="coverLetter"
+                                    name="coverLetter"
+                                    input={coverLetter}
+                                    setInput={setCoverLetter}
+                                />
+                            </div>
                         </div>
                         <div className="flex items-center justify-end col-span-1">
                             <button

@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.15.20",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.20",
+    "antd": "^5.19.1",
     "@mui/x-date-pickers": "^7.9.0",
     "aos": "^2.3.4",
     "axios": "^1.7.2",

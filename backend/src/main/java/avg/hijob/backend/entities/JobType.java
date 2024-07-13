@@ -14,8 +14,10 @@ import java.util.Set;
 @Entity
 public class JobType {
     @Id
+    @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
 
     @OneToMany(mappedBy = "jobType", cascade = CascadeType.ALL, orphanRemoval = true)

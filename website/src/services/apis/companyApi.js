@@ -10,12 +10,12 @@ const companyApi = {
         return axiosClient.get(url);
     },
     getCompanyByUserId(userId) {
-        const url = `/companies/getCompanyByUserId/${userId}`;
+        const url = `/companies/getCompanyByUser/${userId}`;
         return axiosClient.get(url, { userId });
     },
-    getCompanies() {
+    getCompanies(params) {
         const url = `/companies`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     },
     getCompaniesQuery(params) {
         const url = `/companies`;
@@ -24,7 +24,11 @@ const companyApi = {
     createCompany(data) {
         console.log(data)
         const url = `/companies/createCompany`;
-        return axiosClient.post(url, data);
+        return axiosClient.post(url, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
     },
     updateCompany(id, data) {
         const url = `/companies/updateCompany/${id}`;

@@ -1,11 +1,11 @@
 import Banner from "../Banner";
 import Navbar from "./components/Navbar";
 
-export default function Header() {
+export default function Header({onSearchResults}) {
     return (
         <header>
             <Navbar />
-            <Banner />
+            <Banner onSearchResults = {onSearchResults} />
         </header>
     );
 }

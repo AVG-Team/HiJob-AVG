@@ -36,21 +36,21 @@
 ## Tính năng chính
 
 * Đăng nhập
- 
+
 * Đăng ký
- 
+
 * Tìm kiếm việc làm
- 
+
 * Ứng tuyển
- 
+
 * Theo dõi việc làm
- 
+
 * Quản lý thông tin
 
 * Tuyển dụng
- 
-* Quản lý đơn ứng tuyển 
- 
+
+* Quản lý đơn ứng tuyển
+
 * Quản trị hệ thống
 
 

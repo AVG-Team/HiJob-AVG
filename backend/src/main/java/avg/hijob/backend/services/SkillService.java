@@ -3,8 +3,10 @@ package avg.hijob.backend.services;
 import avg.hijob.backend.requests.RequestCompany;
 import avg.hijob.backend.requests.RequestSkill;
 import avg.hijob.backend.responses.ResponseCompany;
+import avg.hijob.backend.entities.Skill;
 import avg.hijob.backend.responses.ResponseSkill;
 import org.springframework.data.domain.Page;
+
 
 import java.util.List;
 import java.util.Optional;

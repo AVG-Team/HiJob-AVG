@@ -25,9 +25,9 @@ const jobFollowApi = {
         const url = `/job-follows/create/${userId}/${jobId}`;
         return axiosClient.post(url, { userId, jobId });
     },
-    deleteJobFollow(id) {
-        const url = `/job-follows/delete/${id}`;
-        return axiosClient.delete(url);
+    deleteJobFollow(userId, jobId) {
+        const url = `/job-follows/delete/${userId}/${jobId}`;
+        return axiosClient.delete(url, { userId, jobId });
     },
 };
 

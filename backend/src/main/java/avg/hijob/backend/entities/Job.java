@@ -3,6 +3,9 @@ package avg.hijob.backend.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -14,11 +17,14 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
+@Document(indexName = "job")
 public class Job {
     @Id
+    @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Field(name = "title", type = FieldType.Text)
     @Column(nullable = false)
     private String title;
 
@@ -26,16 +32,21 @@ public class Job {
     private String description;
 
     private String responsibilities;
+
     private String requirements;
+
+    @Field(name = "benefits", type = FieldType.Text)
     private String benefits;
 
     @Column(name = "require_of_year", nullable = false)
+    @Field(name = "requireOfYear", type = FieldType.Text)
     private String requireOfYear;
 
     @Column(nullable = false)
     private Long salary;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = false)
+
     private Set<JobLevelDetail> levels = new HashSet<>();
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = false)

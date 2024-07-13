@@ -37,6 +37,9 @@ public class SecurityConfig {
             "/api/auth/**",
             "/api/jobs/**",
             "/api/about",
+            "/avatar/**",
+            "/files/**",
+            "/api/skill/all",
             "api/oauth2/**",
             "oauth2/**",
             "/v2/api-docs",
@@ -87,8 +90,8 @@ public class SecurityConfig {
 //                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/companies/**").permitAll()
                                 .requestMatchers("/api/**").permitAll()
-                                .anyRequest()
-                                .authenticated()
+                                .anyRequest().permitAll()
+//                                .authenticated()
                 )
                 .oauth2Login(oauth2Login ->
                         oauth2Login

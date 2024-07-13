@@ -3,6 +3,7 @@ package avg.hijob.backend.requests;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -13,11 +14,15 @@ public class RequestCompany {
     private String field;
     private String address;
     private String province;
-    private String registration_certificate;
+    private MultipartFile registration_certificate;
     private String about;
     private String linkGoogleMap;
     private String employer_id;
     private String logo;
     private String banner;
     private String benefit;
+    private MultipartFile logo;
+    private MultipartFile banner;
+    private String benefit;
+
 }

@@ -2,6 +2,7 @@ package avg.hijob.backend.controllers;
 
 import avg.hijob.backend.requests.RequestJobType;
 import avg.hijob.backend.requests.RequestSkill;
+import avg.hijob.backend.requests.RequestJobTypeDetail;
 import avg.hijob.backend.responses.ResponseHandler;
 import avg.hijob.backend.responses.ResponseJobTypeDetail;
 import avg.hijob.backend.responses.ResponseSkill;
@@ -27,6 +28,13 @@ public class JobTypeController {
     public ResponseEntity<Object> getAllJobTypesByJobId(@PathVariable String jobId) {
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,
                 jobTypeDetailService.getAllJobTypesByJobId(jobId));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Object> create(@RequestBody RequestJobTypeDetail request) {
+        System.out.println(request.toString());
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK,
+                jobTypeDetailService.createJobTypeDetail(request));
     }
 
     @GetMapping("")

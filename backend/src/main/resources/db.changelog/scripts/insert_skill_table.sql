@@ -1,0 +1,18 @@
+INSERT INTO skill (id, name) VALUES
+(1, 'JAVA'),
+(2, 'PHP'),
+(3, 'CSHARP'),
+(4, 'PYTHON'),
+(5, 'JAVASCRIPT'),
+(6, 'TYPESCRIPT'),
+(7, 'RUBY'),
+(8, 'SWIFT'),
+(9, 'KOTLIN'),
+(10, 'GOLANG'),
+(11, 'CPLUSPLUS'),
+(12, 'C'),
+(13, 'REACT'),
+(14, 'VUE'),
+(15, 'ANGULAR'),
+(16, 'NODEJS'),
+(17, 'ALPINE');
