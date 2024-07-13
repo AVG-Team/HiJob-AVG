@@ -3,44 +3,40 @@ import { useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { provinces as provincesData, jobPositionsList } from "../../../mocks/data.js";
 import SelectMulti from "~/components/Forms/Inputs/SelectMulti.jsx";
-import { getAllSkills, updateUserInfo } from "../../../services/apis/profile.js";
+import {getAllSkills, updateUserInfo} from "../../../services/apis/profile.js";
 import { CustomLoadingButton } from "~/components/Forms/Button/customColor.jsx";
 import InputFileUpload from "../../../components/Forms/Inputs/InputFileUpload.jsx";
-import { toast } from "react-toastify";
-import { FilesUrl } from "../../../services/key/url.js";
+import {toast} from "react-toastify";
+import {FilesUrl} from "../../../services/key/url.js";
 import {
     validateAddress,
-    validateEmail,
-    validateFile,
-    validateFullName,
-    validateJobPosition,
-    validateLink,
-    validateNumber,
+    validateEmail, validateFile,
+    validateFullName, validateJobPosition, validateLink, validateNumber,
     validatePassword,
-    validatePhone,
-    validateProvince,
-    validateSkills,
+    validatePhone, validateProvince, validateSkills
 } from "../../../services/validate/validate.js";
 import FormControlContext from "@mui/material/FormControl/FormControlContext.js";
+import DatePickerValue from "../../../components/Forms/Inputs/InputDate.jsx";
+import dayjs from "dayjs";
 
-const FormProfile = ({ userInfo }) => {
+const FormProfile = ({userInfo}) => {
     const [formData, setFormData] = useState(userInfo);
     const [skills, setSkills] = useState([]);
     let initialFormData = {};
     useEffect(() => {
-        getAllSkillsData();
-        initialFormData = { ...formData };
+        getAllSkillsData().then();
+        initialFormData = {...formData};
     }, []);
     const getAllSkillsData = async () => {
         try {
             const response = await getAllSkills();
-            const skillsData = response.data.map((skill) => skill.skillName);
+            const skillsData = response.data.map(skill => skill.skillName);
             setSkills(skillsData);
             return response.data;
         } catch (err) {
             console.error("Error fetching server: ", err);
         }
-    };
+    }
 
     if (!userInfo || Object.keys(userInfo).length === 0) {
         return <p>Loading...</p>;
@@ -53,28 +49,29 @@ const FormProfile = ({ userInfo }) => {
     const [selectedProvince, setSelectedProvince] = useState(userInfo?.province ? userInfo.province : "");
     const [selectedJobPosition, setSelectedJobPosition] = useState(userInfo?.jobPosition ? userInfo.jobPosition : "");
     const [loading, setLoading] = useState(false);
+    const [birthdate, setBirthdate] = useState(formData?.birthday ? dayjs(formData.birthday) : null);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: value
         });
     };
     const handleChangeProvince = (event) => {
-        const value = event.target.value || "";
+        const value = event.target.value || '';
         setSelectedProvince(value);
         setFormData({
             ...formData,
-            province: value,
+            province: value
         });
     };
     const handleChangeJobPosition = (event) => {
-        const value = event.target.value || "";
+        const value = event.target.value || '';
         setSelectedJobPosition(value);
         setFormData({
             ...formData,
-            jobPosition: value,
+            jobPosition: value
         });
     };
 
@@ -133,7 +130,7 @@ const FormProfile = ({ userInfo }) => {
             if (validationErrors.socialNetwork2 === "") delete validationErrors.socialNetwork2;
         }
 
-        if (coverLetter !== userInfo["coverLetter"]) {
+        if (coverLetter.name !== userInfo["coverLetter"]) {
             validationErrors.coverLetter = validateFile(formData["coverLetter"]);
             if (validationErrors.coverLetter === "") delete validationErrors.coverLetter;
         }
@@ -141,12 +138,14 @@ const FormProfile = ({ userInfo }) => {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length !== 0) {
-            setErrorString(
-                Object.entries(validationErrors)
-                    .map(([key, value]) => `${key}: ${value}`)
-                    .join("\n"),
-            );
+            setErrorString(Object.entries(validationErrors)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('\n'));
             return;
+        }
+
+        if (birthdate != null && birthdate.format("YYYY-MM-DD") !== userInfo["birthday"]) {
+            formData.birthday = birthdate.format("YYYY-MM-DD");
         }
 
         // Handle Form
@@ -156,26 +155,28 @@ const FormProfile = ({ userInfo }) => {
                 formSubmit.append(key, formData[key]);
             }
         }
-        if (coverLetter != null) {
-            console.log("coverLetter : " + coverLetter);
-            console.log("coverLetter : " + coverLetter.name);
+
+        if (coverLetter !== userInfo["coverLetter"]) {
+            console.log("coverLetter : " + coverLetter)
+            console.log("coverLetter : " + coverLetter.name)
             formSubmit.append("coverLetter", coverLetter);
+        } else {
+            formSubmit.delete("coverLetter");
         }
 
         for (let pair of formSubmit.entries()) {
-            console.log(pair[0] + ", " + pair[1]);
+            console.log(pair[0] + ', ' + pair[1]);
         }
 
         try {
-            console.log(formSubmit);
             const response = await updateUserInfo(formSubmit);
             toast.success(response.message, {
-                autoClose: 1000,
+                autoClose: 1000
             });
         } catch (error) {
-            console.error("There was an error!", error);
+            console.error('There was an error!', error);
             toast.error(error.message, {
-                autoClose: 1000,
+                autoClose: 1000
             });
         }
     };
@@ -199,9 +200,7 @@ const FormProfile = ({ userInfo }) => {
                 />
             </div>
             <div className="mb-4">
-                <label htmlFor="email" className="block mb-3 text-sm font-medium text-gray-700">
-                    Email
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-3">Email</label>
                 <CustomInput
                     id="email"
                     error={!!errors.email}
@@ -231,6 +230,10 @@ const FormProfile = ({ userInfo }) => {
                     placeholder="Nhập số điện thoại"
                     required
                 />
+            </div>
+            <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-3">Ngày Sinh</label>
+                <DatePickerValue value={birthdate} setValue={setBirthdate}/>
             </div>
             <div className="mb-4 md:grid md:grid-cols-3 gap-x-5">
                 <div className="col-span-2">
@@ -262,7 +265,7 @@ const FormProfile = ({ userInfo }) => {
                             className="w-full"
                             name="province"
                             labelId="input-province"
-                            label="Province"
+                            label="Tỉnh thành"
                             value={selectedProvince}
                             onChange={handleChangeProvince}
                             renderValue={(selected) => {
@@ -366,6 +369,7 @@ const FormProfile = ({ userInfo }) => {
                     value={formData.socialNetwork1}
                     onChange={handleChange}
                     placeholder="Nhập link Github"
+
                 />
             </div>
 
@@ -406,11 +410,13 @@ const FormProfile = ({ userInfo }) => {
             </CustomLoadingButton>
 
             <div className="mt-2">
-                <div className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`} role="alert">
+                <div
+                    className={`bg-red-100 text-red-500 p-4 ${errorString.length !== 0 ? "" : "hidden"}`}
+                    role="alert">
                     {errorString}
                 </div>
             </div>
         </form>
     );
-};
+}
 export default FormProfile;

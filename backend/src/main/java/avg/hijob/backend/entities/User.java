@@ -7,7 +7,9 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,6 +38,8 @@ public class User {
     @Length(min = 10, max = 10, message = "Phone must be 10 characters")
     @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
     private String phone;
+
+    private LocalDate birthday;
 
     private String address;
 
@@ -116,5 +120,11 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<JobFollow> followedJobs = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Token> tokens = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Recruitment> recruitments = new HashSet<>();
 }
 

@@ -58,12 +58,20 @@ public class JobServiceImpl implements JobService {
     private static final Logger logger = LoggerFactory.getLogger(JobService.class);
 
     @Override
-    public Page<ResponseJob> getAllJobs(Optional<Integer> pageSize, Optional<Integer> pageNo) {
-    Pageable pageable = PageRequest.of(pageNo.orElse(0),pageSize.orElse(9));
-        if(jobRepository.findAll().isEmpty()) {
+    public Page<ResponseJob> getAllJobsWithQuery(Optional<Integer> pageSize, Optional<Integer> pageNo, Optional<String> q, Optional<Integer> salary, Optional<Integer> yearExp) {
+        int pageNumber = pageNo.orElse(0);
+        int size = pageSize.orElse(9);
+        Pageable pageable = PageRequest.of(pageNumber, size);
+
+        if (jobRepository.findAll().isEmpty()) {
             throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
         }
-        return jobRepository.findAllJobs(pageable);
+
+        Long salaryMain = salary.isPresent() && salary.get() != -1 ? (long) salary.get() * 1000000 : -1L;
+        Integer yearExpMain = yearExp.orElse(-1);
+        String qMain = q.orElse("");
+
+        return jobRepository.getAllJobsQuery(qMain, yearExpMain, salaryMain, pageable);
     }
 
     @Override
@@ -77,20 +85,19 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<ResponseJob> getJobsCreateToday(Timestamp createdDate) {
-        if(jobRepository.findAll().isEmpty()) {
+        if (jobRepository.findAll().isEmpty()) {
             throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
-        }else{
-            if(jobRepository.getJobsCreateToday(createdDate).isEmpty()) {
+        } else {
+            if (jobRepository.getJobsCreateToday(createdDate).isEmpty()) {
                 throw new NotFoundException("No jobs found", HttpStatus.NOT_FOUND);
             }
             return jobRepository.getJobsCreateToday(createdDate);
         }
-
     }
 
     @Override
     public ResponseJob getJobById(String id) {
-        if(jobRepository.findById(id).isEmpty()) {
+        if (jobRepository.findById(id).isEmpty()) {
             throw new NotFoundException("No job found", HttpStatus.NOT_FOUND);
         }
         return jobRepository.getJobById(id);

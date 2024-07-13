@@ -1,8 +1,8 @@
 import FormInput from "~/pages/Auth/Components/FormInput.jsx";
 import React, { useEffect, useState } from "react";
-import { validateEmail, validatePassword } from "~/pages/Auth/Validate/validate.js";
+import { validateEmail, validatePassword } from "../../../services/validate/validate.js";
 import { toast } from "react-toastify";
-import { authenticate } from "~/services/apis/auth.js";
+import { authenticate } from "../../../services/apis/auth.js";
 import { useNavigate } from "react-router-dom";
 import { GoogleReCaptcha, GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import ShowError from "~/pages/Auth/Components/ShowError.jsx";
@@ -39,10 +39,18 @@ export default function Login(props) {
             try {
                 setLoading(true);
                 const response = await authenticate({ email, password, rememberMe: true });
-                toast.success(response.message, {
-                    onClose: () => navigate("/admin"),
-                    autoClose: 2000,
-                });
+                const role = response.data.role;
+                if (role !== "ADMIN") {
+                    toast.success(response.message, {
+                        onClose: () => navigate("/admin"),
+                        autoClose: 2000,
+                    });
+                } else {
+                    toast.error("Bạn Không Phải Là Admin", {
+                        onClose: () => navigate("/"),
+                        autoClose: 2000,
+                    });
+                }
             } catch (err) {
                 toast.error(err.message, {
                     autoClose: 1000,

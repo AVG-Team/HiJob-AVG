@@ -18,6 +18,9 @@ public class RequestCompany {
     private String about;
     private String linkGoogleMap;
     private String employer_id;
+    private String logo;
+    private String banner;
+    private String benefit;
     private MultipartFile logo;
     private MultipartFile banner;
     private String benefit;

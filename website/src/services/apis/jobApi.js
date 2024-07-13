@@ -5,6 +5,10 @@ const jobApi = {
         const url = `/jobs`;
         return axiosClient.get(url, { params });
     },
+    getJobsQuery(params) {
+        const url = `/jobs`;
+        return axiosClient.get(url, {params});
+    },
     getJobById(id) {
         const url = `/jobs/getJobById/${id}`;
         return axiosClient.get(url, { id });
@@ -23,7 +27,7 @@ const jobApi = {
     },
     updateJob(id, data) {
         const url = `/jobs/updateJob/${id}`;
-        return axiosClient.put(url, { id, data });
+        return axiosClient.put(url, data);
     },
     deleteJob(id) {
         const url = `/jobs/deleteJob/${id}`;

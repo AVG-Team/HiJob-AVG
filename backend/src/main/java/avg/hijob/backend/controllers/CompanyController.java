@@ -20,8 +20,8 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping("")
-    public ResponseEntity<Object> getAllCompanies(Optional<Integer> pageNo, Optional<Integer> pageSize){
-        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.getAllCompanies(pageSize, pageNo));
+    public ResponseEntity<Object> getAllCompanies(Optional<Integer> page, Optional<Integer> size, Optional<String> q, Optional<String> province){
+        return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.getAllCompanies(size, page,q,province));
     }
 
     @GetMapping("/getCompanyById/{id}")
@@ -38,6 +38,7 @@ public class CompanyController {
     public ResponseEntity<Object> getTop5Companies(){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.getTop5Companies());
     }
+
     @PostMapping("/createCompany")
     public ResponseEntity<Object> create(@ModelAttribute RequestCompany requestCompany){
         return ResponseHandler.responseBuilder("Complete", HttpStatus.OK, companyService.createCompany(requestCompany));
